@@ -1,4 +1,4 @@
-p{
-    font-size: 30px;
-    color: green;
-}
+.hero-gradient {
+    background-image: var(--color-gradient);
+  }
+  

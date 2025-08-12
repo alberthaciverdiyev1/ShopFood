@@ -1,7 +1,7 @@
-<nav class="flex justify-between items-center px-6 py-4  shadow-md">
+<nav class="flex  bg-white opacity-90 w-full justify-between items-center px-6 py-4  shadow-md">
   <ul class="flex items-center space-x-6 gap-5">
     <li>
-      <a href="/" class="py-2 px-4 bg-black  font-bold rounded">
+      <a href="/" class="py-2 px-4 font-bold rounded">
          Logo
       </a>
       <a href="/">
