@@ -13,8 +13,17 @@
 
 :root {
     --color-primary: #F6A833;
-    --color-secondary: #000000;
+    --color-secondary: #F6A833;
+    --text-color:#331111;
     --color-accent: #000000;
     --color-white: #ffffff;
     --color-gradient: linear-gradient(261.04deg, #F6A833 2.39%, #947D5B 98.52%);
+}
+
+
+body{
+    background-color: #F9F9F9;
+}
+p{
+    font-size: 16px;
 }
