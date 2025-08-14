@@ -2,6 +2,9 @@
 
 @section('content')
     @include('components.hero')
+    @include('components.catalog')
+    @include('components.menu-banner')
+<x-suggestions :products="$products" />
 @endsection
 
 @section('styles')
