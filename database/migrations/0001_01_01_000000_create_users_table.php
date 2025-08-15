@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->string('reg_number')->nullable();     // ИНН Регистрационный номер
             $table->string('tax_number')->nullable();     // ДРН (VAT) Налоговый номер
             $table->string('phone')->nullable();          // Телефон
-            $table->string('email')->nullable();          // Email
 
             $table->string('street')->nullable();         // Улица, дом
             $table->string('city')->nullable();           // Город

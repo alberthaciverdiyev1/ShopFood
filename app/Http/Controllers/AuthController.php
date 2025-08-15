@@ -35,35 +35,47 @@ class AuthController extends Controller
     {
         if ($request->isMethod('post')) {
 
+            // Validation
             $validated = $request->validate([
-                'full_name' => 'required|string|max:255',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required|string|min:6',
-                'register_number' => 'required|string|max:50',
-                'vat_number' => 'required|string|max:50',
-                'phone' => 'required|string|max:20',
-                'street' => 'required|string|max:255',
-                'city' => 'required|string|max:100',
-                'address' => 'required|string|max:255',
+                'reg_number' => 'required|string|max:50',            // ИНН Регистрационный номер
+                'tax_number' => 'required|string|max:50',            // ДРН (VAT) Налоговый номер
+                'password' => 'required|string|max:20|min:6',                 // Телефон
+                'phone' => 'required|string|max:20',                 // Телефон
+                'email' => 'required|email|max:255',                 // Email
+                'street' => 'required|string|max:255',              // Улица, дом
+                'city' => 'required|string|max:100',                // Город
+                'country' => 'required|string|max:100',             // Страна
+                'zip' => 'required|string|max:20',                  // Индекс
+                'contact_name' => 'required|string|max:255',        // Имя, Фамилия
+                'contact_phone' => 'required|string|max:20',        // Телефон
             ]);
 
             $user = User::create([
-                'full_name' => $validated['full_name'],
-                'email' => $validated['email'],
-                'password' => Hash::make($validated['password']),
-                'register_number' => $validated['register_number'],
-                'vat_number' => $validated['vat_number'],
+                'reg_number' => $validated['reg_number'],
+                'tax_number' => $validated['tax_number'],
                 'phone' => $validated['phone'],
-                'street' => $validated['street'],
-                'city' => $validated['city'],
-                'address' => $validated['address'],
+                'password' => Hash::make($validated['password']),
+                'email' => $validated['email'] ?? null,
+                'street' => $validated['street'] ?? null,
+                'city' => $validated['city'] ?? null,
+                'country' => $validated['country'] ?? null,
+                'zip' => $validated['zip'] ?? null,
+                'contact_name' => $validated['contact_name'] ?? null,
+                'contact_phone' => $validated['contact_phone'] ?? null,
             ]);
-
             auth()->login($user);
-
-            return redirect('/')->with('success', 'Hesabınız yaradıldı!');
+            return redirect('/')->with('success', 'Şirkət uğurla qeydiyyatdan keçdi!');
         }
 
         return view('register');
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+        return redirect('/welcome');
     }
 }

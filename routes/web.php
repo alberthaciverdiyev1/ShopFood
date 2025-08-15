@@ -9,11 +9,10 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', [HomeController::class, 'index'])
-    ->middleware(\App\Http\Middleware\RedirectIfNotLoggedIn::class)
-    ->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 
-Route::get('/welcome',[HomeController::class,'welcome']);
+Route::get('/welcome',[HomeController::class,'welcome'])->name('welcome');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');

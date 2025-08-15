@@ -41,6 +41,10 @@
                         <i class="fas fa-envelope absolute left-3 top-3 text-black"></i>
                         <input type="email" name="email" placeholder="Email" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
+                    <div class="relative mt-2">
+                        <i class="fas fa-lock absolute left-3 top-3 text-black"></i>
+                        <input type="password" name="password" placeholder="Password" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
+                    </div>
                 </div>
 
                 <div>
