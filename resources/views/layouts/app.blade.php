@@ -28,9 +28,12 @@
 </head>
 <body>
 
-    <header>
+  <header>
+    @if(!isset($hideNavbar) || !$hideNavbar)
         @include('partials.navbar')
-    </header>
+    @endif
+</header>
+
 
     <main>
         @yield('content')

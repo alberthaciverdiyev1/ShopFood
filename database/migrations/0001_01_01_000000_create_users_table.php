@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,16 +12,25 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('full_name')->nullable();;
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('register_number')->nullable();
-            $table->string('vat_number')->nullable();
-            $table->string('phone')->nullable();
-            $table->string('street')->nullable();
-            $table->string('city')->nullable();
-            $table->string('address')->nullable();
+
+            $table->string('reg_number')->nullable();     // ИНН Регистрационный номер
+            $table->string('tax_number')->nullable();     // ДРН (VAT) Налоговый номер
+            $table->string('phone')->nullable();          // Телефон
+            $table->string('email')->nullable();          // Email
+
+            $table->string('street')->nullable();         // Улица, дом
+            $table->string('city')->nullable();           // Город
+            $table->string('country')->nullable();        // Страна
+            $table->string('zip')->nullable();            // Индекс
+
+            $table->string('contact_name')->nullable();   // Имя, Фамилия
+            $table->string('contact_phone')->nullable();  // Телефон
+
+            $table->boolean('is_active')->default(false);
+
             $table->rememberToken();
             $table->timestamps();
         });

@@ -34,7 +34,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         if ($request->isMethod('post')) {
-            // Validation
+
             $validated = $request->validate([
                 'full_name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
@@ -61,10 +61,9 @@ class AuthController extends Controller
 
             auth()->login($user);
 
-            return redirect('/')->with('success', __('Hesabınız yaradıldı!'));
+            return redirect('/')->with('success', 'Hesabınız yaradıldı!');
         }
 
         return view('register');
     }
-
 }

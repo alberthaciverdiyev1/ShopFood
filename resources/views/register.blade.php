@@ -1,86 +1,95 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $hideNavbar = true;
+@endphp
+
 <div class="w-full min-h-screen flex items-center justify-center bg-gray-100 p-4">
     <div class="w-full max-w-6xl bg-white rounded-lg shadow-lg flex overflow-hidden">
 
-        <div class="w-1/2 bg-gray-200 flex flex-col items-center justify-center p-8 relative">
-            <!-- <div class="absolute top-4 left-4 flex items-center">
-                <i class="fas fa-truck text-2xl mr-2 text-black"></i>
-                <span class="font-bold text-lg text-[#331111]">SHOP FOOD</span>
-            </div> -->
-            <img src="{{ asset('/images/login-left.png') }}" alt="Register Left" class="rounded-lg shadow-lg">
+        <div class="w-1/2 bg-gray-200 flex flex-col  items-start p-8">
+            <div class="flex items-center mb-4">
+                <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="w-[140px] h-10 mr-2">
+            </div>
+            <div class="w-full flex justify-center">
+                <img src="{{ asset('/images/login-left.png') }}" alt="Left Image" class="rounded-lg shadow-lg object-cover">
+            </div>
         </div>
 
-        <div class="w-1/2 p-8 flex flex-col justify-start max-h-screen overflow-y-auto">
-            <h2 class="text-xl font-bold text-center mb-6 text-[#331111]">Register</h2>
+        <div class="w-1/2  px-[120px] py-[100px] scroll-thin  flex flex-col justify-start max-h-screen overflow-y-auto">
+            <h2 class="text-2xl font-bold text-center mb-6 text-[#331111]">Регистрация</h2>
 
             <form method="POST" action="{{ route('register') }}" class="space-y-4">
                 @csrf
 
                 <div>
-                    <label class="block text-[#331111]">Company Information</label>
+                    <label class="block text-[#331111] font-bold">Название фирмы</label>
                     <div class="relative mt-1">
-                        <i class="fas fa-building absolute left-3 top-3 text-black"></i>
-                        <input type="text" name="company_name" placeholder="Company Name" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <i class="fas fa-id-card absolute left-3 top-3 text-black"></i>
+                        <input type="text" name="reg_number" placeholder="ИНН Регистрационный номер" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
                     <div class="relative mt-2">
-                        <i class="fas fa-file-invoice-dollar absolute left-3 top-3 text-black"></i>
-                        <input type="text" name="vat_number" placeholder="VAT Number" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <i class="fas fa-file-invoice absolute left-3 top-3 text-black"></i>
+                        <input type="text" name="tax_number" placeholder="ДРН (VAT) Налоговый номер" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
                     <div class="relative mt-2">
                         <i class="fas fa-phone-alt absolute left-3 top-3 text-black"></i>
-                        <input type="tel" name="phone" placeholder="Phone Number" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <input type="tel" name="phone" placeholder="Телефон" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]" required>
                     </div>
                     <div class="relative mt-2">
                         <i class="fas fa-envelope absolute left-3 top-3 text-black"></i>
-                        <input type="email" name="email" placeholder="Email" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <input type="email" name="email" placeholder="Email" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-[#331111] mt-4">Company Address</label>
+                    <label class="block font-bold text-[#331111] mt-4">Юридический адрес фирмы</label>
                     <div class="relative mt-1">
                         <i class="fas fa-road absolute left-3 top-3 text-black"></i>
-                        <input type="text" name="street" placeholder="Street, House #" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <input type="text" name="street" placeholder="Улица, дом" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
                     <div class="relative mt-2">
                         <i class="fas fa-city absolute left-3 top-3 text-black"></i>
-                        <input type="text" name="city" placeholder="City" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <input type="text" name="city" placeholder="Город" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
                     <div class="relative mt-2">
                         <i class="fas fa-flag absolute left-3 top-3 text-black"></i>
-                        <input type="text" name="country" placeholder="Country" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <input type="text" name="country" placeholder="Страна" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
                     <div class="relative mt-2">
                         <i class="fas fa-mail-bulk absolute left-3 top-3 text-black"></i>
-                        <input type="text" name="zip" placeholder="Postal Code" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <input type="text" name="zip" placeholder="Индекс" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-[#331111] mt-4">Contact Person</label>
+                    <label class="block font-bold  text-[#331111] mt-4">Контактное лицо</label>
                     <div class="relative mt-1">
                         <i class="fas fa-user absolute left-3 top-3 text-black"></i>
-                        <input type="text" name="contact_name" placeholder="First Name" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
-                    </div>
-                    <div class="relative mt-2">
-                        <i class="fas fa-user-tie absolute left-3 top-3 text-black"></i>
-                        <input type="text" name="contact_surname" placeholder="Last Name" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <input type="text" name="contact_name" placeholder="Имя, Фамилия" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
                     <div class="relative mt-2">
                         <i class="fas fa-phone-alt absolute left-3 top-3 text-black"></i>
-                        <input type="tel" name="contact_phone" placeholder="Phone Number" class="w-full border rounded-lg px-10 py-2 outline-none border-[#F9F9F9]">
+                        <input type="tel" name="contact_phone" placeholder="Телефон" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]" required>
                     </div>
                 </div>
 
                 <div class="flex items-center mt-4">
-                    <input type="checkbox" name="terms" id="terms" class="mr-2">
-                    <label for="terms" class="text-gray-700 text-sm">Agree to terms and conditions</label>
+                    <input type="checkbox" name="terms" id="terms" class="mr-2 ">
+                    <label for="terms" class="text-gray-700 text-sm">Согласен с условиями продажи</label>
                 </div>
-
+                @if ($errors->any())
+                    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded">
+                        <ul class="list-disc pl-5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <button type="submit" class="w-full flex items-center justify-center bg-[#3D0C0C] text-white py-2 rounded-lg hover:bg-[#2b0909] mt-4">
-                    <i class="fas fa-user-plus mr-2"></i> Register
+                    Зарегистрироваться
                 </button>
             </form>
         </div>
