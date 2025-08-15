@@ -16,4 +16,9 @@ class HomeController extends Controller
 
         return view('home', compact('products'));
     }
+
+    public function welcome()
+    {
+        return view('welcome');
+    }
 }
