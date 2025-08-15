@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="w-1/2 p-8 flex flex-col justify-start max-h-screen overflow-y-auto">
+        <div class="w-1/2  px-[120px] py-[100px] flex flex-col justify-start max-h-screen overflow-y-auto">
             <h2 class="text-2xl font-bold text-center mb-6 text-[#331111]">Регистрация</h2>
 
             <form method="POST" action="{{ route('register') }}" class="space-y-4">
