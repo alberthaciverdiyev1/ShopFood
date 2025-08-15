@@ -27,3 +27,16 @@ body{
 p{
     font-size: 16px;
 }
+
+.scroll-thin::-webkit-scrollbar {
+    width: 6px; 
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3); 
+    border-radius: 3px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+    background-color: transparent; 
+}

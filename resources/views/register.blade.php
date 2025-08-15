@@ -8,7 +8,7 @@
 <div class="w-full min-h-screen flex items-center justify-center bg-gray-100 p-4">
     <div class="w-full max-w-6xl bg-white rounded-lg shadow-lg flex overflow-hidden">
         
-        <div class="w-1/2 bg-gray-200 flex flex-col items-start p-8">
+        <div class="w-1/2 bg-gray-200 flex flex-col  items-start p-8">
             <div class="flex items-center mb-4">
                 <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="w-[140px] h-10 mr-2">
             </div>
@@ -17,7 +17,7 @@
             </div>
         </div>
 
-        <div class="w-1/2  px-[120px] py-[100px] flex flex-col justify-start max-h-screen overflow-y-auto">
+        <div class="w-1/2  px-[120px] py-[100px] scroll-thin  flex flex-col justify-start max-h-screen overflow-y-auto">
             <h2 class="text-2xl font-bold text-center mb-6 text-[#331111]">Регистрация</h2>
 
             <form method="POST" action="{{ route('register') }}" class="space-y-4">
