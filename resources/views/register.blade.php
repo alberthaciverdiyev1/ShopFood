@@ -18,13 +18,13 @@
         </div>
 
         <div class="w-1/2 p-8 flex flex-col justify-start max-h-screen overflow-y-auto">
-            <h2 class="text-xl font-bold text-center mb-6 text-[#331111]">Регистрация</h2>
+            <h2 class="text-2xl font-bold text-center mb-6 text-[#331111]">Регистрация</h2>
 
             <form method="POST" action="{{ route('register') }}" class="space-y-4">
                 @csrf
 
                 <div>
-                    <label class="block text-[#331111]">Название фирмы</label>
+                    <label class="block text-[#331111] font-bold">Название фирмы</label>
                     <div class="relative mt-1">
                         <i class="fas fa-id-card absolute left-3 top-3 text-black"></i>
                         <input type="text" name="reg_number" placeholder="ИНН Регистрационный номер" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
@@ -44,7 +44,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-[#331111] mt-4">Юридический адрес фирмы</label>
+                    <label class="block font-bold text-[#331111] mt-4">Юридический адрес фирмы</label>
                     <div class="relative mt-1">
                         <i class="fas fa-road absolute left-3 top-3 text-black"></i>
                         <input type="text" name="street" placeholder="Улица, дом" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
@@ -64,7 +64,7 @@
                 </div>
 
                 <div>
-                    <label class="block text-[#331111] mt-4">Контактное лицо</label>
+                    <label class="block font-bold  text-[#331111] mt-4">Контактное лицо</label>
                     <div class="relative mt-1">
                         <i class="fas fa-user absolute left-3 top-3 text-black"></i>
                         <input type="text" name="contact_name" placeholder="Имя, Фамилия" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="flex items-center mt-4">
-                    <input type="checkbox" name="terms" id="terms" class="mr-2">
+                    <input type="checkbox" name="terms" id="terms" class="mr-2 ">
                     <label for="terms" class="text-gray-700 text-sm">Согласен с условиями продажи</label>
                 </div>
 
