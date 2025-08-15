@@ -11,7 +11,6 @@
 @section('styles')
     @vite('resources/css/home.css')
     @vite('resources/css/app.css')
-
 @endsection
 
 @section('scripts')
