@@ -1,15 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
+@php
+    $hideNavbar = true;
+@endphp
+
 <div class="w-full min-h-screen flex items-center justify-center bg-gray-100 p-4">
     <div class="w-full max-w-6xl bg-white rounded-lg shadow-lg flex overflow-hidden">
 
-        <div class="w-1/2 bg-gray-200 flex flex-col items-center justify-center p-8 relative">
-            <!-- <div class="absolute top-4 left-4 flex items-center">
-                <i class="fas fa-truck text-2xl mr-2 text-black"></i>
-                <span class="font-bold text-lg text-[#331111]">SHOP FOOD</span>
-            </div> -->
-            <img src="{{ asset('/images/login-left.png') }}" alt="Register Left" class="rounded-lg shadow-lg">
+        <div class="w-1/2 bg-gray-200 flex flex-col items-start p-8">
+            <div class="flex items-center mb-4">
+                <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="w-[140px] h-10 mr-2">
+            </div>
+
+            <div class="w-full flex justify-center">
+                <img src="{{ asset('/images/login-left.png') }}" alt="Left Image" class="rounded-lg shadow-lg object-cover">
+            </div>
         </div>
 
         <div class="w-1/2 p-8 flex flex-col justify-start max-h-screen overflow-y-auto">
