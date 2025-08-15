@@ -16,6 +16,7 @@
             <div class="w-full flex justify-center">
                 <img src="{{ asset('/images/login-left.png') }}" alt="Left Image" class="rounded-lg shadow-lg object-cover">
             </div>
+
         </div>
 
         <div class="w-1/2 bg-white px-[120px] py-[100px] flex flex-col justify-center">
@@ -56,7 +57,9 @@
                     onmouseout="this.style.backgroundColor='white'; this.style.color='#3D0C0C';">
                     Зарегистрироваться
                 </a>
+
             </form>
+
         </div>
     </div>
 </div>
