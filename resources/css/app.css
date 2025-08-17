@@ -40,3 +40,8 @@ p{
 .scroll-thin::-webkit-scrollbar-track {
     background-color: transparent; 
 }
+
+
+.active{
+    background-color:black;
+}
