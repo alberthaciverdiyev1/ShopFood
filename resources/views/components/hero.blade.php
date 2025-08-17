@@ -16,7 +16,7 @@
 
 
   </div>
-  <div class="slide hidden px-4 flex flex-col md:flex-row justify-between items-center h-full relative">
+  <div class="slide  px-4 flex flex-col md:flex-row justify-between items-center h-full relative">
 
     <img class="hidden md:block h-full absolute left-0 top-0 z-0 object-cover" src="{{ asset('images/hero-left.png') }}" alt="">
 
@@ -50,33 +50,3 @@
 
 </section>
 
-<script>
-  const slides = document.querySelectorAll(".slide")
-  const dots = document.querySelectorAll(".dot")
-  let currentIndex = 0;
-
-  function showSlide(index) {
-    slides.forEach((slide, i) => {
-      slide.classList.toggle("hidden", i !== index)
-      dots[i].classList.toggle("active", i === index)
-    });
-  }
-
- function nextSlide() {
-  currentIndex = (currentIndex + 1) % slides.length;
-  showSlide(currentIndex);
-}
-
-  setInterval(nextSlide, 2000)
-  dots.forEach((dot, index) => {
-    dot.addEventListener("click", () => {
-      currentIndex = index
-      showSlide(currentIndex)
-
-    })
-
-
-  });
-  showSlide(currentIndex);
-
-</script>
