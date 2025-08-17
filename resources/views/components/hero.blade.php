@@ -13,6 +13,14 @@
     </div>
 
     <img class="w-full sm:w-[400px] md:w-[600px] h-auto py-9 z-20 object-contain" src="{{ asset('images/hero-right.png') }}" alt="">
+      <img class="w-full sm:w-[400px] md:w-[600px] h-auto py-9 z-20 object-contain" src="{{ asset('images/burger.jpeg') }}" alt="">
+
+    </div>
 
   </div>
+
+  
+
+
+
 </section>
