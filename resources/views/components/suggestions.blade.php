@@ -28,4 +28,6 @@
         </div>
         @endforeach
     </div>
+
+    <x-modal-product-details/>
 </div>
