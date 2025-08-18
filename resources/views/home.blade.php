@@ -5,6 +5,9 @@
     @include('components.catalog')
     @include('components.menu-banner')
 <x-suggestions :products="$products" />
+<x-advertisement-product :products="$products"/>
+<x-suggestions :products="$products" />
+
 @endsection
 
 @section('styles')
