@@ -12,11 +12,26 @@
     <li><a href="#" class="hover:text-black"><i class="fas fa-shopping-cart"></i></a></li>
     <li><a href=""><i class="fa-regular fa-user"></i></a></li>
     <li>1524</li>
-    <li><a href=""><i class="fa-solid fa-arrow-right-from-bracket"></i></a></li>
+      <li>
+          <form method="POST" action="{{ route('logout') }}">
+              @csrf
+              <button type="submit" class="hover:text-black cursor-pointer">
+                  <i class="fa-solid fa-arrow-right-from-bracket"></i>
+              </button>
+          </form>
+      </li>
+      <li>
+          @if(Auth::check())
+              <a href="#" class="px-4 py-5 font-bold rounded-xl">
+                  {{ Auth::user()->contact_name ?? Auth::user()->reg_number }}
+              </a>
+          @else
+              <a href="/login" class="px-4 py-5 font-bold rounded-xl">
+                  Login/Register
+              </a>
+          @endif
+      </li>
 
-    <li><a href="/login" class="px-4 py-5 font-bold rounded-xl">
-        Login/Register 
-       </a></li>
   </ul>
 
   <!-- Burger -->
@@ -29,10 +44,17 @@
     <ul class="flex flex-col space-y-4">
       <li><a href="#" class="hover:text-black"><i class="fa-solid fa-house"></i> Home</a></li>
       <!-- <li><a href="#" class="hover:text-black"><i class="fa-solid fa-user"></i> Profile</a></li> -->
-       
+
       <li><a href="#" class="hover:text-black"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
       <li><a href="#" class="hover:text-black"><i class="fa-solid fa-globe"></i> Language</a></li>
-      <li><a href="#" class="hover:text-black"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+        <li>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="hover:text-black">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                </button>
+            </form>
+        </li>
     </ul>
   </div>
 </nav>

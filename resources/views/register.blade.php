@@ -7,7 +7,7 @@
 
 <div class="w-full min-h-screen flex items-center justify-center bg-gray-100 p-4">
     <div class="w-full max-w-6xl bg-white rounded-lg shadow-lg flex overflow-hidden">
-        
+
         <div class="w-1/2 bg-gray-200 flex flex-col  items-start p-8">
             <div class="flex items-center mb-4">
                 <img src="{{ asset('/images/logo.png') }}" alt="Logo" class="w-[140px] h-10 mr-2">
@@ -40,6 +40,10 @@
                     <div class="relative mt-2">
                         <i class="fas fa-envelope absolute left-3 top-3 text-black"></i>
                         <input type="email" name="email" placeholder="Email" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
+                    </div>
+                    <div class="relative mt-2">
+                        <i class="fas fa-lock absolute left-3 top-3 text-black"></i>
+                        <input type="password" name="password" placeholder="Password" class="w-full border rounded-lg px-10 py-2 outline-none border-[#CED4DA]">
                     </div>
                 </div>
 
@@ -79,7 +83,15 @@
                     <input type="checkbox" name="terms" id="terms" class="mr-2 ">
                     <label for="terms" class="text-gray-700 text-sm">Согласен с условиями продажи</label>
                 </div>
-
+                @if ($errors->any())
+                    <div class="mb-4 p-3 bg-red-100 text-red-700 rounded">
+                        <ul class="list-disc pl-5">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <button type="submit" class="w-full flex items-center justify-center bg-[#3D0C0C] text-white py-2 rounded-lg hover:bg-[#2b0909] mt-4">
                     Зарегистрироваться
                 </button>
