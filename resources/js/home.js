@@ -4,21 +4,39 @@ const burgeropen = document.getElementById("mobile-menu");
 burger.addEventListener("click", function () {
     burgeropen.classList.toggle("hidden");
 });
-const modal = document.getElementById("modal");
 const overlay = document.getElementById("overlay");
-const openModal = document.getElementById("openModal");
+const modalTitle = document.getElementById("modalTitle");
+const modalPrice = document.getElementById("modalPrice");
+const modalImage = document.getElementById("modalImage");
+const modalDescription = document.getElementById("modalDescription");
 
-// Modal açmaq
-openModal.addEventListener("click", () => {
-  overlay.classList.remove("hidden");
+const openModalButtons = document.querySelectorAll(".openModal");
+
+// Modal açmaq və məlumatları doldurmaq
+openModalButtons.forEach(button => {
+  button.addEventListener("click", () => {
+    const title = button.dataset.title;
+    const price = button.dataset.price;
+    const image = button.dataset.image;
+    const description = button.dataset.description;
+
+    modalTitle.textContent = title;
+    modalPrice.textContent = `$${price}`;
+    modalImage.src = image;
+    modalDescription.textContent = description;
+
+    overlay.classList.remove("hidden");
+  });
 });
 
-// Modal bağlamaq (yalnız overlay kliklə)
+// Modal bağlamaq (overlay kliklə)
 overlay.addEventListener("click", (e) => {
   if (e.target === overlay) {
     overlay.classList.add("hidden");
   }
 });
+
+
 const slides = document.querySelectorAll(".slide");
 const dots = document.querySelectorAll(".dot");
 let currentIndex = 0;
