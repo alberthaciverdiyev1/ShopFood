@@ -28,7 +28,7 @@ class AuthController extends Controller
             ])->withInput();
         }
 
-        return view('login');
+        return view('auth.login');
     }
 
     public function register(Request $request)
@@ -67,7 +67,7 @@ class AuthController extends Controller
             return redirect('/')->with('success', 'Şirkət uğurla qeydiyyatdan keçdi!');
         }
 
-        return view('register');
+        return view('auth.register');
     }
 
     public function logout(Request $request)
