@@ -21,6 +21,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 
+Route::get('/profile', [AuthController::class, 'profile'])->name('profile')->middleware('auth');
 
 
 Route::get('/basket', [BasketController::class, 'basket'])->name('basket');

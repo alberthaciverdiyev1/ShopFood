@@ -28,7 +28,7 @@ class AuthController extends Controller
             ])->withInput();
         }
 
-        return view('auth.login');
+        return view('login');
     }
 
     public function register(Request $request)
@@ -67,7 +67,7 @@ class AuthController extends Controller
             return redirect('/')->with('success', 'Şirkət uğurla qeydiyyatdan keçdi!');
         }
 
-        return view('auth.register');
+        return view('register');
     }
 
     public function logout(Request $request)
@@ -78,4 +78,10 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/welcome');
     }
+    public function profile()
+{
+    $user = auth()->user(); // login olmuş user
+    return view('auth.profile', compact('user'));
+}
+
 }

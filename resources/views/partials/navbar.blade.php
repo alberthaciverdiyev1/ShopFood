@@ -10,7 +10,7 @@
   <ul class="hidden md:flex items-center space-x-4 gap-4">
     <li><select name="language"><option value="">En</option></select></li>
     <li><a href="/basket" class="hover:text-black"><i class="fas fa-shopping-cart"></i></a></li>
-    <li><a href=""><i class="fa-regular fa-user"></i></a></li>
+    <li><a href="/profile"><i class="fa-regular fa-user"></i></a></li>
     <li>1524</li>
       <li>
           <form method="POST" action="{{ route('logout') }}">
