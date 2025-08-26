@@ -25,9 +25,9 @@
 body{
     background-color: #F9F9F9;
 }
-p{
-    font-size: 16px;
-}
+/* p{
+    font-size: 16px; */
+/* } */
 
 .scroll-thin::-webkit-scrollbar {
     width: 6px; 

@@ -1,9 +1,9 @@
 <div class="mx-auto px-4 py-6">
-    <div class="flex justify-between items-center ">
+    <a href="/list" class="flex justify-between items-center ">
         <h3 class="mt-5 text-2xl font-bold">Предложения</h3>
         <div class="text-md font-bold text-gray-400 hover:underline
     ">See more </div>
-    </div>
+    </a>
     <div id="" class="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mt-6">
         @foreach(array_slice($products,0,6) as $product)
 
