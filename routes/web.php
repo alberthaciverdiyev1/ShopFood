@@ -9,6 +9,10 @@ use App\Http\Controllers\ExchangeRateController;
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+use App\Http\Controllers\CategoryController;
+
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 
 Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
