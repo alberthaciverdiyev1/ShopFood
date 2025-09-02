@@ -2,13 +2,18 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ListController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\LocaleMiddleware;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BasketController;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+
+Route::get('/', action: [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::get('/list', action: [ListController::class, 'list'])->name('list')->middleware('auth');
 
 Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth')->middleware(LocaleMiddleware::class);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
@@ -24,3 +29,9 @@ Route::post('change-locale', [\App\Http\Controllers\BaseController::class,'chang
 
 
 Route::get('/test', [\App\Http\Controllers\TestController::class, 'index'])->name('test.index');
+
+Route::get('/profile', [AuthController::class, 'profile'])->name('profile')->middleware('auth');
+
+
+
+Route::get('/basket', [BasketController::class, 'basket'])->name('basket');

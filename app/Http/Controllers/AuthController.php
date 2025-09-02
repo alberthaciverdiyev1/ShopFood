@@ -78,4 +78,10 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/welcome');
     }
+    public function profile()
+{
+    $user = auth()->user(); // login olmuş user
+    return view('auth.profile', compact('user'));
+}
+
 }
