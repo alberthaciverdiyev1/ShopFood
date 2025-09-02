@@ -5,8 +5,11 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\LocaleMiddleware;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BasketController;
+
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -35,3 +38,16 @@ Route::get('/profile', [AuthController::class, 'profile'])->name('profile')->mid
 
 
 Route::get('/basket', [BasketController::class, 'basket'])->name('basket');
+
+
+Route::get('/register', [RegisterController::class, 'showForm'])->name('register.show');
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+
+Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
+Route::post('/admin/users/{user}/toggle', [UserController::class, 'toggle'])->name('admin.users.toggle');
+
+
+Route::get('/activate/{id}', function($id) { $user = \App\Models\User::findOrFail($id);
+    $user->update(['is_active' => 1, 'is_send_email' => 2]); // 2 → aktivləşdirildi
+    return "Hesab aktivləşdirildi!";
+});
