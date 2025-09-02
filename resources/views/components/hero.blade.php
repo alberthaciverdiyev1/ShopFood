@@ -1,38 +1,51 @@
 <section class="hero-gradient relative h-screen">
-  <div class="slide px-4  flex flex-col md:flex-row justify-between items-center h-full relative">
+    @forelse($banners as $banner)
+        <div class="slide  px-4 flex flex-col md:flex-row justify-between items-center h-full relative">
 
-    <img class="hidden md:block h-full absolute left-0 top-0 z-0 object-cover" src="{{ asset('images/hero-left.png') }}" alt="">
+            <img class="hidden md:block h-full absolute left-0 top-0 z-0 object-cover"
+                 src="{{ asset('images/hero-left.png') }}" alt="">
 
-    <div class="w-full md:w-[43%] flex flex-col gap-5 items-center md:items-start justify-center z-10 text-center md:text-left mt-10 md:mt-0">
-      <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-white">
-        Сливочное масло теперь по выгодной цене
-      </h1>
-      <p class="text-lg sm:text-xl md:text-2xl text-white">
-        Закажите сейчас и получите скидку! Торопитесь предложение ограничено!
-      </p>
-    </div>
+            <div
+                class="w-full md:w-[43%] flex flex-col gap-5 items-center md:items-start justify-center z-10 text-center md:text-left mt-10 md:mt-0">
+                <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-white">
+                    {{$banner["title"]}}
+                </h1>
+                @if(!empty($banner["subtitle"]))
 
-    <img class="w-full sm:w-[400px] md:w-[600px] h-auto py-9 z-20 object-contain" src="{{ asset('images/hero-right.png') }}" alt="">
+                    <p class="text-lg sm:text-xl md:text-2xl text-white">
 
+                        {{$banner["subtitle"]}}                </p>
+                @endif
+            </div>
 
-  </div>
-  <div class="slide  px-4 flex flex-col md:flex-row justify-between items-center h-full relative">
-
-    <img class="hidden md:block h-full absolute left-0 top-0 z-0 object-cover" src="{{ asset('images/hero-left.png') }}" alt="">
-
-    <div class="w-full md:w-[43%] flex flex-col gap-5 items-center md:items-start justify-center z-10 text-center md:text-left mt-10 md:mt-0">
-      <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-white">
-        Сливочное масло теперь по выгодной цене
-      </h1>
-      <p class="text-lg sm:text-xl md:text-2xl text-white">
-        Закажите сейчас и получите скидку! Торопитесь предложение ограничено!
-      </p>
-    </div>
-
-    <img class="w-full sm:w-[400px] md:w-[600px] h-auto py-9 z-20 object-contain" src="{{ asset('images/burger.jpeg') }}" alt="">
+            <img class="w-full sm:w-[400px] md:w-[600px] h-auto py-9 z-20 object-contain"
+                 src="{{ asset($banner["image"]) }}" alt="">
 
 
-  </div>
+        </div>
+
+    @empty
+        <div class="slide  px-4 flex flex-col md:flex-row justify-between items-center h-full relative">
+
+            <img class="hidden md:block h-full absolute left-0 top-0 z-0 object-cover"
+                 src="{{ asset('images/hero-left.png') }}" alt="">
+
+            <div
+                class="w-full md:w-[43%] flex flex-col gap-5 items-center md:items-start justify-center z-10 text-center md:text-left mt-10 md:mt-0">
+                <h1 class="text-3xl sm:text-4xl md:text-6xl font-bold text-white">
+                    Сливочное масло теперь по выгодной цене
+                </h1>
+                <p class="text-lg sm:text-xl md:text-2xl text-white">
+                    Закажите сейчас и получите скидку! Торопитесь предложение ограничено!
+                </p>
+            </div>
+
+            <img class="w-full sm:w-[400px] md:w-[600px] h-auto py-9 z-20 object-contain"
+                 src="{{ asset('images/burger.jpeg') }}" alt="">
+
+
+        </div>
+    @endforelse
 
   <div class="dots mt-8 absolute top-6/7 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20 flex gap-2">
     <div class="dot  w-4 h-4 bg-transparent border active rounded-full"></div>
@@ -40,8 +53,6 @@
   </div>
 
 
-  </div>
-  </div>
 
 
 

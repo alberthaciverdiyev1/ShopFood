@@ -7,8 +7,21 @@
     </li>
   </ul>
 
+    <h1>@lang("Hello")</h1>
+
   <ul class="hidden md:flex items-center space-x-4 gap-4">
-    <li><select name="language"><option value="">En</option></select></li>
+      <form id="languageForm" action="{{ route('change-locale') }}" method="POST">
+          @csrf
+          <li>
+              <select name="locale" class="form-select" onchange="document.getElementById('languageForm').submit()">
+                  <option value="en" {{ app()->getLocale() == 'en' ? 'selected' : '' }}>En</option>
+                  <option value="ru" {{app()->getLocale() == 'ru' ? 'selected' : '' }}>Ru</option>
+                  <option value="az" {{app()->getLocale() == 'az' ? 'selected' : '' }}>Az</option>
+
+              </select>
+          </li>
+      </form>
+
     <li><a href="#" class="hover:text-black"><i class="fas fa-shopping-cart"></i></a></li>
     <li><a href=""><i class="fa-regular fa-user"></i></a></li>
     <li>1524</li>
