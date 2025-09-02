@@ -8,12 +8,17 @@ use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ExchangeRateController;
 use App\Http\Controllers\BasketController;
 
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+use App\Http\Controllers\CategoryController;
+
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
 
 Route::get('/', action: [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::get('/list', action: [ListController::class, 'list'])->name('list')->middleware('auth');
@@ -25,6 +30,7 @@ Route::get('/welcome',[HomeController::class,'welcome'])->name('welcome');
 
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::resource('exchange-rates', ExchangeRateController::class);
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
