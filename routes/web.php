@@ -25,3 +25,4 @@ Route::resource('exchange-rates', ExchangeRateController::class);
 
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/tags', [TagController::class, 'store']);
