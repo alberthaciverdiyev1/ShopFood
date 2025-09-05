@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\Admin\UsersInfoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrivacyPolicyController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Middleware\LocaleMiddleware;
+
 use App\Http\Controllers\{AuthController,
     HomeController,
     ListController,
@@ -13,6 +15,7 @@ use App\Http\Controllers\{AuthController,
     RegisterController,
     ExchangeRateController,
     BasketController};
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -61,9 +64,14 @@ Route::prefix('admin')->group(function () {
     Route::get('/register', [RegisterController::class, 'showForm'])->name('register.show');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
-    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
-    Route::post('/users/{user}/toggle', [UserController::class, 'toggle'])->name('admin.users.toggle');
+    Route::get('/users', [UsersController::class, 'index'])->name('admin.users');
+    Route::post('/users/{user}/toggle', [UsersController::class, 'toggle'])->name('admin.users.toggle');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+     Route::get('/users-info', [UsersInfoController::class, 'index'])->name('users.index');
+
 });
+
+
 
 // Activation
 Route::get('/activate/{id}', function ($id) {

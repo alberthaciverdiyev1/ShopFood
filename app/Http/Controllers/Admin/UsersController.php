@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use App\Mail\UserActivationMail;
 use Illuminate\Support\Facades\Mail;
 
-class UserController extends Controller
+class UsersController extends Controller
 {
     public function index() {
         $users = User::all();

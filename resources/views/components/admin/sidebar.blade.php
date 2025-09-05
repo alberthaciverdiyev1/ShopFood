@@ -1,0 +1,65 @@
+<aside class="w-72 h-screen bg-white shadow-md flex flex-col">
+  <div class="p-6">
+    <h1 class="text-2xl font-bold text-[var(--text-color)]">Admin Panel</h1>
+  </div>
+
+  <nav class="flex-1 px-3 space-y-1">
+    <!-- Users -->
+    <a href="{{ asset(path:'/admin/users-info') }}"
+       class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">
+      <i class="fa-solid fa-user text-lg"></i>
+      <span>Users</span>
+    </a>
+
+    <!-- Products (active example) -->
+    <a href="{{ asset(path:'/admin/dashboard') }}"
+       class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-black font-medium relative border-l-4 border-[var(--color-primary)] bg-white">
+      <i class="fa-solid fa-box text-lg"></i>
+      <span>Products</span>
+    </a>
+
+    <!-- Category -->
+    <a href="#"
+       class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">
+      <i class="fa-solid fa-layer-group text-lg"></i>
+      <span>Category</span>
+    </a>
+
+    <!-- Currency -->
+    <a href="#"
+       class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">
+      <i class="fa-solid fa-dollar-sign text-lg"></i>
+      <span>Currency</span>
+    </a>
+
+    <!-- Sifarişlər -->
+    <a href="#"
+       class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">
+      <i class="fa-solid fa-cart-shopping text-lg"></i>
+      <span>Sifarişlər</span>
+    </a>
+
+    <!-- Tag -->
+    <a href="#"
+       class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">
+      <i class="fa-solid fa-tag text-lg"></i>
+      <span>Tag</span>
+    </a>
+
+    <!-- Setting -->
+    <a href="#"
+       class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">
+      <i class="fa-solid fa-gear text-lg"></i>
+      <span>Setting</span>
+    </a>
+  </nav>
+
+  <!-- Logout -->
+  <div class="p-4">
+    <a href="#"
+       class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-red-600 hover:text-red-700 relative border-l-4 border-transparent">
+      <i class="fa-solid fa-right-from-bracket text-lg"></i>
+      <span>Logout</span>
+    </a>
+  </div>
+</aside>
