@@ -1,18 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PrivacyPolicyController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Middleware\LocaleMiddleware;
-use App\Http\Controllers\{
-    AuthController,
+use App\Http\Controllers\{AuthController,
     HomeController,
     ListController,
+    TagController,
     UserController,
     RegisterController,
     ExchangeRateController,
-    BasketController
-};
-use App\Http\Controllers\Admin\UsersController;
+    BasketController};
 
+Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index']);
+Route::post('/privacy-policy', [PrivacyPolicyController::class, 'update']);
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 // Locale + Home
 Route::middleware([LocaleMiddleware::class])->group(function () {
     Route::get('/', [HomeController::class, 'index'])
@@ -46,6 +53,9 @@ Route::get('/basket', [BasketController::class, 'basket'])->name('basket');
 // Exchange Rates
 Route::resource('exchange-rates', ExchangeRateController::class);
 
+Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/tags', [TagController::class, 'store']);
 //  Test
 Route::get('/test', [\App\Http\Controllers\TestController::class, 'index'])->name('test.index');
 
