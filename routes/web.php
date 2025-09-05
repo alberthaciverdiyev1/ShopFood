@@ -1,59 +1,66 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ListController;
-use App\Http\Controllers\UserController;
-use App\Http\Middleware\LocaleMiddleware;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\Admin\UsersController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ExchangeRateController;
-use App\Http\Controllers\BasketController;
+use App\Http\Middleware\LocaleMiddleware;
+use App\Http\Controllers\{
+    AuthController,
+    HomeController,
+    ListController,
+    UserController,
+    RegisterController,
+    ExchangeRateController,
+    BasketController
+};
+use App\Http\Controllers\Admin\UsersController;
 
+// Locale + Home
+Route::middleware([LocaleMiddleware::class])->group(function () {
+    Route::get('/', [HomeController::class, 'index'])
+        ->name('home')
+        ->middleware('auth');
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-use App\Http\Controllers\CategoryController;
+    Route::get('/welcome', [HomeController::class, 'welcome'])->name('welcome');
+    Route::post('change-locale', [\App\Http\Controllers\BaseController::class, 'changeLocale'])
+        ->name('change-locale');
+});
 
-Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
-Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+// Authentication & Profile
+Route::controller(AuthController::class)->group(function () {
+    Route::get('/login', 'login')->name('login');
+    Route::post('/login', 'login')->name('login');
+    Route::post('/logout', 'logout')->middleware('auth')->name('logout');
 
-Route::get('/', action: [HomeController::class, 'index'])->name('home')->middleware('auth');
-Route::get('/list', action: [ListController::class, 'list'])->name('list')->middleware('auth');
+    Route::get('/register', 'register')->name('web:register');
+    Route::post('/register', 'register')->name('register');
 
-Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth')->middleware(LocaleMiddleware::class);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+    Route::get('/profile', 'profile')->name('profile')->middleware('auth');
+});
 
-Route::get('/welcome',[HomeController::class,'welcome'])->name('welcome');
-
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::resource('exchange-rates', ExchangeRateController::class);
-
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
-Route::post('change-locale', [\App\Http\Controllers\BaseController::class,'changeLocale'])->name('change-locale');
-
-
-Route::get('/test', [\App\Http\Controllers\TestController::class, 'index'])->name('test.index');
-
-Route::get('/profile', [AuthController::class, 'profile'])->name('profile')->middleware('auth');
-
-
+// List & Basket
+Route::get('/list', [ListController::class, 'list'])
+    ->name('list')
+    ->middleware('auth');
 
 Route::get('/basket', [BasketController::class, 'basket'])->name('basket');
 
+// Exchange Rates
+Route::resource('exchange-rates', ExchangeRateController::class);
 
-Route::get('/register', [RegisterController::class, 'showForm'])->name('register.show');
-Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+//  Test
+Route::get('/test', [\App\Http\Controllers\TestController::class, 'index'])->name('test.index');
 
-Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users');
-Route::post('/admin/users/{user}/toggle', [UserController::class, 'toggle'])->name('admin.users.toggle');
+// Admin
+Route::prefix('admin')->group(function () {
+    Route::get('/register', [RegisterController::class, 'showForm'])->name('register.show');
+    Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
+    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+    Route::post('/users/{user}/toggle', [UserController::class, 'toggle'])->name('admin.users.toggle');
+});
 
-Route::get('/activate/{id}', function($id) { $user = \App\Models\User::findOrFail($id);
+// Activation
+Route::get('/activate/{id}', function ($id) {
+    $user = \App\Models\User::findOrFail($id);
     $user->update(['is_active' => 1, 'is_send_email' => 2]); // 2 → aktivləşdirildi
     return "Hesab aktivləşdirildi!";
 });

@@ -13,7 +13,7 @@
             <img src="{{asset('images/logo.png')}}" alt="Shop Food Logo">
         </div>
         <h1>@lang('Welcome')</h1>
-        <a href="{{route('register')}}" class="btn">@lang("Register")</a>
+        <a href="{{route('web:register')}}" class="btn">@lang("Register")</a>
         <a href="{{route('login')}}" class="btn">@lang("Login")</a>
     </div>
 </div>

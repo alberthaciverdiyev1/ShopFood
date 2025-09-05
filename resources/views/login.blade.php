@@ -62,7 +62,7 @@
                         Войти
                     </button>
 
-                    <a href="{{ route('register') }}"
+                    <a href="{{ route('web:register') }}"
                        class="w-full py-3 mt-3 text-center rounded-lg transition block"
                        style="border: 1px solid #3D0C0C; color: #3D0C0C; background-color: white;"
                        onmouseover="this.style.backgroundColor='#2b0909'; this.style.color='white';"
