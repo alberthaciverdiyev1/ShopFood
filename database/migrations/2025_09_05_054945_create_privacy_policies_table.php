@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('privacy_policies', function (Blueprint $table) {
             $table->id();
-            $table->string('key');   // şəkil yolu və ya link
-            $table->string('value'); // tag adı
+            $table->longText('content'); // Privacy & Policy mətni
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('privacy_policies');
     }
 
 };
