@@ -12,13 +12,13 @@
         <div
             class="card openModal relative bg-white rounded-3xl p-4 flex flex-col items-center text-center shadow-md hover:shadow-lg transition duration-300"
             data-id="{{ $product['id'] }}"
-            data-title="{{ $product['title'] }}"
-            data-price="{{ $product['price'] }}"
+            data-title="{{ $product['nazev'] }}"
+            data-price="{{ $product['cenaZaklVcDph'] }}"
             data-image="{{ $product['images'][0] ?? $product['image'] }}"
             data-description="{{ $product['description'] }}">
 
 
-            <img src="{{ $product['images'][0] ?? $product['image'] }}" alt="{{ $product['title'] }}" class="w-25 h-25 object-contain mt-4">
+            <img src="{{ $product['images'][0] ?? $product['image'] }}" alt="{{ $product['nazev'] }}" class="w-25 h-25 object-contain mt-4">
 
             <div class="absolute top-0 right-0 bg-orange-100 rounded-full w-10 h-10 flex items-center justify-center">
                 <img src="{{ asset('/images/plusbg.png') }}" alt="">
@@ -26,10 +26,10 @@
             </div>
             <div class="text-start gap-3 pt-3 flex flex-col">
                 <p class="price font-bold text-[#E00034] text-2xl mt-2">
-                    ${{ $product['price'] }}
+                    ${{ $product['cenaZaklVcDph'] }}
                 </p>
                 <div class="desc font-bold text-sm mt-1">
-                    {{ $product['title'] }}
+                    {{ $product['nazev'] }}
                 </div>
             </div>
         </div>

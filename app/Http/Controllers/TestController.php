@@ -13,23 +13,23 @@ class TestController extends Controller
         try {
             $client = new \GuzzleHttp\Client();
 
-            $response = $client->get('https://demo.flexibee.eu:5434/c/demo/cenik.xml?detail=full', [
-                'auth' => ['winstrom', 'winstrom'],
-                'verify' => false
+            $url = 'https://shop-food.flexibee.eu/c/shop_food_s_r_o_/cenik.json';
+
+            $response = $client->get($url, [
+                'auth' => ['shopify_integration2', 'Salam123!'], // Basic Auth
+                'headers' => [
+                    'Accept' => 'application/json' // JSON format isteği
+                ],
+                'verify' => false // SSL sertifika sorunları için
             ]);
 
-            $xmlContent = $response->getBody()->getContents();
+            // Body'yi al ve JSON olarak decode et
+            $data = json_decode($response->getBody()->getContents(), true);
 
-            // XML-i parse et
-            $xml = simplexml_load_string($xmlContent, "SimpleXMLElement", LIBXML_NOCDATA);
-
-            // JSON formatına çevir
-            $json = json_encode($xml);
-
-            // Array formatına çevir (istəyə görə)
-            $data = json_decode($json, true);
-
-            return response()->json($data);
+            return response()->json([
+                'success' => true,
+                'data' => $data
+            ]);
 
         } catch (\Exception $e) {
             return response()->json([
@@ -38,6 +38,7 @@ class TestController extends Controller
             ], 500);
         }
     }
+
 
 
     public function welcome()

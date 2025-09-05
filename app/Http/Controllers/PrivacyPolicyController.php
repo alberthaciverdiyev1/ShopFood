@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\PrivacyPolicy;
 use Illuminate\Http\Request;
+use App\Models\PrivacyPolicy;
 
 class PrivacyPolicyController extends Controller
 {

@@ -10,10 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // $response = Http::get('https://api.escuelajs.co/api/v1/products');
-        $response = Http::withoutVerifying()->get('https://fakestoreapi.com/products');
-
-        $products = $response->json();
+        $products = products();
 
         $banners = Banner::query()->where('is_active', 1)->get();
 

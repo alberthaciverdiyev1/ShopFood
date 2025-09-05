@@ -44,16 +44,13 @@ Route::controller(AuthController::class)->group(function () {
 });
 
 // List & Basket
-Route::get('/list', [ListController::class, 'list'])
-    ->name('list')
-    ->middleware('auth');
-
+Route::get('/list', [ListController::class, 'list'])->name('list')->middleware('auth');
 Route::get('/basket', [BasketController::class, 'basket'])->name('basket');
 
 // Exchange Rates
 Route::resource('exchange-rates', ExchangeRateController::class);
 
-Route::get('/register', [AuthController::class, 'register'])->name('register');
+Route::get('/register', [AuthController::class, 'register'])->name('web:register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/tags', [TagController::class, 'store']);
 //  Test
