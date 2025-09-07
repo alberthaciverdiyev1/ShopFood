@@ -21,7 +21,14 @@
               </select>
           </li>
       </form>
-
+      <li>
+          <a href="{{route('favorites.list')}}" class="hover:text-black relative">
+              <i class="fa-regular fa-heart text-xl"></i>
+              <span id="favoriteCount" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                {{ Auth::check() ? Auth::user()->favorites()->count() : 0 }}
+            </span>
+          </a>
+      </li>
     <li><a href="#" class="hover:text-black"><i class="fas fa-shopping-cart"></i></a></li>
     <li><a href=""><i class="fa-regular fa-user"></i></a></li>
     <li>1524</li>

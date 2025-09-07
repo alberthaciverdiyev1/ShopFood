@@ -6,13 +6,15 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Middleware\LocaleMiddleware;
 use App\Http\Controllers\{AuthController,
+    FavoriteController,
     HomeController,
     ListController,
     TagController,
     UserController,
     RegisterController,
     ExchangeRateController,
-    BasketController};
+    BasketController
+};
 
 Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
 Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -65,6 +67,12 @@ Route::prefix('admin')->group(function () {
     Route::post('/users/{user}/toggle', [UserController::class, 'toggle'])->name('admin.users.toggle');
 });
 
+Route::prefix('admin')->prefix('favorites')->middleware('auth')->group(function () {
+    Route::get('/', [FavoriteController::class, 'list'])->name('favorites.list');
+    Route::get('/list/ajax', [FavoriteController::class, 'listAjax'])->name('favorites.list.ajax');
+    Route::post('/add/{productId}', [FavoriteController::class, 'add'])->name('favorites.add');
+    Route::delete('/delete/{productId}', [FavoriteController::class, 'delete'])->name('favorites.delete');
+});
 // Activation
 Route::get('/activate/{id}', function ($id) {
     $user = \App\Models\User::findOrFail($id);

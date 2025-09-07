@@ -14,15 +14,15 @@
                 </div>
             </div>
 
-            <img src="{{ $product['images'][0] ?? $product['image'] }}" alt="{{ $product['title'] }}" class="w-24 h-24 object-contain mt-4">
+            <img src="{{ $product['images'][0] ?? $product['image'] }}" alt="{{ $product['nazev'] }}" class="w-24 h-24 object-contain mt-4">
 
              <div class="text-start gap-3 pt-3 flex flex-col">
                 <p class="price font-bold  text-[#E00034] text-2xl mt-2">
-                    ${{ $product['price'] }}
+                    ${{ $product['cenaZaklVcDph'] }}
                 </p>
 
                 <div class="desc font-bold  text-sm mt-1">
-                    {{ $product['title'] }}
+                    {{ $product['nazev'] }}
                 </div>
             </div>
         </div>

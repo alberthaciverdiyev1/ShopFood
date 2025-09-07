@@ -18,12 +18,11 @@ class TestController extends Controller
             $response = $client->get($url, [
                 'auth' => ['shopify_integration2', 'Salam123!'], // Basic Auth
                 'headers' => [
-                    'Accept' => 'application/json' // JSON format isteği
+                    'Accept' => 'application/json' // JSON format
                 ],
-                'verify' => false // SSL sertifika sorunları için
+                'verify' => false // SSL
             ]);
 
-            // Body'yi al ve JSON olarak decode et
             $data = json_decode($response->getBody()->getContents(), true);
 
             return response()->json([

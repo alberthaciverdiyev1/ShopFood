@@ -29,7 +29,7 @@ if (!function_exists('products')) {
             foreach ($products as &$product) {
 //                $product['images'] = [];
                 $product['images'] = [
-                    'https://caspian-ticarx.b-cdn.net/images/ProductImage-6139423a-31ef-41f1-8a22-432d1c13a953.webp'
+                    'https://shopfood.cz/cdn/shop/files/9434896138547-0.png?v=1756723347&width=1946'
                 ];
                 $product['description'] = 'Sample product description';
 
@@ -65,10 +65,39 @@ if (!function_exists('products')) {
                 }
             }
 
+
             return $products;
 
         } catch (\Exception $e) {
             Log::error('Products helper error: ' . $e->getMessage());
+
+            return [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+}
+if (!function_exists('categories')) {
+    function categories(Request $request = null)
+    {
+        try {
+            $client = new Client();
+
+            $url = 'https://shop-food.flexibee.eu/c/shop_food_s_r_o_/kategorie.json'; // Örnek kategori endpoint
+
+            $response = $client->get($url, [
+                'auth' => ['shopify_integration2', 'Salam123!'], // Basic Auth
+                'headers' => ['Accept' => 'application/json'],
+                'verify' => false
+            ]);
+
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            return $data['winstrom']['kategorie'] ?? [];
+
+        } catch (\Exception $e) {
+            Log::error('Categories helper error: ' . $e->getMessage());
 
             return [
                 'success' => false,

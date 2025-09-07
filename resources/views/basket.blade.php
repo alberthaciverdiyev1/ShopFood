@@ -1,15 +1,13 @@
 @extends('layouts.app')
 @section('content')
-@php
-$productsSlice = array_slice($products ?? [], 0, 4);
-@endphp
+
 <div class="container mx-auto px-4 py-8 ">
   <h2 class="text-2xl font-bold">Basket</h2>
   <div class="flex gap-8 mt-4">
     <div class="w-[68%] border border-[#999999] p-4 rounded-2xl">
       <h3 class="text-[#331111] font-semibold  text-xl ">Your products</h3>
-     
-     @foreach ($productsSlice as $index => $product)
+
+     @foreach ($products as $index => $product)
 
       <div class="flex gap-4 justify-between items-center  pb-4 mb-4">
 
@@ -24,11 +22,11 @@ $productsSlice = array_slice($products ?? [], 0, 4);
               </svg>
             </label>
           </div>
-          <img src="{{ $product['images'][0] ?? $product['image'] }}" alt="{{ $product['title'] }}" class="w-24 h-24 object-contain mt-4">
+          <img src="{{ $product['images'][0] ?? $product['image'] }}" alt="{{ $product['nazev'] }}" class="w-24 h-24 object-contain mt-4">
           <div class="">
-            <h3 class="font-bold text-lg">{{ $product['title'] }}</h3>
+            <h3 class="font-bold text-lg">{{ $product['nazev'] }}</h3>
             <p class="text-gray-600">Some description about the product. It is very good and useful.</p>
-            <p class="text-red-500  font-bold mt-2">${{ $product['price'] }}</p>
+            <p class="text-red-500  font-bold mt-2">${{ $product['cenaZaklVcDph'] }}</p>
           </div>
         </div>
         <div class="flex gap-4 items-center">

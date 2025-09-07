@@ -9,10 +9,7 @@ class ListController extends Controller
 {
      public function list()
     {
-        // $response = Http::get('https://api.escuelajs.co/api/v1/products');
-        $response = Http::withoutVerifying()->get('https://fakestoreapi.com/products');
-
-        $products = $response->json();
+        $products = products();
 
         return view('list', compact('products'));
     }

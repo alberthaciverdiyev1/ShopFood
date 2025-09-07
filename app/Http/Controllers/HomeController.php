@@ -13,8 +13,12 @@ class HomeController extends Controller
         $products = products();
 
         $banners = Banner::query()->where('is_active', 1)->get();
+        $favoriteIds = auth()->user()
+            ->favorites()
+            ->pluck('product_id')
+            ->toArray();
 
-        return view('home', compact('products', 'banners'));
+        return view('home', compact('products', 'banners','favoriteIds'));
     }
 
     public function welcome()

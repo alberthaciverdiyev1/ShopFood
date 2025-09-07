@@ -8,9 +8,8 @@ use Illuminate\Support\Facades\Http;
 class BasketController extends Controller
 {
     public function basket(){
-        $response = Http::withoutVerifying()->get('https://fakestoreapi.com/products');
-        $products = $response->json();
-            
+        $products = products();
+
         return view('basket',compact('products'));
     }
 }
