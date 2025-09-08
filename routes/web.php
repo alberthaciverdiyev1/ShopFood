@@ -1,25 +1,31 @@
 <?php
 
+use App\Http\Controllers\Admin\UsersInfoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PrivacyPolicyController;
-use App\Http\Controllers\CategoryController;
+
+//use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Middleware\LocaleMiddleware;
+
 use App\Http\Controllers\{AuthController,
     FavoriteController,
     HomeController,
     ListController,
+    OrderController,
     TagController,
     UserController,
     RegisterController,
     ExchangeRateController,
-    BasketController
-};
+    BasketController};
+use App\Http\Controllers\Admin\DashboardController;
 
-Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
-Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+//Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
+//Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+
 Route::get('/privacy-policy', [PrivacyPolicyController::class, 'index']);
 Route::post('/privacy-policy', [PrivacyPolicyController::class, 'update']);
+
 Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 // Locale + Home
@@ -47,25 +53,49 @@ Route::controller(AuthController::class)->group(function () {
 
 // List & Basket
 Route::get('/list', [ListController::class, 'list'])->name('list')->middleware('auth');
-Route::get('/basket', [BasketController::class, 'basket'])->name('basket');
+
+Route::controller(BasketController::class)->middleware('auth')->prefix('basket')->group(function () {
+    Route::get('/', [BasketController::class, 'basket'])->name('basket.list');
+    Route::post('/add/{productId}', [BasketController::class, 'add'])->name('basket.add');
+    Route::post('/update/{productId}', [BasketController::class, 'updateQuantity'])->name('basket.update');
+    Route::post('/remove/{productId}', [BasketController::class, 'delete'])->name('basket.remove');
+});
+
+Route::controller(OrderController::class)->middleware('auth')->prefix('order')->group(function () {
+    Route::get('/', [OrderController::class, 'list'])->name('order.list');
+    Route::get('/list/ajax', [OrderController::class, 'listAjax'])->name('order.list.ajax');
+    Route::post('/', [OrderController::class, 'add'])->name('order.add');
+    Route::put('/{order}', [OrderController::class, 'update'])->name('order.update');
+    Route::delete('/{order}', [OrderController::class, 'delete'])->name('order.delete');
+});
 
 // Exchange Rates
 Route::resource('exchange-rates', ExchangeRateController::class);
 
 Route::get('/register', [AuthController::class, 'register'])->name('web:register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+
+
 Route::post('/tags', [TagController::class, 'store']);
+Route::get('/tags', [TagController::class, 'list']);
 //  Test
 Route::get('/test', [\App\Http\Controllers\TestController::class, 'index'])->name('test.index');
 
 // Admin
 Route::prefix('admin')->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('admin');
     Route::get('/register', [RegisterController::class, 'showForm'])->name('register.show');
     Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
-    Route::get('/users', [UserController::class, 'index'])->name('admin.users');
-    Route::post('/users/{user}/toggle', [UserController::class, 'toggle'])->name('admin.users.toggle');
+    Route::get('/users', [UsersController::class, 'index'])->name('admin.users');
+    Route::post('/users/toggle/{user}', [UsersController::class, 'toggle'])->name('admin.users.toggle');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/users-info', [UsersInfoController::class, 'index'])->name('users.index');
+    Route::get('/order', [\App\Http\Controllers\Admin\AdminOrderController::class, 'adminList'])->name('admin.order');
+    Route::post('/order/{order}', [\App\Http\Controllers\Admin\AdminOrderController::class, 'update'])->name('admin.order.update');
+
 });
+
 
 Route::prefix('admin')->prefix('favorites')->middleware('auth')->group(function () {
     Route::get('/', [FavoriteController::class, 'list'])->name('favorites.list');

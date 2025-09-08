@@ -17,6 +17,15 @@ class OrderItem extends Model
 
     public function getProductAttribute()
     {
-        return Http::get("https://api.site.com/products/{$this->product_id}")->json();
+        $allProducts = products();
+        $productId = $this->product_id;
+
+        foreach ($allProducts as $product) {
+            if (!empty($product['id']) && $product['id'] == $productId) {
+                return $product;
+            }
+        }
+
+        return null;
     }
 }

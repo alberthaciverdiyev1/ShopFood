@@ -90,7 +90,7 @@
             </div>
         </div>
     </div>
-    
+
     <div id="tab-company" class="tab-content hidden space-y-5">
         <div class="flex items-center">
             <label class="w-56 text-gray-800">Street, house</label>
@@ -176,9 +176,11 @@
             </div>
         </div>
     </div>
-    
+
     <div id="tab-orders" class="tab-content hidden">
-        <p class="text-gray-600">Order history will be shown here...</p>
+        <div id="ordersContainer" class="overflow-x-auto">
+            <p class="text-gray-600">Loading orders...</p>
+        </div>
     </div>
 </div>
 
@@ -193,16 +195,85 @@
                     b.classList.remove("bg-[#FAD399]", "active");
                     b.classList.add("bg-white");
                 });
-                
+
                 contents.forEach(c => c.classList.add("hidden"));
-                
+
                 btn.classList.remove("bg-white");
                 btn.classList.add("bg-[#FAD399]", "active");
-                
+
                 const tab = btn.dataset.tab;
                 document.getElementById("tab-" + tab).classList.remove("hidden");
             });
         });
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        fetch("/order", {
+            headers: {
+                "Accept": "application/json",
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById("ordersContainer");
+                container.innerHTML = "";
+
+                if (!data || data.length === 0) {
+                    container.innerHTML = `<p class="text-gray-600">You have no orders yet.</p>`;
+                    return;
+                }
+
+                let html = `
+                <table class="min-w-full border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-100 text-gray-700 text-sm">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Order #</th>
+                            <th class="px-4 py-2 text-left">Date</th>
+                            <th class="px-4 py-2 text-left">Status</th>
+                            <th class="px-4 py-2 text-left">Items</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm text-gray-700">
+            `;
+
+                data.forEach(order => {
+                    let itemsHtml = order.items.map(item => `
+                    <div class="flex items-center gap-2 py-1 border-b last:border-0">
+                        <img src="${item.product.images[0]}" alt="${item.product.nazev}" class="w-10 h-10 object-cover rounded">
+                        <div>
+                            <p class="font-medium">${item.product.nazev}</p>
+                            <p class="text-xs text-gray-500">x${item.quantity}</p>
+                        </div>
+                    </div>
+                `).join("");
+
+                    html += `
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="px-4 py-2 font-medium">${order.order_number}</td>
+                        <td class="px-4 py-2">${new Date(order.created_at).toLocaleString()}</td>
+                        <td class="px-4 py-2">
+                            <span class="px-2 py-1 rounded-full text-xs
+                                ${order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                        order.status === 'completed' ? 'bg-green-100 text-green-800' :
+                            'bg-red-100 text-red-800'}">
+                                ${order.status}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2">
+                            ${itemsHtml}
+                        </td>
+                    </tr>
+                `;
+                });
+
+                html += `</tbody></table>`;
+                container.innerHTML = html;
+            })
+            .catch(err => {
+                console.error("Order fetch error:", err);
+                document.getElementById("ordersContainer").innerHTML =
+                    `<p class="text-red-600">Failed to load orders.</p>`;
+            });
     });
 </script>
 @endsection

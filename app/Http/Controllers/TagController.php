@@ -20,5 +20,12 @@ class TagController extends Controller
 
         return response()->json($tag, 201);
     }
+    public function list(Request $request)
+    {
+
+        $tag = Tag::all();
+
+        return response()->json($tag, 201);
+    }
 }
 

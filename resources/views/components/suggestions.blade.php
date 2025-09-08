@@ -13,6 +13,7 @@
                 data-price="{{ $product['cenaZaklVcDph'] }}"
                 data-image="{{ $product['images'][0]}}"
                 data-description="{{ $product['description'] }}"
+                data-basket="{{Auth::user()->basket->where('product_id', $product['id'])->first() ? 1 : 0 }}"
             >
 
                 <img src="{{ $product['images'][0]}}"
@@ -39,7 +40,7 @@
         @endforeach
     </div>
 
-    <x-modal-product-details/>
+    <x-modal-product-details  :product="$product"/>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', async function () {

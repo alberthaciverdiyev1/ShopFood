@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $table = 'orders';
+    protected $table = 'user_orders';
     protected $guarded = [];
 
     public function items()
