@@ -28,3 +28,9 @@ Route::resource('exchange-rates', ExchangeRateController::class);
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/tags', [TagController::class, 'store']);
+Route::get('users/{user}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.users.edit');
+Route::put('users/{user}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('admin.users.update');
+Route::get('users/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('admin.users.show');
+
+// Endirim düyməsi üçün
+Route::post('users/{user}/apply-discount', [App\Http\Controllers\Admin\UserController::class, 'applyDiscount'])->name('admin.users.applyDiscount');
