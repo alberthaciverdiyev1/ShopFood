@@ -9,6 +9,19 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email',
+            'discount_percentage' => 'nullable|integer|min:0|max:100',
+        ]);
+
+        $user->update($request->only(['name', 'email', 'discount_percentage']));
+
+        return redirect()->route('admin.users.index')->with('success', 'User updated successfully!');
+    }
+
     public function login(Request $request)
     {
         if ($request->isMethod('post')) {
