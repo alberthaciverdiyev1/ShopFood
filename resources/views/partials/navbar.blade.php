@@ -7,7 +7,7 @@
         </li>
     </ul>
 
-    <h1>@lang("Hello")</h1>
+    <!-- <h1>@lang("Hello")</h1> -->
 
     <ul class="hidden md:flex items-center space-x-4 gap-4">
         <form id="languageForm" action="{{ route('change-locale') }}" method="POST">

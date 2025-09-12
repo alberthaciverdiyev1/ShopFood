@@ -47,7 +47,6 @@ Route::controller(AuthController::class)->group(function () {
 
     Route::get('/register', 'register')->name('web:register');
     Route::post('/register', 'register')->name('register');
-
     Route::get('/profile', 'profile')->name('profile')->middleware('auth');
 });
 

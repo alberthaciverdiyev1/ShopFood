@@ -92,9 +92,9 @@ class AuthController extends Controller
         return redirect('/welcome');
     }
     public function profile()
-{
-    $user = auth()->user(); // login olmuş user
-    return view('auth.profile', compact('user'));
-}
-
+    {
+        $user = auth()->user(); // login olmuş user
+        return view('auth.profile', compact('user'));
+    }
+   
 }
