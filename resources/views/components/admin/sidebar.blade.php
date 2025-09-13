@@ -26,7 +26,7 @@
         </a>
 
         <!-- Currency -->
-        <a href="#"
+        <a href="{{route('exchange-rates.index')}}"
            class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">
             <i class="fa-solid fa-dollar-sign text-lg"></i>
             <span>Currency</span>
@@ -53,7 +53,7 @@
         </a>
 
         <!-- Setting -->
-        <a href="#"
+        <a href="{{route('setting.index')}}"
            class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">
             <i class="fa-solid fa-gear text-lg"></i>
             <span>Setting</span>
@@ -62,10 +62,14 @@
 
     <!-- Logout -->
     <div class="p-4">
-        <a href="#"
-           class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-red-600 hover:text-red-700 relative border-l-4 border-transparent">
-            <i class="fa-solid fa-right-from-bracket text-lg"></i>
-            <span>Logout</span>
-        </a>
+        <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit"
+                    class="w-full flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-red-600 hover:text-red-700 relative border-l-4 border-transparent">
+                <i class="fa-solid fa-right-from-bracket text-lg"></i>
+                <span>Logout</span>
+            </button>
+        </form>
     </div>
+
 </aside>

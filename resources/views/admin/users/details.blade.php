@@ -6,7 +6,7 @@
             <h2 class="text-2xl font-bold mb-6">User Details</h2>
 
             <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div><strong>Name:</strong> {{ $user->contact_name }}</div>
+                <div><strong>Name:</strong> {{ $user->name }}</div>
                 <div><strong>Email:</strong> {{ $user->email }}</div>
                 <div><strong>Registered:</strong> {{ $user->created_at->format('Y-m-d') }}</div>
                 <div><strong>Status:</strong> {{ $user->is_active ? 'Active' : 'Inactive' }}</div>

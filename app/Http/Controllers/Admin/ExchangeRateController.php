@@ -1,23 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\ExchangeRate;
+use Illuminate\Http\Request;
 
 class ExchangeRateController extends Controller
 {
     public function index()
     {
         $rates = ExchangeRate::all();
-        return view('exchange_rates.index', compact('rates'));
+        return view('admin.currency.index', compact('rates'));
     }
 
-    public function edit($id)
-    {
-        $rate = ExchangeRate::findOrFail($id);
-        return view('exchange_rates.edit', compact('rate'));
-    }
 
     public function update(Request $request, $id)
     {

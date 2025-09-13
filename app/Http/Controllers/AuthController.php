@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ResetPasswordMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -43,8 +46,8 @@ class AuthController extends Controller
                 'email' => 'required|email',
                 'password' => 'required|string',
             ]);
-
-            if (Auth::attempt($credentials)) {
+            $user = User::where('email', $credentials['email'])->where('is_active', '=', true)->first();
+            if ($user && Auth::attempt($credentials)) {
                 $request->session()->regenerate();
 
                 return redirect()->intended('/');
@@ -66,7 +69,6 @@ class AuthController extends Controller
             $validated = $request->validate([
                 'reg_number' => 'required|string|max:50',            // ИНН Регистрационный номер
                 'tax_number' => 'required|string|max:50',            // ДРН (VAT) Налоговый номер
-                'password' => 'required|string|max:20|min:6',                 // Телефон
                 'email' => 'required|email|max:255',                 // Email
                 'street' => 'required|string|max:255',              // Улица, дом
                 'city' => 'required|string|max:100',                // Город
@@ -79,7 +81,7 @@ class AuthController extends Controller
             $user = User::create([
                 'reg_number' => $validated['reg_number'],
                 'tax_number' => $validated['tax_number'],
-                'password' => Hash::make($validated['password']),
+                'password' => Hash::make(str()->random(10)), // Random password
                 'email' => $validated['email'] ?? null,
                 'street' => $validated['street'] ?? null,
                 'city' => $validated['city'] ?? null,
@@ -87,9 +89,12 @@ class AuthController extends Controller
                 'zip' => $validated['zip'] ?? null,
                 'contact_name' => $validated['contact_name'] ?? null,
                 'contact_phone' => $validated['contact_phone'] ?? null,
+                'is_active' => false,
             ]);
-            auth()->login($user);
-            return redirect('/')->with('success', 'Şirkət uğurla qeydiyyatdan keçdi!');
+
+            return redirect()
+                ->route('web:register')
+                ->with('success', 'Yeni istifadeci uğurla qeydiyyatdan keçdi!');
         }
 
         return view('register');
@@ -108,14 +113,6 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         return view('auth.profile', compact('user'));
-    }
-
-    public function delete(int $id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
-
-        return redirect()->route('users.index')->with('success', 'User deleted successfully!');
     }
 
 }

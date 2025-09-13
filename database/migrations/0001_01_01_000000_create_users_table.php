@@ -29,6 +29,9 @@ return new class extends Migration {
             $table->string('contact_phone')->nullable();  // Телефон
 
             $table->boolean('is_active')->default(false);
+            $table->boolean('is_admin')->default(false);
+            $table->integer('discount_percent')->default(0);
+            $table->string('order_type')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

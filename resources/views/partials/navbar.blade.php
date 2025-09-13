@@ -7,16 +7,25 @@
             </a>
         </li>
 
+        @php
+            $settings = \App\Models\Setting::first();
+        @endphp
+
         <li>
-            <a href="https://t.me/username" target="_blank">
-                <i class="fa-brands fa-telegram text-xl mt-6"></i>
-            </a>
+            @if(!empty($settings->telegram_link))
+                <a href="{{ $settings->telegram_link }}" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-telegram text-xl mt-6"></i>
+                </a>
+            @endif
         </li>
         <li>
-            <a href="https://wa.me/123456789" target="_blank">
-                <i class="fa-brands fa-whatsapp text-xl mt-6"></i>
-            </a>
+            @if(!empty($settings->whatsapp_link))
+                <a href="{{ $settings->whatsapp_link }}" target="_blank" rel="noopener noreferrer">
+                    <i class="fa-brands fa-whatsapp text-xl mt-6"></i>
+                </a>
+            @endif
         </li>
+
     </ul>
 
 
