@@ -9,17 +9,31 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    public function update(Request $request, User $user)
+    public function update(Request $request, int $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email',
-            'discount_percentage' => 'nullable|integer|min:0|max:100',
+//        $request->validate([
+//            'name' => 'required|string|max:255',
+//            'email' => 'required|email',
+//            'discount_percentage' => 'nullable|integer|min:0|max:100',
+//        ]);
+
+        $validated = $request->validate([
+            'reg_number' => 'sometimes|required|string|max:50',            // ИНН Регистрационный номер
+            'tax_number' => 'sometimes|required|string|max:50',            // ДРН (VAT) Налоговый номер
+            'password' => 'sometimes|required|string|max:20|min:6',                 // Телефон
+            'email' => 'sometimes|required|email|max:255',                 // Email
+            'street' => 'sometimes|required|string|max:255',              // Улица, дом
+            'city' => 'sometimes|required|string|max:100',                // Город
+            'country' => 'sometimes|required|string|max:100',             // Страна
+            'zip' => 'sometimes|required|string|max:20',                  // Индекс
+            'contact_name' => 'sometimes|required|string|max:255',        // Имя, Фамилия
+            'contact_phone' => 'sometimes|required|string|max:20',        // Телефон
         ]);
 
-        $user->update($request->only(['name', 'email', 'discount_percentage']));
+        $user = auth()->user();
+        $user->update($validated);
 
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully!');
+        return redirect()->route('profile')->with('success', 'User updated successfully!');
     }
 
     public function login(Request $request)
@@ -53,7 +67,6 @@ class AuthController extends Controller
                 'reg_number' => 'required|string|max:50',            // ИНН Регистрационный номер
                 'tax_number' => 'required|string|max:50',            // ДРН (VAT) Налоговый номер
                 'password' => 'required|string|max:20|min:6',                 // Телефон
-                'phone' => 'required|string|max:20',                 // Телефон
                 'email' => 'required|email|max:255',                 // Email
                 'street' => 'required|string|max:255',              // Улица, дом
                 'city' => 'required|string|max:100',                // Город
@@ -66,7 +79,6 @@ class AuthController extends Controller
             $user = User::create([
                 'reg_number' => $validated['reg_number'],
                 'tax_number' => $validated['tax_number'],
-                'phone' => $validated['phone'],
                 'password' => Hash::make($validated['password']),
                 'email' => $validated['email'] ?? null,
                 'street' => $validated['street'] ?? null,
@@ -91,10 +103,19 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
         return redirect('/welcome');
     }
+
     public function profile()
     {
-        $user = auth()->user(); // login olmuş user
+        $user = auth()->user();
         return view('auth.profile', compact('user'));
     }
-   
+
+    public function delete(int $id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User deleted successfully!');
+    }
+
 }

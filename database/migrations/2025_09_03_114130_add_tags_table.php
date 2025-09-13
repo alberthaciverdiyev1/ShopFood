@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('key');   // şəkil yolu və ya link
-            $table->string('value'); // tag adı
+            $table->string('image'); // tag adı
             $table->timestamps();
         });
 

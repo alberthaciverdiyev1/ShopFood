@@ -1,15 +1,28 @@
-<nav class="flex bg-white opacity-90 w-full justify-between items-center px-6 py-4 shadow-md relative">
-    <ul class="flex items-center space-x-6 gap-5">
+<nav class="flex bg-white opacity-90 w-full justify-between items-center px-6 py-3 shadow-md relative">
+    <ul class="flex items-center space-x-2 ml-6">
+        <!-- Logo -->
         <li>
-            <a href="/" class="py-2 px-4 font-bold rounded">Logooo</a>
-            <a href="/"><i class="fa-brands fa-telegram"></i></a>
-            <a href=""><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="/" class="flex items-center">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-12 w-auto">
+            </a>
+        </li>
+
+        <li>
+            <a href="https://t.me/username" target="_blank">
+                <i class="fa-brands fa-telegram text-xl mt-6"></i>
+            </a>
+        </li>
+        <li>
+            <a href="https://wa.me/123456789" target="_blank">
+                <i class="fa-brands fa-whatsapp text-xl mt-6"></i>
+            </a>
         </li>
     </ul>
 
+
     <!-- <h1>@lang("Hello")</h1> -->
 
-    <ul class="hidden md:flex items-center space-x-4 gap-4">
+    <ul class="hidden md:flex items-center space-x-3 gap-4">
         <form id="languageForm" action="{{ route('change-locale') }}" method="POST">
             @csrf
             <li>

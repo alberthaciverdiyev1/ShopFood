@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\PrivacyPolicy;
+use Illuminate\Http\Request;
 
 class PrivacyPolicyController extends Controller
 {
@@ -11,7 +12,7 @@ class PrivacyPolicyController extends Controller
     public function index()
     {
         $policy = PrivacyPolicy::first();
-        return response()->json($policy);
+        return view('admin.privacyPolicy.index', compact('policy'));
     }
 
     // Yeniləmək
@@ -20,19 +21,18 @@ class PrivacyPolicyController extends Controller
         $request->validate([
             'content' => 'required|string',
         ]);
-        $content = $request->only('content');
-
+        $data = $request->only('content');
         $policy = PrivacyPolicy::first();
         if (!$policy) {
             $policy = PrivacyPolicy::create([
-                'content' =>$content,
+                'content' =>$data['content'],
             ]);
         } else {
             $policy->update([
-                'content' =>$content,
+                'content' =>$data['content'],
             ]);
         }
 
-        return response()->json($policy);
+        return redirect()->route('privacy-policy.index')->with('success', 'Privacy policy updated successfully.');
     }
 }

@@ -8,7 +8,6 @@ const addButton = document.getElementById('addBasket');
 
 const openModalButtons = document.querySelectorAll(".openModal");
 
-// Modal açma ve bilgileri doldurma
 openModalButtons.forEach(button => {
     button.addEventListener("click", () => {
         const title = button.dataset.title;
@@ -26,7 +25,6 @@ openModalButtons.forEach(button => {
         modalDescription.textContent = description;
         modalProductInput.value = modalProductId;
 
-        // Buton durumu güncelle
         addButton.dataset.basket = basket ? '1' : '0';
         addButton.textContent = basket ? 'Remove from Basket' : 'Add to Basket';
         addButton.style.backgroundColor = basket ? 'orange' : '';
@@ -35,12 +33,10 @@ openModalButtons.forEach(button => {
     });
 });
 
-// Modal kapatma
 overlay.addEventListener("click", (e) => {
     if (e.target === overlay) overlay.classList.add("hidden");
 });
 
-// Add/Remove basket event listener (sadece bir kez)
 addButton.addEventListener('click', function() {
     const productId = modalProductInput.value;
     const basket = addButton.dataset.basket === '1';

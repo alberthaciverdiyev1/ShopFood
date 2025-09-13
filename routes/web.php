@@ -1,24 +1,22 @@
 <?php
 
-use App\Http\Controllers\Admin\UsersInfoController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PrivacyPolicyController;
-
-//use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\Admin\UsersController;
-use App\Http\Middleware\LocaleMiddleware;
-
-use App\Http\Controllers\{AuthController,
+use App\Http\Controllers\{Admin\ExchangeRateController,
+    Admin\TagController,
+    AuthController,
+    BasketController,
     FavoriteController,
     HomeController,
     ListController,
     OrderController,
-    TagController,
-    UserController,
-    RegisterController,
-    ExchangeRateController,
-    BasketController};
+    RegisterController};
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\UsersInfoController;
+use App\Http\Middleware\LocaleMiddleware;
+use Illuminate\Support\Facades\Route;
+
+//use App\Http\Controllers\CategoryController;
 
 //Route::get('/categories/create', [CategoryController::class, 'create'])->name('categories.create');
 //Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
@@ -73,16 +71,20 @@ Route::resource('exchange-rates', ExchangeRateController::class);
 
 Route::get('/register', [AuthController::class, 'register'])->name('web:register');
 Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/users/{id}', [AuthController::class, 'update'])->name('profile.update');
+
+Route::post('/tags', [TagController::class, 'store'])->name('tags.store');
+Route::get('/tags', [TagController::class, 'list'])->name('tags.list');
+Route::put('/tags/{tag}', [TagController::class, 'update'])->name('tags.update');
+Route::delete('/tags/{tag}', [TagController::class, 'destroy'])->name('tags.destroy');
 
 
-Route::post('/tags', [TagController::class, 'store']);
 Route::get('users/{user}/edit', [App\Http\Controllers\Admin\UserController::class, 'edit'])->name('admin.users.edit');
 Route::put('users/{user}', [App\Http\Controllers\Admin\UserController::class, 'update'])->name('admin.users.update');
 Route::get('users/{user}', [App\Http\Controllers\Admin\UserController::class, 'show'])->name('admin.users.show');
 
 // Endirim düyməsi üçün
 Route::post('users/{user}/apply-discount', [App\Http\Controllers\Admin\UserController::class, 'applyDiscount'])->name('admin.users.applyDiscount');
-Route::get('/tags', [TagController::class, 'list']);
 //  Test
 Route::get('/test', [\App\Http\Controllers\TestController::class, 'index'])->name('test.index');
 
@@ -96,8 +98,14 @@ Route::prefix('admin')->group(function () {
     Route::post('/users/toggle/{user}', [UsersController::class, 'toggle'])->name('admin.users.toggle');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/users-info', [UsersInfoController::class, 'index'])->name('users.index');
+    Route::post('/users/delete/{id}', [AuthController::class, 'delete'])->name('users.delete');
+    Route::get('/users-info/{id}', [UsersInfoController::class, 'userDetails'])->name('user.details');
+
     Route::get('/order', [\App\Http\Controllers\Admin\AdminOrderController::class, 'adminList'])->name('admin.order');
     Route::post('/order/{order}', [\App\Http\Controllers\Admin\AdminOrderController::class, 'update'])->name('admin.order.update');
+
+    Route::get('privacy-policy', [PrivacyPolicyController::class, 'index'])->name('privacy-policy.index');
+    Route::post('privacy-policy', [PrivacyPolicyController::class, 'update'])->name('privacy-policy.update');
 
 });
 

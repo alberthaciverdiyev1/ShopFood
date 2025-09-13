@@ -95,9 +95,12 @@
                             Edit
                         </a>
 
-                        <form action="" method="POST" style="display: inline;" onsubmit="return confirm('Bu istifadəçini silmək istədiyinizdən əminsiniz?')">
+                            <a href="{{route('user.details',['id'=>$user->id])}}" class="bg-orange-500 hover:bg-orange-500 text-white px-3 py-1 rounded text-sm">
+                                Show
+                            </a>
+
+                        <form action="{{route('users.delete',['id'=>$user->id])}}" method="POST" style="display: inline;" onsubmit="return confirm('Bu istifadəçini silmək istədiyinizdən əminsiniz?')">
                             @csrf
-                            @method('DELETE')
                             <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
                                 Delete
                             </button>
