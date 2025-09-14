@@ -6,10 +6,11 @@ export default defineConfig({
     plugins: [
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js',
-                'resources/css/home.css', 'resources/js/home.js'
+                'resources/css/home.css', 'resources/js/home.js', 'resources/js/profile.js'
             ],
             refresh: true,
         }),
         tailwindcss(),
     ],
+    base: '/build/',
 });
