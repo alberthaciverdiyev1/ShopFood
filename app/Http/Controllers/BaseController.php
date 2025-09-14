@@ -10,7 +10,7 @@ class BaseController extends Controller
     public function changeLocale(Request $request)
     {
         $request->validate([
-            'locale' => ['required', 'in:az,ru,en'],
+            'locale' => ['required', 'in:cz,en'],
         ]);
 
         session(['app-locale' => $request->input('locale')]);

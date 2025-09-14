@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ class BasketController extends Controller
     public function basket()
     {
         $user = Auth::user();
+        $addresses = Address::where('user_id', auth()->user()->id)->get();
 
         $basket = $user->basket()
             ->orderBy('created_at', 'desc')
@@ -37,7 +39,7 @@ class BasketController extends Controller
         });
         $data = $basketWithData->toArray();
         return view('basket',
-            ['basket' => $data, "products" => $apiProducts]);
+            ['basket' => $data, "products" => $apiProducts, 'addresses' => $addresses]);
     }
 
     /**

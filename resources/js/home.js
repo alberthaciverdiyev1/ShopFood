@@ -15,7 +15,7 @@ openModalButtons.forEach(button => {
         const image = button.dataset.image;
         const description = button.dataset.description;
         const modalProductId = button.dataset.id;
-        const basket = button.dataset.basket;
+        const basket = +button.dataset.basket;
         console.log(button.dataset.basket);
         console.log(basket)
 
@@ -60,15 +60,19 @@ addButton.addEventListener('click', function() {
                 addButton.dataset.basket = '0';
                 addButton.textContent = 'Add to Basket';
                 addButton.style.backgroundColor = '';
+
+                // Kart üzerindeki data-basket güncelle
+                document.querySelector(`[data-id="${productId}"]`).dataset.basket = '0';
             } else {
                 addButton.dataset.basket = '1';
                 addButton.textContent = 'Remove from Basket';
                 addButton.style.backgroundColor = 'orange';
-            }
 
-            // İsteğe bağlı: Sepet sayısı veya toplam fiyatı güncelle
-            // updateBasketUI(data);
+                // Kart üzerindeki data-basket güncelle
+                document.querySelector(`[data-id="${productId}"]`).dataset.basket = '1';
+            }
         })
+
         .catch(error => {
             console.error('Error:', error);
         });

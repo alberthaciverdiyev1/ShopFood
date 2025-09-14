@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Address;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -46,7 +47,7 @@ class OrderController extends Controller
             ];
 
         });
-return response()->json($ordersWithData);
+        return response()->json($ordersWithData);
         return view('orders', [
             'orders' => $ordersWithData,
             'products' => $apiProducts,
@@ -110,7 +111,6 @@ return response()->json($ordersWithData);
 
         foreach ($user->basket as $basketItem) {
             $product = collect($apiProducts)->firstWhere('id', $basketItem->product_id);
-
             if (!$product) {
                 return response()->json([
                     'success' => 404,
@@ -118,7 +118,7 @@ return response()->json($ordersWithData);
                 ], 404);
             }
 
-            $price = $product['price'] ?? 0;
+            $price = $product['cenaZaklVcDph'] ?? 0;
             $quantity = $basketItem->quantity ?? 1;
             $total = $price * $quantity;
 
@@ -126,26 +126,25 @@ return response()->json($ordersWithData);
 
             $orderItems[] = [
                 'product_id' => $basketItem->product_id,
-                'quantity'   => $quantity,
-                'price'      => $price,
-                'total'      => $total,
-            ];
+                'quantity' => $quantity,
+                'price' => $price,
+                'total' => $total,
+                ];
         }
 
         $order = \App\Models\Order::create([
-            'user_id'        => $user->id,
-            'order_number'   => strtoupper(uniqid("ORD-", true)),
-            'status'         => 'pending',
-            'address'        => $request->input('address'),
+            'user_id' => $user->id,
+            'order_number' => strtoupper(uniqid("ORD-", true)),
+            'status' => 'pending',
+            'address' => $request->input('address'),
             'payment_method' => $request->input('payment'),
-            'note_to_admin'  => $request->input('noteToAdmin'),
+            'note_to_admin' => $request->input('noteToAdmin'),
+            'total_price' => $totalPrice,
         ]);
-
         foreach ($orderItems as $orderItem) {
             $order->items()->create($orderItem);
         }
 
-        // səbəti təmizləyirik
         $user->basket()->delete();
 
         return response()->json([
@@ -154,8 +153,6 @@ return response()->json($ordersWithData);
             'order_id' => $order->id,
         ]);
     }
-
-
 
 
     public function delete(int $orderId): JsonResponse
@@ -173,5 +170,17 @@ return response()->json($ordersWithData);
             'message' => __('Order deleted successfully.'),
         ]);
     }
+
+    public function details(int $id)
+    {
+        $order = Order::with(['items', 'user'])->findOrFail($id);
+
+        $address = Address::find($order->address);
+
+        $order->address = $address;
+        return view('admin.order.details', compact('order'));
+    }
+
+
 
 }

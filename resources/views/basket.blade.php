@@ -74,12 +74,17 @@
                     </div>
 
                     <div class="mt-4">
-                        <select name="address" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-400">
-                            <option>Адрес</option>
-                            <option value="Baku - Nizami 12">Baku - Nizami 12</option>
-                            <option value="Baku - 28 May">Baku - 28 May</option>
+                        <select name="address"
+                                class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-400">
+                            <option value="">Адрес</option>
+                            @foreach($addresses as $addr)
+                                <option value="{{ $addr->id }}" {{ $addr->is_default ? 'selected' : '' }}>
+                                    {{ $addr->title ?? '' }} - {{ $addr->street ?? '' }}
+                                </option>
+                            @endforeach
                         </select>
                     </div>
+
                     <div class="mt-4">
                         <select name="payment" class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-1 focus:ring-gray-400">
                             <option value="cash">Cash</option>

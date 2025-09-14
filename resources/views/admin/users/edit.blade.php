@@ -1,7 +1,7 @@
 @extends('admin.dashboard.dashboard')
 
 @section('content')
-    <div class="max-w-5xl mx-auto py-10">
+    <div class="max-w-full mx-auto py-10">
         <div class="bg-white shadow rounded-lg p-6">
             <h2 class="text-2xl font-bold mb-6">Edit User</h2>
 

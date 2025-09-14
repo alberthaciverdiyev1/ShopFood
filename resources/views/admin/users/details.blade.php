@@ -27,7 +27,7 @@
                     @foreach($user->orders as $order)
                         <tr class="hover:bg-gray-50">
                             <td class="px-6 py-3">{{ $order->id }}</td>
-                            <td class="px-6 py-3">{{ $order->status->name ?? 'N/A' }}</td>
+                            <td class="px-6 py-3">{{ $order->status ?? 'N/A' }}</td>
                             <td class="px-6 py-3">{{ $order->created_at->format('Y-m-d') }}</td>
                             <td class="px-6 py-3 text-center">
                                 <a href="{{ route('admin.orders.show', $order->id) }}"

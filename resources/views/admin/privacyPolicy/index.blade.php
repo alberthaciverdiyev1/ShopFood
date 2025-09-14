@@ -1,7 +1,7 @@
 @extends('admin.dashboard.dashboard')
 
 @section('content')
-    <div class="max-w-3xl mx-auto py-10">
+    <div class="max-w-full mx-auto py-10">
         <div class="bg-white shadow rounded-lg p-6">
             <form method="POST" action="#">
                 @csrf

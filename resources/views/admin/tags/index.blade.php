@@ -1,7 +1,7 @@
 @extends('admin.dashboard.dashboard')
 
 @section('content')
-    <div class="max-w-6xl mx-auto py-10">
+    <div class="max-w-full mx-auto py-10">
         <div class="bg-white shadow rounded-lg p-6">
             {{-- Başlık ve Ekle Butonu --}}
             <div class="flex justify-between items-center mb-6">

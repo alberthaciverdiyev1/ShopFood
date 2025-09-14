@@ -1,10 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-md">
-
+    <div class="max-w-5xl mx-auto  p-6 rounded-lg ">
         <h2 class="text-2xl font-semibold mb-6 text-[#331111]">İstifadəçi Məlumatları</h2>
-
+        <input type="hidden" id="user_id" value="{{ auth()->user()->id }}">
         @php
             $user = auth()->user();
         @endphp
@@ -43,7 +42,7 @@
             </button>
         </div>
 
-        <!-- Tabs Content -->
+        <!-- My Data -->
         <div id="tab-data" class="tab-content space-y-4">
             <form class="space-y-4" action="{{ route('profile.update',['id'=>$user->id]) }}" method="POST">
                 @csrf
@@ -87,16 +86,12 @@
                     </div>
                 @endforeach
 
-                <!-- Şifrə -->
-                <div>
-                    {{--                <label class="block text-gray-700 font-medium mb-1">Şifrə</label>--}}
-                    {{--                <input type="password" value="********" class="w-full border border-gray-300 rounded-md px-3 py-2 bg-gray-100 cursor-not-allowed" readonly>--}}
-                    <div class="text-right mt-1">
-                        <button type="button" onclick="openModal()"
-                                class="text-[#F6A833] underline text-sm hover:text-[#947D5B] transition">
-                            Forgot password?
-                        </button>
-                    </div>
+                <!-- Password -->
+                <div class="text-right mt-1">
+                    <button type="button" onclick="openModal()"
+                            class="text-[#F6A833] underline text-sm hover:text-[#947D5B] transition">
+                        Forgot password?
+                    </button>
                 </div>
 
                 <!-- Save form -->
@@ -109,18 +104,70 @@
             </form>
         </div>
 
-        <!-- Company Addresses tab -->
-        <div id="tab-company" class="tab-content hidden">
-            <!-- Burada Company Addresses məlumatlarını əlavə et -->
-            <p class="text-gray-500">Company Addresses content goes here.</p>
+        <!-- Company Addresses -->
+        <div id="tab-company" class="tab-content hidden space-y-5">
+            <div class="flex items-center">
+                <label class="w-56 text-gray-800">Title</label>
+                <div class="flex-1 relative">
+                    <input id="address-title" type="text"
+                           class="w-full border border-gray-300 rounded-md py-2.5 px-4 pr-8"/>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <label class="w-56 text-gray-800">Street, house</label>
+                <div class="flex-1 relative">
+                    <input id="address-street" type="text"
+                           class="w-full border border-gray-300 rounded-md py-2.5 px-4 pr-8"/>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <label class="w-56 text-gray-800">Index</label>
+                <div class="flex-1 relative">
+                    <input id="address-zip" type="text"
+                           class="w-full border border-gray-300 rounded-md py-2.5 px-4 pr-8"/>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <label class="w-56 text-gray-800">City</label>
+                <div class="flex-1 relative">
+                    <input id="address-city" type="text"
+                           class="w-full border border-gray-300 rounded-md py-2.5 px-4 pr-8"/>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <label class="w-56 text-gray-800">Working hours</label>
+                <div class="flex-1 relative">
+                    <input id="address-working-hours" type="text"
+                           class="w-full border border-gray-300 rounded-md py-2.5 px-4 pr-8"/>
+                </div>
+            </div>
+
+            <div class="flex items-center">
+                <label class="w-56 text-gray-800">Default?</label>
+                <input id="address-default" type="checkbox" class="w-5 h-5 ml-2"/>
+            </div>
+
+            <div class="mt-4">
+                <button id="addAddressBtn"
+                        class="bg-[#F6A833] text-white px-4 py-2 rounded-md hover:bg-[#947D5B] transition">
+                    Add Address
+                </button>
+            </div>
+
+            <div class="mt-8">
+                <h2 class="text-xl font-semibold mb-4">My addresses</h2>
+                <div id="addressesContainer" class="space-y-4">
+                    <p class="text-gray-500">Loading addresses...</p>
+                </div>
+            </div>
         </div>
 
-        <!-- Order History tab -->
+        <!-- Order History -->
         <div id="tab-orders" class="tab-content hidden">
-            <!-- Burada Order History məlumatlarını əlavə et -->
-            <p class="text-gray-500">Order History content goes here.</p>
+            <div id="ordersContainer" class="overflow-x-auto">
+                <p class="text-gray-600">Loading orders...</p>
+            </div>
         </div>
-
     </div>
 
     <!-- Modal -->
@@ -134,10 +181,215 @@
             </button>
         </div>
     </div>
-
 @endsection
 
 @section('scripts')
     @vite('resources/js/profile.js')
-@endsection
 
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const buttons = document.querySelectorAll(".tab-btn");
+            const contents = document.querySelectorAll(".tab-content");
+
+            buttons.forEach(btn => {
+                btn.addEventListener("click", () => {
+                    buttons.forEach(b => {
+                        b.classList.remove("bg-[#FAD399]", "active");
+                        b.classList.add("bg-white");
+                    });
+
+                    contents.forEach(c => c.classList.add("hidden"));
+
+                    btn.classList.remove("bg-white");
+                    btn.classList.add("bg-[#FAD399]", "active");
+
+                    const tab = btn.dataset.tab;
+                    document.getElementById("tab-" + tab).classList.remove("hidden");
+                });
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            fetch("/order", {
+                headers: {
+                    "Accept": "application/json",
+                    "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    const container = document.getElementById("ordersContainer");
+                    container.innerHTML = "";
+
+                    if (!data || data.length === 0) {
+                        container.innerHTML = `<p class="text-gray-600">You have no orders yet.</p>`;
+                        return;
+                    }
+
+                    let html = `
+                <table class="min-w-full border border-gray-200 rounded-lg">
+                    <thead class="bg-gray-100 text-gray-700 text-sm">
+                        <tr>
+                            <th class="px-4 py-2 text-left">Order #</th>
+                            <th class="px-4 py-2 text-left">Date</th>
+                            <th class="px-4 py-2 text-left">Status</th>
+                            <th class="px-4 py-2 text-left">Items</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm text-gray-700">
+            `;
+
+                    data.forEach(order => {
+                        let itemsHtml = order.items.map(item => `
+                    <div class="flex items-center gap-2 py-1 border-b last:border-0">
+                        <img src="${item.product.images[0]}" alt="${item.product.nazev}" class="w-10 h-10 object-cover rounded">
+                        <div>
+                            <p class="font-medium">${item.product.nazev}</p>
+                            <p class="text-xs text-gray-500">x${item.quantity}</p>
+                        </div>
+                    </div>
+                `).join("");
+
+                        html += `
+                    <tr class="border-t hover:bg-gray-50">
+                        <td class="px-4 py-2 font-medium">${order.order_number}</td>
+                        <td class="px-4 py-2">${new Date(order.created_at).toLocaleString()}</td>
+                        <td class="px-4 py-2">
+                            <span class="px-2 py-1 rounded-full text-xs
+                                ${order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                            order.status === 'completed' ? 'bg-green-100 text-green-800' :
+                                'bg-red-100 text-red-800'}">
+                                ${order.status}
+                            </span>
+                        </td>
+                        <td class="px-4 py-2">
+                            ${itemsHtml}
+                        </td>
+                    </tr>
+                `;
+                    });
+
+                    html += `</tbody></table>`;
+                    container.innerHTML = html;
+                })
+                .catch(err => {
+                    console.error("Order fetch error:", err);
+                    document.getElementById("ordersContainer").innerHTML =
+                        `<p class="text-red-600">Failed to load orders.</p>`;
+                });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addressContainer = document.getElementById("addressesContainer");
+            const addBtn = document.getElementById("addAddressBtn");
+
+            function loadAddresses() {
+                fetch("/addresses", {
+                    headers: {"Accept": "application/json"}
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        addressContainer.innerHTML = "";
+
+                        if (!data || data.length === 0) {
+                            addressContainer.innerHTML = `<p class="text-gray-500">No addresses found.</p>`;
+                            return;
+                        }
+
+                        data.forEach(addr => {
+                            addressContainer.innerHTML += `
+                                <div class="flex items-start justify-between gap-4 p-4 rounded-md border border-gray-200 bg-gray-50">
+                                    <div class="flex gap-3">
+                                        <!-- Icon -->
+                                        <div class="w-12 h-12 flex items-center justify-center rounded-full bg-[#FAD399] text-white mt-3 mr-3">
+                                            <i class="fas fa-map-marker-alt text-2xl"></i>
+                                        </div>
+                                        <!-- Address info -->
+                                        <div>
+                                            <p class="font-semibold">${addr.title ?? (addr.city ?? '')}</p>
+                                            <p class="font-semibold">${addr.city ?? ''}, ${addr.street ?? ''}</p>
+                                            <p class="text-sm text-gray-600">Hours: ${addr.working_hours ?? '-'}</p>
+                                            ${addr.is_default ? `<span class="text-xs text-green-600">Default</span>` : ""}
+                                        </div>
+                                    </div>
+                                    <button onclick="deleteAddress(${addr.id})"
+                                        class="text-red-500 hover:text-red-700">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            `;
+
+                        });
+                    })
+                    .catch(err => {
+                        console.error("Address fetch error:", err);
+                        addressContainer.innerHTML = `<p class="text-red-600">Failed to load addresses.</p>`;
+                    });
+            }
+
+            addBtn.addEventListener("click", () => {
+                const title = document.getElementById("address-title").value;
+                const street = document.getElementById("address-street").value;
+                const city = document.getElementById("address-city").value;
+                const zip = document.getElementById("address-zip").value;
+                const workingHours = document.getElementById("address-working-hours").value;
+                const isDefault = document.getElementById("address-default").checked;
+
+                fetch("/addresses", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        title: title,
+                        street: street,
+                        city: city,
+                        zip: zip,
+                        working_hours: workingHours,
+                        is_default: isDefault
+                    })
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.address) {
+                            loadAddresses();
+                            document.getElementById("address-title").value = "";
+                            document.getElementById("address-street").value = "";
+                            document.getElementById("address-city").value = "";
+                            document.getElementById("address-zip").value = "";
+                            document.getElementById("address-working-hours").value = "";
+                            document.getElementById("address-default").checked = false;
+                        } else {
+                            alert("Failed to add address");
+                        }
+                    })
+                    .catch(err => console.error("Address add error:", err));
+            });
+
+            // Ünvan sil
+            window.deleteAddress = function (id) {
+                if (!confirm("Are you sure you want to delete this address?")) return;
+
+                fetch(`/addresses/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+                        "Accept": "application/json"
+                    }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        loadAddresses();
+                    })
+                    .catch(err => console.error("Delete error:", err));
+            };
+
+            // İlk yükləmə
+            loadAddresses();
+        });
+
+    </script>
+@endsection

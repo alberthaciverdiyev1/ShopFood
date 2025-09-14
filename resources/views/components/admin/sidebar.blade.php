@@ -45,6 +45,12 @@
             <i class="fa-solid fa-tag text-lg"></i>
             <span>Tag</span>
         </a>
+        <!-- Banner -->
+        <a href="{{route('banners.index')}}"
+           class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">
+            <i class="fa-solid fa-image text-lg"></i>
+            <span>Banner</span>
+        </a>
 
         <a href="{{route('privacy-policy.index')}}"
            class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-[var(--text-grey)] hover:text-black relative border-l-4 border-transparent">

@@ -5,12 +5,15 @@
 @source '../**/*.blade.php';
 @source '../**/*.js';
 
+/*@theme {*/
+/*    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',*/
+/*        'Segoe UI Symbol', 'Noto Color Emoji';*/
+/*}*/
+
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: 'Roboto', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
 }
-
-
 :root {
     --color-primary: #F6A833;
     --color-secondary: #947D5B;
@@ -74,16 +77,16 @@ body{
 /* } */
 
 .scroll-thin::-webkit-scrollbar {
-    width: 6px; 
+    width: 6px;
 }
 
 .scroll-thin::-webkit-scrollbar-thumb {
-    background-color: rgba(0,0,0,0.3); 
+    background-color: rgba(0,0,0,0.3);
     border-radius: 3px;
 }
 
 .scroll-thin::-webkit-scrollbar-track {
-    background-color: transparent; 
+    background-color: transparent;
 }
 
 
@@ -102,11 +105,11 @@ body{
     position: absolute;
     opacity: 0;
   }
-    
+
   .checkbox-wrapper-23 input:checked + label svg path {
     stroke-dashoffset: 0;
   }
-    
+
   .checkbox-wrapper-23 input:focus + label {
     transform: scale(1.03);
   }
@@ -120,19 +123,19 @@ body{
     cursor: pointer;
     transition: all .2s ease;
   }
-    
+
   .checkbox-wrapper-23 input + label:active {
     transform: scale(1.05);
     border-radius: 12px;
   }
-    
+
   .checkbox-wrapper-23 input + label svg {
     pointer-events: none;
     padding: 5%;
   }
 
-  .checkbox-wrapper-23 input + label svg path {      
-    fill: none;     
+  .checkbox-wrapper-23 input + label svg path {
+    fill: none;
     stroke: #333;
     stroke-width: 4px;
     stroke-linecap: round;

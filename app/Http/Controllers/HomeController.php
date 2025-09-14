@@ -12,7 +12,17 @@ class HomeController extends Controller
     {
         $products = products();
 
-        $banners = Banner::query()->where('is_active', 1)->get();
+        $locale = session('app-locale', 'en');
+
+        $banners = Banner::query()
+            ->where('is_active', 1)
+            ->get()
+            ->map(function($banner) use ($locale) {
+                $banner->title = $banner->{'title_' . $locale} ?? $banner->title_en;
+                $banner->subtitle = $banner->{'subtitle_' . $locale} ?? $banner->subtitle_en;
+                return $banner;
+            });
+
         $favoriteIds = auth()->user()
             ->favorites()
             ->pluck('product_id')
@@ -20,6 +30,7 @@ class HomeController extends Controller
 
         return view('home', compact('products', 'banners','favoriteIds'));
     }
+
 
     public function welcome()
     {

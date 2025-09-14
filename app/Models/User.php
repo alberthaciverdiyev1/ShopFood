@@ -37,8 +37,9 @@ class User extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class)->latest();
     }
+
     public function favorites()
     {
         return $this->hasMany(Favorite::class);
@@ -46,5 +47,9 @@ class User extends Authenticatable
     public function basket()
     {
         return $this->hasMany(Basket::class);
+    }
+    public function address()
+    {
+        return $this->hasMany(Address::class);
     }
 }

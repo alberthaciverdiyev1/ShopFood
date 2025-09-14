@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->decimal('total_price', 10, 2)->default(0)   ;
 
             $table->string('order_number')->unique();
             $table->decimal('shipping_cost', 10, 2)->default(0);

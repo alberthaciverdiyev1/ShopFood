@@ -35,4 +35,10 @@ class PrivacyPolicyController extends Controller
 
         return redirect()->route('privacy-policy.index')->with('success', 'Privacy policy updated successfully.');
     }
+
+    public function privacyPolicyHome()
+    {
+        $policy = PrivacyPolicy::first();
+        return view('privacy_policy.index', compact('policy'));
+    }
 }

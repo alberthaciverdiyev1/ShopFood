@@ -31,8 +31,7 @@ Route::middleware([LocaleMiddleware::class])->group(function () {
         ->middleware('auth');
 
     Route::get('/welcome', [HomeController::class, 'welcome'])->name('welcome');
-    Route::post('change-locale', [\App\Http\Controllers\BaseController::class, 'changeLocale'])
-        ->name('change-locale');
+    Route::post('change-locale', [\App\Http\Controllers\BaseController::class, 'changeLocale'])->name('change-locale');
 });
 Route::get('/list', [ListController::class, 'list'])->name('list')->middleware('auth');
 
@@ -43,6 +42,8 @@ require 'orderRoute.php';
 require 'tagRoute.php';
 require 'currencyRoute.php';
 require 'settingRoute.php';
+require 'addressRoute.php';
+require 'bannerRoute.php';
 
 
 Route::post('/users/{id}', [AuthController::class, 'update'])->name('profile.update');
@@ -71,10 +72,4 @@ Route::prefix('admin')->prefix('favorites')->middleware('auth')->group(function 
     Route::get('/list/ajax', [FavoriteController::class, 'listAjax'])->name('favorites.list.ajax');
     Route::post('/add/{productId}', [FavoriteController::class, 'add'])->name('favorites.add');
     Route::delete('/delete/{productId}', [FavoriteController::class, 'delete'])->name('favorites.delete');
-});
-// Activation
-Route::get('/activate/{id}', function ($id) {
-    $user = \App\Models\User::findOrFail($id);
-    $user->update(['is_active' => 1, 'is_send_email' => 2]); // 2 → aktivləşdirildi
-    return "Hesab aktivləşdirildi!";
 });

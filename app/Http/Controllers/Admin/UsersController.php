@@ -89,7 +89,8 @@ class UsersController extends Controller
     public function showResetForm(Request $request, $token)
     {
         $email = $request->query('email');
-        return view('auth.reset_password', compact('token', 'email'));
+        $hideNavbar = true;
+        return view('auth.reset_password', compact('token', 'email', 'hideNavbar'));
     }
 
     public function resetPassword(Request $request)
@@ -109,10 +110,9 @@ class UsersController extends Controller
                 $user->save();
             }
         );
-
-        return $status === Password::PASSWORD_RESET
+        return $status == Password::PASSWORD_RESET
             ? redirect()->route('login')->with('success', 'Password has been reset!')
-            : back()->withErrors(['email' => [__($status)]]);
+                : back()->withErrors(['email' => [__($status)]]);
     }
 
     // Delete user
