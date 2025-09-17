@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\{Admin\ExchangeRateController,
+use App\Http\Controllers\{
+    Admin\ExchangeRateController,
     Admin\TagController,
     AuthController,
     BasketController,
@@ -12,6 +13,7 @@ use App\Http\Controllers\{Admin\ExchangeRateController,
 };
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\UsersInfoController;
 use App\Http\Middleware\LocaleMiddleware;
@@ -59,11 +61,12 @@ Route::prefix('admin')->group(function () {
 
     require 'userRoute.php';
 
+     Route::get('/products', [ProductsController::class, 'index'])->name('admin.products.index');
+
     Route::get('/order', [\App\Http\Controllers\Admin\AdminOrderController::class, 'adminList'])->name('admin.order');
     Route::post('/order/{order}', [\App\Http\Controllers\Admin\AdminOrderController::class, 'update'])->name('admin.order.update');
 
     require 'privacyRoute.php';
-
 });
 
 
@@ -72,4 +75,5 @@ Route::prefix('admin')->prefix('favorites')->middleware('auth')->group(function 
     Route::get('/list/ajax', [FavoriteController::class, 'listAjax'])->name('favorites.list.ajax');
     Route::post('/add/{productId}', [FavoriteController::class, 'add'])->name('favorites.add');
     Route::delete('/delete/{productId}', [FavoriteController::class, 'delete'])->name('favorites.delete');
+   
 });

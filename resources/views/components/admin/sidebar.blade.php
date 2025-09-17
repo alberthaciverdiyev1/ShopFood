@@ -1,4 +1,4 @@
-<aside class="w-72 h-screen bg-white shadow-md flex flex-col">
+<aside class="w-72 h-screen bg-white shadow-md flex flex-col h-min-screen ">
     <div class="p-6">
         <h1 class="text-2xl font-bold text-[var(--text-color)]">Admin Panel</h1>
     </div>
@@ -12,7 +12,7 @@
         </a>
 
         <!-- Products (active example) -->
-        <a href="{{ asset(path:'/admin/dashboard') }}"
+        <a href="{{ asset(path:'/admin/products') }}"
            class="flex items-center gap-3 py-4 px-5 rounded-lg text-[15px] text-black font-medium relative border-l-4 border-[var(--color-primary)] bg-white">
             <i class="fa-solid fa-box text-lg"></i>
             <span>Products</span>
