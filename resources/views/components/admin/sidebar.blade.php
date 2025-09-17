@@ -1,5 +1,6 @@
-<aside class="w-72 h-screen bg-white shadow-md flex flex-col h-min-screen ">
-    <div class="p-6">
+<aside class="w-72 h-screen  shadow-md flex flex-col h-min-screen ">
+    <div class="fixed bg-white w-72 h-full">
+       <div class="p-6">
         <h1 class="text-2xl font-bold text-[var(--text-color)]">Admin Panel</h1>
     </div>
 
@@ -76,6 +77,8 @@
                 <span>Logout</span>
             </button>
         </form>
+    </div>   
     </div>
+      
 
 </aside>
