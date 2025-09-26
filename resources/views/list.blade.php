@@ -103,17 +103,17 @@
                 <div class="flex items-center bg-[#EFEFEF] rounded-lg p-4">
                     {{-- Image --}}
                     <div class="w-28 h-32 flex-shrink-0">
-                        <img src="{{ $product['images'][0] }}"
-                             alt="{{ $product['nazev'] }}"
+                        <img src="{{ $product['media'][0]['url']}}"
+                             alt="{{ $product['name'] }}"
                              class="w-full h-full object-contain rounded-md">
                     </div>
 
                     {{-- Info --}}
                     <div class="flex-1 ml-4 text-gray-800">
-                        <h2 class="font-semibold text-lg mb-2">{{ $product['nazev'] }}</h2>
+                        <h2 class="font-semibold text-lg mb-2">{{ $product['name'] }}</h2>
 
                         <div class="text-[14px] text-gray-600 leading-relaxed">
-                            <p>SKU: {{$product['kod']}}</p>
+                            <p>SKU: {{$product['code']}}</p>
                             <p>Warennummer: 090203000</p>
                             <p>Inhalt: 150 g</p>
                             <p>Im Karton: 9 Pack</p>
@@ -150,11 +150,11 @@
 
 
                         <p class="text-2xl text-red-500 font-bold mt-3">
-                            {{ number_format($product['cenaZaklVcDph'], 2) }}
+                            {{ number_format($product['price_with_vat'], 2) }}
                         </p>
                         <div class="mt-2 text-sm text-gray-800">
                             <p><strong>Выбрано:</strong> 5</p>
-                            <p><strong>Сумма:</strong> {{ number_format($product['cenaZaklVcDph'] * 5, 2) }}</p>
+                            <p><strong>Сумма:</strong> {{ number_format($product['price_with_vat'] * 5, 2) }}</p>
                         </div>
                     </div>
                 </div>

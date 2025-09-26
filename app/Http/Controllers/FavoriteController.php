@@ -22,7 +22,7 @@ class FavoriteController extends Controller
         $apiProducts = products();
 
         $favoritesWithData = $favorites->map(function ($fav) use ($apiProducts) {
-            $productData = collect($apiProducts)->firstWhere('id', $fav->product_id);
+            $productData = collect($apiProducts)->firstWhere('code', $fav->product_id);
             return [
                 'product_id' => $fav->product_id,
                 'product' => $productData,
@@ -62,12 +62,12 @@ class FavoriteController extends Controller
     /**
      * Add product to favorites
      */
-    public function add(int $productId): JsonResponse
+    public function add(string $productId): JsonResponse
     {
         $user = Auth::user();
 
         $apiProducts = products();
-        $productData = collect($apiProducts)->firstWhere('id', $productId);
+        $productData = collect($apiProducts)->firstWhere('code', $productId);
 
         if (!$productData) {
             return response()->json([
@@ -91,7 +91,7 @@ class FavoriteController extends Controller
     /**
      * Remove product from favorites
      */
-    public function delete(int $productId): JsonResponse
+    public function delete(string $productId): JsonResponse
     {
         $user = Auth::user();
 

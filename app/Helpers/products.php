@@ -1,106 +1,102 @@
 <?php
-
+use App\Models\Product;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use GuzzleHttp\Client;
 
 if (!function_exists('products')) {
     function products(Request $request = null)
     {
         try {
-            $flexibeeClient = new Client();
+            $pricesResponse = Http::withBasicAuth('shopify_integration2', 'Salam123!')
+                ->withoutVerifying()
+                ->get('https://shop-food.flexibee.eu/c/shop_food_s_r_o_/cenik.json', [
+                    'limit'     => 10,
+                    'detail'    => 'full',
+                    'relations' => 'prilohy'
+                ]);
 
-            $url = 'https://shop-food.flexibee.eu/c/shop_food_s_r_o_/cenik.json';
+            $prices = $pricesResponse->json('winstrom.cenik') ?? [];
 
-            $response = $flexibeeClient->get($url, [
-                'auth' => ['shopify_integration2', 'Salam123!'],
-                'headers' => ['Accept' => 'application/json'],
-                'verify' => false
-            ]);
+            $inserted = [];
 
-            $flexibeeData = json_decode($response->getBody()->getContents(), true);
-            $products = $flexibeeData["winstrom"]["cenik"] ?? [];
+            foreach ($prices as $priceData) {
 
-            $shopifyClient = new Client([
-                'base_uri' => 'https://your-shop-name.myshopify.com/admin/api/2025-01/',
-                'auth' => ['shopify_api_key', 'shopify_password']
-            ]);
-
-            foreach ($products as &$product) {
-//                $product['images'] = [];
-                $product['images'] = [
-                    'https://shopfood.cz/cdn/shop/files/9434896138547-0.png?v=1756723347&width=1946'
-                ];
-                $product['description'] = 'Sample product description';
-
-                $productId = null;
-                if (!empty($product['external-ids'])) {
-                    foreach ($product['external-ids'] as $extId) {
-                        if (strpos($extId, 'productId') !== false) {
-                            // ext:productId{{gid://shopify/Product/14863446606197}}
-                            preg_match('/\d+$/', $extId, $matches);
-                            if (!empty($matches[0])) {
-                                $productId = $matches[0];
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if ($productId) {
+                $productMedia = [];
+                foreach ($priceData['prilohy'] ?? [] as $m) {
+                    $url = "https://shop-food.flexibee.eu/c/shop_food_s_r_o_/priloha/{$m['id']}/content";
                     try {
-                        $shopifyResponse = $shopifyClient->get("products/{$productId}/images.json");
-                        $shopifyData = json_decode($shopifyResponse->getBody()->getContents(), true);
+                        $contents = Http::withBasicAuth('shopify_integration2', 'Salam123!')
+                            ->withoutVerifying()
+                            ->get($url)
+                            ->body();
 
-                        if (!empty($shopifyData['images'])) {
-                            foreach ($shopifyData['images'] as $img) {
-                                $product['images'][] = $img['src'];
-                            }
-                        }
+                        $ext = pathinfo($m['nazev'] ?? 'file.jpg', PATHINFO_EXTENSION) ?: 'jpg';
+                        $filename = 'products/' . $m['id'] . '.' . $ext;
+
+                        Storage::disk('public')->put($filename, $contents);
+
+                        $productMedia[] = [
+                            'path' => $filename,
+                            'url'  => Storage::url($filename)
+                        ];
 
                     } catch (\Exception $e) {
-                        Log::error("Shopify images fetch error for product {$productId}: " . $e->getMessage());
-                        $product['images'] = [];
+                        Log::error("Media download failed for {$url}: " . $e->getMessage());
                     }
                 }
+
+                $warehouses = collect($priceData['odberatele'] ?? [])
+                    ->map(fn($w) => [
+                        'id'       => $w['id'] ?? null,
+                        'name'     => $w['stredisko@showAs'] ?? null,
+                        'currency' => $w['mena@showAs'] ?? null,
+                        'price'    => $w['prodejCena'] ?? null,
+                    ])->values()->toArray();
+
+                $code = str_replace('code:', '', $priceData['kod'] ?? '');
+
+                $product = Product::updateOrCreate(
+                    ['code' => $code],
+                    [
+                        'name'               => $priceData['nazev'] ?? $code,
+                        'name_alt_a'         => $priceData['nazevA'] ?? null,
+                        'name_alt_b'         => $priceData['nazevB'] ?? null,
+                        'name_alt_c'         => $priceData['nazevC'] ?? null,
+                        'description'        => $priceData['popis'] ?? null,
+                        'notes'              => $priceData['poznam'] ?? null,
+                        'barcode'            => $priceData['eanKod'] ?? null,
+                        'price_with_vat'     => $priceData['cenaZaklVcDph'] ?? null,
+                        'price_without_vat'  => $priceData['cenaZaklBezDph'] ?? null,
+                        'vat_rate'           => $priceData['szbDph'] ?? null,
+                        'purchase_price'     => $priceData['nakupCena'] ?? null,
+                        'unit'               => $priceData['mj1@showAs'] ?? null,
+                        'weight_unit'        => $priceData['mjHmot@showAs'] ?? null,
+                        'stock_total'        => $priceData['sumStavMj'] ?? 0,
+                        'stock_reserved'     => $priceData['sumRezerMj'] ?? 0,
+                        'stock_available'    => $priceData['sumDostupMj'] ?? 0,
+                        'is_stocked'         => $priceData['skladove'] ?? true,
+                        'category'           => $priceData['skupZboz@showAs'] ?? null,
+                        'country'            => $priceData['stat@showAs'] ?? null,
+                        'tags'               => array_filter(explode(',', $priceData['stitky'] ?? '')),
+                        'expiry_tracked'     => filter_var($priceData['evidExpir'] ?? false, FILTER_VALIDATE_BOOLEAN),
+                        'attachments_count'  => $priceData['pocetPriloh'] ?? 0,
+                        'external_ids'       => $priceData['external-ids'] ?? [],
+                        'media'              => $productMedia,
+                        'warehouses'         => $warehouses,
+                    ]
+                );
+
+                $inserted[] = $product;
             }
 
-
-            return $products;
-
-        } catch (\Exception $e) {
-            Log::error('Products helper error: ' . $e->getMessage());
-
-            return [
-                'success' => false,
-                'message' => $e->getMessage()
-            ];
-        }
-    }
-}
-if (!function_exists('categories')) {
-    function categories(Request $request = null)
-    {
-        try {
-            $client = new Client();
-
-            $url = 'https://shop-food.flexibee.eu/c/shop_food_s_r_o_/kategorie.json'; // Örnek kategori endpoint
-
-            $response = $client->get($url, [
-                'auth' => ['shopify_integration2', 'Salam123!'], // Basic Auth
-                'headers' => ['Accept' => 'application/json'],
-                'verify' => false
-            ]);
-
-            $data = json_decode($response->getBody()->getContents(), true);
-
-            return $data['winstrom']['kategorie'] ?? [];
+            return $inserted;
 
         } catch (\Exception $e) {
-            Log::error('Categories helper error: ' . $e->getMessage());
-
+            Log::error('Flexibee fetch/insert error: ' . $e->getMessage());
             return [
-                'success' => false,
+                'error'   => true,
                 'message' => $e->getMessage()
             ];
         }

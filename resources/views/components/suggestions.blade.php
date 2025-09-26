@@ -8,16 +8,16 @@
         @foreach($products as $product)
             <div
                 class="card openModal relative bg-white rounded-3xl p-4 flex flex-col items-center text-center shadow-md hover:shadow-lg transition duration-300"
-                data-id="{{ $product['id'] }}"
-                data-title="{{ $product['nazev'] }}"
-                data-price="{{ $product['cenaZaklVcDph'] }}"
-                data-image="{{ $product['images'][0]}}"
+                data-id="{{ $product['code'] }}"
+                data-title="{{ $product['name'] ?? $product['name_alt_a'] }}"
+                data-price="{{ $product['price_with_vat'] }}"
+                data-image="{{ $product['media'][0]['url']}}"
                 data-description="{{ $product['description'] }}"
-                data-basket="{{Auth::user()->basket->where('product_id', $product['id'])->first() ? 1 : 0 }}"
+                data-basket="{{Auth::user()->basket->where('product_id', $product['code'])->first() ? 1 : 0 }}"
             >
 
-                <img src="{{ $product['images'][0]}}"
-                     alt="{{ $product['nazev'] }}"
+                <img src="{{ $product['media'][0]['url']}}"
+                     alt="{{ $product['name'] ?? $product['name_alt_a']  }}"
                      class="w-25 h-25 object-contain mt-4">
 
                 <div
@@ -25,7 +25,7 @@
                     <img src="{{ asset('/images/plusbg.png') }}" alt="">
                     <span
                         class="favorite-btn cursor-pointer absolute top-1 right-3 text-orange-500 z-3 text-xl font-bold"
-                        data-product-id="{{ $product['id'] }}">+</span>
+                        data-product-id="{{ $product['code'] }}">+</span>
                 </div>
                 <div class="absolute top-0 left-0 w-12 h-12 flex items-center justify-center">
                     <div class="relative w-full h-full">
@@ -36,16 +36,16 @@
                 <div class="text-start gap-3 pt-3 flex flex-col">
                     <p class="mt-2">
                         <span class="font-bold text-[#E00034] text-2xl">
-                            ${{ $product['discounted_price'] ?? $product['cenaZaklVcDph'] }}
+                            ${{ $product['price_with_vat'] ?? $product['price_without_vat'] }}
                         </span>
-                        @if(!empty($product['discounted_price']) || true)
+                        @if(!empty($product['price_with_vat']) || false)
                             <span class="font-bold text-gray-500 text-xl ml-2 line-through">
-                        ${{ $product['cenaZaklVcDph'] }}
+                        ${{ $product['price_with_vat'] }}
                     </span>
                         @endif
                     </p>
                     <div class="desc font-bold text-sm mt-1">
-                        {{ $product['nazev'] }}
+                        {{  $product['name'] ?? $product['name_alt_a']   }}
                     </div>
                 </div>
             </div>

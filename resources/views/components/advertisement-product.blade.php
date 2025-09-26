@@ -16,7 +16,7 @@
                     </div>
                 </div>
 
-                <img src="{{ $product['images'][0] ?? $product['image'] }}" alt="{{ $product['nazev'] }}"
+                <img src="{{ $product['images'][0]  }}" alt="{{ $product['name'] }}"
                      class="w-24 h-24 object-contain mt-4">
 
                 <div class="text-start gap-3 pt-3 flex flex-col">
@@ -26,7 +26,7 @@
                         </span>
                         @if(!empty($product['discounted_price']) || true)
                             <span class="font-bold text-gray-500 text-xl ml-2 line-through">
-                        ${{ $product['cenaZaklVcDph'] }}
+                        ${{ $product['discounted_price'] }}
                     </span>
                         @endif
                     </p>
