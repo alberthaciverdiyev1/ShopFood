@@ -1,0 +1,35 @@
+0000000000000000000000000000000000000000 4c379b184a74a34aff705ec767894c42af9fc29d Albert <alberthaciverdiyev55@gmail.com> 1754917413 +0400	commit (initial): first commit
+4c379b184a74a34aff705ec767894c42af9fc29d 4c379b184a74a34aff705ec767894c42af9fc29d Albert <alberthaciverdiyev55@gmail.com> 1754917413 +0400	Branch: renamed refs/heads/master to refs/heads/main
+4c379b184a74a34aff705ec767894c42af9fc29d b203c4671f0bbe354f991302cefc529dc56ce260 Albert <alberthaciverdiyev55@gmail.com> 1754917433 +0400	commit: setup laravel project
+b203c4671f0bbe354f991302cefc529dc56ce260 eb8a1b24c721fb8075456c3a61f3ebb0a1b8df94 Albert <alberthaciverdiyev55@gmail.com> 1755070795 +0400	pull: Fast-forward
+eb8a1b24c721fb8075456c3a61f3ebb0a1b8df94 36d93f7993b87e3726d017b4f0aeee36b14e4fea Albert <alberthaciverdiyev55@gmail.com> 1755070808 +0400	pull origin front: Fast-forward
+36d93f7993b87e3726d017b4f0aeee36b14e4fea e894fda69362cdce61dbea141315b5fa06fe7aef Albert <alberthaciverdiyev55@gmail.com> 1755153707 +0400	commit: added users migration:
+e894fda69362cdce61dbea141315b5fa06fe7aef e20c6862f63d864bff12c18bb03f03cf3647d49e Albert <alberthaciverdiyev55@gmail.com> 1755153720 +0400	merge origin/front: Merge made by the 'ort' strategy.
+e20c6862f63d864bff12c18bb03f03cf3647d49e 931a24ebc9b6462cbf3613951244108825d511c6 Albert <alberthaciverdiyev55@gmail.com> 1755248068 +0400	commit: added welcome page
+931a24ebc9b6462cbf3613951244108825d511c6 9e10eb06de8cca9724e46cd5f50fde9dd8dc96ee Albert <alberthaciverdiyev55@gmail.com> 1755248084 +0400	merge origin/front: Merge made by the 'ort' strategy.
+9e10eb06de8cca9724e46cd5f50fde9dd8dc96ee 9863f240318b3f118d56400380ee046c29d02335 Albert <alberthaciverdiyev55@gmail.com> 1755250170 +0400	commit: added redirect middleware
+9863f240318b3f118d56400380ee046c29d02335 157697b7c4ae2c62f680098a5959fcc6fb647ead Albert <alberthaciverdiyev55@gmail.com> 1755251444 +0400	commit: added login and register backend
+157697b7c4ae2c62f680098a5959fcc6fb647ead a8fe6964cc211ebc4f97c267d6354f3ee67ce24f Albert <alberthaciverdiyev55@gmail.com> 1755261586 +0400	commit (merge): updated users migration
+a8fe6964cc211ebc4f97c267d6354f3ee67ce24f a073b00bb4712b5c7752fd6bd0e766a882414131 Albert <alberthaciverdiyev55@gmail.com> 1755264033 +0400	commit (merge): completed logout , login , register and used default laravel middleware
+a073b00bb4712b5c7752fd6bd0e766a882414131 3318c75ef29c1bf942f463b7de912c3a35e22a50 Albert <alberthaciverdiyev55@gmail.com> 1755454575 +0400	commit: copied css to public
+3318c75ef29c1bf942f463b7de912c3a35e22a50 1225b2340f6aa7fe2da1cdb813d73a37e16a2016 Albert <alberthaciverdiyev55@gmail.com> 1755515617 +0400	commit (merge): fixed conflict
+1225b2340f6aa7fe2da1cdb813d73a37e16a2016 e0483f328483f7ad570437e82b5bcf9b5b69fdcc Albert <alberthaciverdiyev55@gmail.com> 1755515628 +0400	merge origin/main: Merge made by the 'ort' strategy.
+e0483f328483f7ad570437e82b5bcf9b5b69fdcc 34736c6f485e38cbf3491c741a4955f7a7ade211 Albert <alberthaciverdiyev55@gmail.com> 1755758680 +0400	merge origin/front: Merge made by the 'ort' strategy.
+34736c6f485e38cbf3491c741a4955f7a7ade211 ed29d46f12a08d9a2f795b6e130438dcb9677e60 Albert <alberthaciverdiyev55@gmail.com> 1755758744 +0400	commit (merge): merged and fixed conflict
+ed29d46f12a08d9a2f795b6e130438dcb9677e60 d7cd107a40629ceae8d890b869e88bd09242f3ae Albert <alberthaciverdiyev55@gmail.com> 1756797335 +0400	commit: added user favorites
+d7cd107a40629ceae8d890b869e88bd09242f3ae b26de333d84e271710a9f9eba0479825ee73dc6f Albert <alberthaciverdiyev55@gmail.com> 1756797456 +0400	commit (merge): fixed conflict
+b26de333d84e271710a9f9eba0479825ee73dc6f 0f3f3b062aa6f1d06416b33433968a5ca8a2e870 Albert <alberthaciverdiyev55@gmail.com> 1756797575 +0400	commit (merge): fixed conflict
+0f3f3b062aa6f1d06416b33433968a5ca8a2e870 84f8bf6d690f84748920f4380995a7aa31357c02 Albert <alberthaciverdiyev55@gmail.com> 1756797631 +0400	commit (merge): fixed conflict
+84f8bf6d690f84748920f4380995a7aa31357c02 f1b596165f6f465477989a6731eedad00195b1b5 Albert <alberthaciverdiyev55@gmail.com> 1757062090 +0400	commit: updated user
+f1b596165f6f465477989a6731eedad00195b1b5 9ce1f6550e0dab5a9142ed5d1ce92a24026847ad Albert <alberthaciverdiyev55@gmail.com> 1757062661 +0400	commit (merge): add tags and privacy policies functionality
+9ce1f6550e0dab5a9142ed5d1ce92a24026847ad 06570d0c332c22c54c7c6e6dbbd5b90841ad7036 Albert <alberthaciverdiyev55@gmail.com> 1757065627 +0400	commit: refactor: improve product fetching logic and update privacy policy handling
+06570d0c332c22c54c7c6e6dbbd5b90841ad7036 7749ce2ec3fb7f0cb7cf3e34d17dc325e7dc58e9 Albert <alberthaciverdiyev55@gmail.com> 1757232806 +0400	commit: updated web.php
+7749ce2ec3fb7f0cb7cf3e34d17dc325e7dc58e9 5446a2a0f8196a0f13952d0668119b56306f1839 Albert <alberthaciverdiyev55@gmail.com> 1757312728 +0400	commit (merge): feat: add basket functionality and update order handling
+5446a2a0f8196a0f13952d0668119b56306f1839 b2d09396e91307405e5edef011da93ae52e3d4c0 Albert <alberthaciverdiyev55@gmail.com> 1757578424 +0400	commit (merge): added order, basket tables
+b2d09396e91307405e5edef011da93ae52e3d4c0 387c15a135a9c3744cf1bc223dc1f07c7faf8d4b Albert <alberthaciverdiyev55@gmail.com> 1757756443 +0400	merge origin/front: Fast-forward
+387c15a135a9c3744cf1bc223dc1f07c7faf8d4b b2d09396e91307405e5edef011da93ae52e3d4c0 Albert <alberthaciverdiyev55@gmail.com> 1757757294 +0400	reset: moving to HEAD~1
+b2d09396e91307405e5edef011da93ae52e3d4c0 387c15a135a9c3744cf1bc223dc1f07c7faf8d4b Albert <alberthaciverdiyev55@gmail.com> 1757757363 +0400	merge origin/front: Fast-forward
+387c15a135a9c3744cf1bc223dc1f07c7faf8d4b 5dd444d9f24c027ba7279cd7287ce38bbfee57c9 Albert <alberthaciverdiyev55@gmail.com> 1757788693 +0400	commit: feat: implement tag management with create, update, and delete functionalities
+5dd444d9f24c027ba7279cd7287ce38bbfee57c9 140f6f5662f40889453f40ca834e3b4055102f7b Albert <alberthaciverdiyev55@gmail.com> 1757801256 +0400	commit: feat: add settings management with routes and controller for updating=
+140f6f5662f40889453f40ca834e3b4055102f7b ba739c9c1caf024a0e6a47796173ede72e57f9ec Albert <alberthaciverdiyev55@gmail.com> 1757859757 +0400	commit: feat: remove unnecessary localization files and enhance UI components with additional routes and styling
+ba739c9c1caf024a0e6a47796173ede72e57f9ec a59c125033f6fed2cd1010cfe536e8c1ead834df Albert <alberthaciverdiyev55@gmail.com> 1757870391 +0400	commit: feat: add profile.js to build process and set base path for assets

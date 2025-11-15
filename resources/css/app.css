@@ -1,0 +1,146 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+/*@theme {*/
+/*    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',*/
+/*        'Segoe UI Symbol', 'Noto Color Emoji';*/
+/*}*/
+
+@theme {
+    --font-sans: 'Roboto', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+}
+:root {
+    --color-primary: #F6A833;
+    --color-secondary: #947D5B;
+    --color-success: #4CAF50;
+    --color-warning: #F6A833;
+    --color-danger: #F44336;
+    --color-info: #3B82F6;
+    --text-color: #331111;
+    --color-accent: #000000;
+    --color-white: #ffffff;
+    --text-grey: rgb(98, 98, 98);
+    --color-gradient: linear-gradient(261.04deg, #F6A833 2.39%, #947D5B 98.52%);
+    --radius: 12px;
+    --shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+.dashboard-card {
+    background: var(--color-white);
+    border-radius: var(--radius);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.dashboard-card .icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.icon-clients { background: #FFE9D6; color: #F6A833; }
+.icon-balance { background: #E7FBEA; color: var(--color-success); }
+.icon-sales { background: #E8F0FF; color: var(--color-info); }
+.icon-contacts { background: #DFF9FB; color: #00BCD4; }
+.table-style {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+.table-style th, .table-style td {
+    padding: 14px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+.table-style tr:hover {
+    background: #f9f9f9;
+}
+.status-approved { color: var(--color-success); font-weight: 600; }
+.status-pending { color: var(--color-warning); font-weight: 600; }
+.status-denied { color: var(--color-danger); font-weight: 600; }
+
+
+
+body{
+    background-color: #F9F9F9;
+}
+/* p{
+    font-size: 16px; */
+/* } */
+
+.scroll-thin::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scroll-thin::-webkit-scrollbar-thumb {
+    background-color: rgba(0,0,0,0.3);
+    border-radius: 3px;
+}
+
+.scroll-thin::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+
+/* .active{
+    background-color:black;
+} */
+
+
+  .checkbox-wrapper-23 *,
+  .checkbox-wrapper-23 *:after,
+  .checkbox-wrapper-23 *:before {
+    box-sizing: border-box;
+  }
+
+  .checkbox-wrapper-23 input {
+    position: absolute;
+    opacity: 0;
+  }
+
+  .checkbox-wrapper-23 input:checked + label svg path {
+    stroke-dashoffset: 0;
+  }
+
+  .checkbox-wrapper-23 input:focus + label {
+    transform: scale(1.03);
+  }
+
+  .checkbox-wrapper-23 input + label {
+    display: block;
+    border: 2px solid #333;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all .2s ease;
+  }
+
+  .checkbox-wrapper-23 input + label:active {
+    transform: scale(1.05);
+    border-radius: 12px;
+  }
+
+  .checkbox-wrapper-23 input + label svg {
+    pointer-events: none;
+    padding: 5%;
+  }
+
+  .checkbox-wrapper-23 input + label svg path {
+    fill: none;
+    stroke: #333;
+    stroke-width: 4px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 100;
+    stroke-dashoffset: 101;
+    transition: all 250ms cubic-bezier(1,0,.37,.91);
+  }
