@@ -11,7 +11,7 @@
                     <div class="flex gap-4 justify-between items-center pb-4 mb-4"
                          data-product-id="{{ $item['product']['product']['code'] }}"
                          data-product-quantity="{{ $item['product']['quantity'] }}"
-                         data-product-price="{{ $item['product']['product']['price_with_vat'] }}">
+                         data-product-price="{{ $item['product']['product']['price_unit'] }}">
 
                         <div class="flex gap-4 items-center">
                             <label>{{$index+1}}</label>
@@ -25,8 +25,8 @@
                                 <p class="text-gray-600">Some description about the product. It is very good and
                                     useful.</p>
                                 <p class="font-bold mt-2">
-                                    <span class="text-red-500">${{ $item['product']['product']['price_with_vat'] }} </span> / ${{ $item['product']['product']['price_with_vat'] * $item['product']['quantity'] }}</p>
-                                @php($total_price += $item['product']['product']['price_with_vat'] * $item['product']['quantity'])
+                                    <span class="text-red-500">${{ $item['product']['product']['price_unit'] }} </span> / ${{ $item['product']['product']['price_unit'] * $item['product']['quantity'] }}</p>
+                                @php($total_price += $item['product']['product']['price_unit'] * $item['product']['quantity'])
                             </div>
                         </div>
 
@@ -133,7 +133,7 @@
 
         </div>
 
-        <x-suggestions :products="$products"/>
+        <x-suggestions :products="$products" :tags="$tags"/>r
     </div>
 
     <script>

@@ -76,7 +76,6 @@
                 <p id="unitInfo" class="mt-3 text-sm text-gray-600"></p>
             </div>
 
-            <!-- QTY (başlangıçta gizli) -->
             <div id="qtySection" class="mt-4 flex items-center gap-3 hidden">
 
                 <button id="qtyMinus"
@@ -103,7 +102,7 @@
 
             <!-- BUTTONS -->
             <div class="flex gap-4 mt-4">
-                <button id="addBasket" class="flex-1 py-3 border rounded-2xl bg-white hover:bg-gray-100">
+                <button id="addBasket" data-type="unit" class="flex-1 py-3 border rounded-2xl bg-white hover:bg-gray-100">
                     Add to Basket
                 </button>
                 <button
@@ -210,12 +209,13 @@
                     selectedUnit = card.dataset.unit;
 
                     warning.textContent = "";
-
                     activateUnitCard(card);
-
                     qtySection.classList.remove("hidden");
 
                     const unit = card.dataset.unit;
+
+                    const addBasketBtn = modal.querySelector("#addBasket");
+                    addBasketBtn.dataset.type = unit;
 
                     switch (unit) {
                         case "piece":
@@ -233,7 +233,6 @@
                             unitInfo.innerHTML =
                                 `Bir qutuda <strong>${productData.per_box}</strong> ədəd var`;
                             break;
-
                     }
 
                     updateTotal();

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use App\Models\Basket;
 use App\Models\Product;
+use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,7 @@ class BasketController extends Controller
     public function basket()
     {
         $user = Auth::user();
+        $tags = Tag::all();
 
         $addresses = Address::where('user_id', $user->id)->get();
 
@@ -33,6 +35,7 @@ class BasketController extends Controller
             'basket' => $basket,
             'addresses' => $addresses,
             'products' => Product::limit(10)->get(),
+            'tags' => $tags
         ]);
     }
 
@@ -84,11 +87,13 @@ class BasketController extends Controller
                 'message' => __('Product not found.'),
             ], 404);
         }
-
         $user->basket()->updateOrCreate(
             ['product_id' => $productId],
-            ['user_id' => $user->id,
-             'quantity' => $quantity]
+            [
+                'user_id' => $user->id,
+                'quantity' => $quantity,
+                'type' => $request->input('type', 'piece')
+            ]
         );
 
         return response()->json([

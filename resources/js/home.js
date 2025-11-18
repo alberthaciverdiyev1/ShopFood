@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const addButton = document.getElementById('addBasket');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    // Modal detay elementleri
     const modalSKU = document.getElementById('modalSKU');
     const modalContent = document.getElementById('modalContent');
     const modalUnit = document.getElementById('modalUnit');
@@ -54,7 +53,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const stockReserved = button.dataset.stockreserved || 0;
             const tags = JSON.parse(button.dataset.tags || '[]');
 
-            // Thumbnails
             const images = JSON.parse(thumbnailsJson || "[]");
             modalThumbsContainer.innerHTML = '';
             images.forEach(img => {
@@ -65,7 +63,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 modalThumbsContainer.appendChild(imgEl);
             });
 
-            // Modal bilgileri doldur
             modalTitle.textContent = title;
             modalPrice.textContent = `$${price.toFixed(2)}`;
             modalImage.src = image;
@@ -78,7 +75,6 @@ document.addEventListener('DOMContentLoaded', function() {
             modalStockTotal.textContent = stockTotal;
             modalStockReserved.textContent = stockReserved;
 
-            // Tagleri ekle
             modalTagsContainer.innerHTML = '';
             tags.forEach(tag => {
                 const span = document.createElement('span');
@@ -87,12 +83,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 modalTagsContainer.appendChild(span);
             });
 
-            // Sepet bilgisi
             addButton.dataset.basket = basket ? '1' : '0';
             addButton.textContent = basket ? 'Remove from Basket' : 'Add to Basket';
             addButton.style.backgroundColor = basket ? 'orange' : '';
 
-            // Favorite buton
             const favBtn = modal.querySelector('.favorite-btn');
             favBtn.dataset.productId = modalProductId;
             if (favoriteIds.includes(modalProductId)) {
@@ -103,7 +97,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 favBtn.innerHTML = '<i class="fa fa-heart text-[#FC9700]"></i>';
             }
 
-            // Default seçili miktar
             const defaultCount = 1;
             modalSelected.textContent = defaultCount;
             modalTotal.textContent = (price * defaultCount).toFixed(2);
@@ -112,10 +105,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Overlay click ile kapatma
     overlay.addEventListener("click", (e) => { if (e.target === overlay) overlay.classList.add("hidden"); });
 
-    // Count butonları
     modal.querySelectorAll('.countBtn').forEach(btn => {
         btn.addEventListener('click', () => {
             const count = parseInt(btn.dataset.count);
@@ -128,6 +119,8 @@ document.addEventListener('DOMContentLoaded', function() {
     addButton.addEventListener('click', function() {
         const productId = modalProductInput.value;
         const basket = addButton.dataset.basket === '1';
+        const type = addButton.dataset.type;
+        console.log(type);
         const url = basket ? `/basket/remove/${productId}` : `/basket/add/${productId}`;
 
         fetch(url, {
@@ -137,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ quantity: parseInt(modalSelected.textContent) })
+            body: JSON.stringify({ quantity: parseInt(modalSelected.textContent), type})
         })
             .then(response => response.json())
             .then(data => {
