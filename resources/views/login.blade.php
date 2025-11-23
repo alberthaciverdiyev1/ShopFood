@@ -23,11 +23,11 @@
             <div class="w-1/2 bg-white px-[120px] py-[100px] flex flex-col justify-center">
                 <h2 class="text-3xl font-semibold text-center"
                     style="color: #333333; line-height: 100%; margin-bottom: 80px;">
-                    Продажа только зарегистрированным предпринимателям
+                    @lang("Sale only to registered entrepreneurs")
                 </h2>
 
                 <p class="text-center font-bold" style="color: #331111; margin-bottom: 20px;">
-                    Пожалуйста, войдите
+                    @lang("Please log in")
                 </p>
 
                 <form method="POST" action="{{ route('login') }}" class="flex flex-col space-y-4">
@@ -59,7 +59,7 @@
                     <button type="submit"
                             class="w-full py-3 mt-3 text-white rounded-lg hover:bg-[#2b0909] transition"
                             style="background-color: #3D0C0C;">
-                        Войти
+                        @lang("Login")
                     </button>
 
                     <a href="{{ route('web:register') }}"
@@ -67,7 +67,7 @@
                        style="border: 1px solid #3D0C0C; color: #3D0C0C; background-color: white;"
                        onmouseover="this.style.backgroundColor='#2b0909'; this.style.color='white';"
                        onmouseout="this.style.backgroundColor='white'; this.style.color='#3D0C0C';">
-                        Зарегистрироваться
+                        @lang("Register")
                     </a>
 
                 </form>

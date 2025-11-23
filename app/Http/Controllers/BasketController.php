@@ -92,7 +92,8 @@ class BasketController extends Controller
             [
                 'user_id' => $user->id,
                 'quantity' => $quantity,
-                'type' => $request->input('type', 'piece')
+                'type' => $request->input('type', 'piece'),
+                'box_items_count'=> $request->input('box_items_count', 0)
             ]
         );
 

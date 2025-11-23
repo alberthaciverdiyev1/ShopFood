@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Basket extends Model
 {
     protected $table = 'user_baskets';
-    protected $fillable = ['user_id', 'product_id', 'quantity','type'];
+    protected $fillable = ['user_id', 'product_id', 'quantity','type','box_items_count'];
 
 
     public function user()

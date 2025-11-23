@@ -120,7 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const productId = modalProductInput.value;
         const basket = addButton.dataset.basket === '1';
         const type = addButton.dataset.type;
-        console.log(type);
+        const box_items_count = +addButton.dataset.boxitemscount;
+console.log(basket, type, box_items_count);
         const url = basket ? `/basket/remove/${productId}` : `/basket/add/${productId}`;
 
         fetch(url, {
@@ -130,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ quantity: parseInt(modalSelected.textContent), type})
+            body: JSON.stringify({ quantity: parseInt(modalSelected.textContent), type, box_items_count})
         })
             .then(response => response.json())
             .then(data => {

@@ -108,16 +108,16 @@
     <div id="mobile-menu"
          class="hidden absolute top-full right-0 bg-white shadow-md rounded-md p-4 space-y-4 md:hidden z-40">
         <ul class="flex flex-col space-y-4">
-            <li><a href="{{route('home')}}" class="hover:text-black"><i class="fa-solid fa-house"></i> Home</a></li>
+            <li><a href="{{route('home')}}" class="hover:text-black"><i class="fa-solid fa-house"></i> @lang("Home")</a></li>
             <!-- <li><a href="#" class="hover:text-black"><i class="fa-solid fa-user"></i> Profile</a></li> -->
 
-            <li><a href="{{route('basket.list')}}" class="hover:text-black"><i class="fa-solid fa-cart-shopping"></i> Cart</a></li>
-            <li><a href="#" class="hover:text-black"><i class="fa-solid fa-globe"></i> Language</a></li>
+            <li><a href="{{route('basket.list')}}" class="hover:text-black"><i class="fa-solid fa-cart-shopping"></i> @lang("Cart")</a></li>
+            <li><a href="#" class="hover:text-black"><i class="fa-solid fa-globe"></i> @lang("Language")</a></li>
             <li>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
                     <button type="submit" class="hover:text-black">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> @lang("Logout")
                     </button>
                 </form>
             </li>

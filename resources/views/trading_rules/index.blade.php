@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container mx-auto px-4 py-8">
-        <h2 class="text-2xl font-bold mb-6">Trading Rules</h2>
+        <h2 class="text-2xl font-bold mb-6">@lang("Trading Rules")</h2>
 
         <div class="bg-white shadow-md rounded-2xl p-6">
             @if(!empty($rule->content))

@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->string('product_id');
             $table->integer('quantity')->default(1);
             $table->string('type')->default('piece');
+            $table->integer('box_items_count')->default(0);
             $table->timestamps();
         });
     }

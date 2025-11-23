@@ -7,7 +7,7 @@
       <div class="w-[15%]"> </div>
 
       <div class="w-[68%] border border-[#999999] p-4 rounded-2xl">
-      <h3 class="text-[#331111] font-semibold  text-xl ">Your favorite products</h3>
+      <h3 class="text-[#331111] font-semibold  text-xl ">@lang("Your favorite products")</h3>
 
           @forelse ($favorites as $index => $item)
               <div class="favorite-row flex gap-4 justify-between items-center pb-4 mb-4">
@@ -40,13 +40,13 @@
                       <i class="fa fa-heart text-orange-400 text-6xl opacity-80"></i>
                   </div>
 
-                  <h3 class="text-2xl font-semibold text-gray-700 mb-2">Your favorites list is empty</h3>
+                  <h3 class="text-2xl font-semibold text-gray-700 mb-2">@lang("Your favorites list is empty")</h3>
                   <p class="text-gray-500 mb-4 max-w-md">
-                      Browse our products and add your favorite items to see them here.
+                     @lang("Browse our products and add your favorite items to see them here.")
                   </p>
                   <a href="{{route('list')}}"
                      class="px-6 py-3 bg-orange-400 text-white rounded-full hover:bg-orange-500 transition font-semibold shadow-md">
-                      Browse Products
+                      @lang("Browse Products")
                   </a>
               </div>
 
@@ -68,7 +68,7 @@
         removeBtns.forEach(btn => {
             btn.addEventListener('click', async function () {
                 const productId = this.dataset.productId;
-                const row = this.closest('.favorite-row'); // satırı seç
+                const row = this.closest('.favorite-row');
 
                 try {
                     const response = await fetch(`/favorites/delete/${productId}`, {

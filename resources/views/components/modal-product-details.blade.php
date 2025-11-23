@@ -16,13 +16,13 @@
         <!-- Right side -->
         <div class="md:w-1/2 flex flex-col gap-4">
 
-            <h3 id="modalTitle" class="text-lg font-bold">Məhsul Adı</h3>
+            <h3 id="modalTitle" class="text-lg font-bold">@lang("Product Name")</h3>
             <input type="hidden" id="modalProductId"/>
 
             <p id="modalPrice" class="text-red-500 text-xl md:text-3xl font-bold">₼12.50</p>
 
             <div id="modalDetails" class="text-sm md:text-base text-gray-700 leading-6">
-                <p><strong>SKU:</strong> <span id="modalSKU">PRD-00123</span></p>
+                <p><strong>@lang("Barcode"):</strong> <span id="modalSKU">PRD-00123</span></p>
                 <p><strong>Content:</strong> <span id="modalContent">500ml</span></p>
                 <p><strong>Per Box:</strong> <span id="modalUnit">12</span></p>
                 <p><strong>Boxes per Pallet:</strong> <span id="modalStockTotal">80</span></p>
@@ -36,7 +36,7 @@
 
             <!-- UNIT SELECTOR -->
             <div class="mt-3">
-                <p class="font-semibold text-gray-700 mb-2">Seçim:</p>
+                <p class="font-semibold text-gray-700 mb-2">@lang("Choose"):</p>
 
                 <div class="grid grid-cols-2 gap-4">
 
@@ -51,7 +51,7 @@
                         data-unit="piece">
 
                         <p class="font-bold text-gray-800 text-sm sm:text-base">
-                            Unit
+                            @lang("Unit")
                         </p>
                     </div>
 
@@ -67,7 +67,7 @@
                         data-unit="box">
 
                         <p class="font-bold text-gray-800 text-sm sm:text-base">
-                            Karton
+                            @lang("Box")
                         </p>
                     </div>
 
@@ -96,14 +96,14 @@
 
             <!-- TOTAL -->
             <div class="flex flex-col md:flex-row gap-4 mt-3 text-gray-800">
-                <p>Выбрано: <span id="modalSelected" class="font-bold">10</span></p>
-                <p>Сумма: <span id="modalTotal" class="font-bold">₼0.00</span></p>
+                <p>@lang("Selected"): <span id="modalSelected" class="font-bold">10</span></p>
+                <p>@lang("Sum"): <span id="modalTotal" class="font-bold">₼0.00</span></p>
             </div>
 
             <!-- BUTTONS -->
             <div class="flex gap-4 mt-4">
                 <button id="addBasket" data-type="unit" class="flex-1 py-3 border rounded-2xl bg-white hover:bg-gray-100">
-                    Add to Basket
+                    @lang("Add to basket")
                 </button>
                 <button
                     class="favorite-btn p-3 border text-[#FC9700] rounded-2xl bg-white hover:bg-orange-300 flex justify-center items-center">
@@ -223,15 +223,16 @@
                             qtyInput.min = productData.min_quantity;
                             qtyInput.value = productData.min_quantity;
                             unitInfo.innerHTML =
-                                `Minimum alış miqdarı: <strong>${productData.min_quantity}</strong> ədəd`;
+                                `Minimum purchase quantity: <strong>${productData.min_quantity}</strong> pieces`;
                             break;
 
                         case "box":
                             currentPrice = productData.price * productData.per_box;
                             qtyInput.min = 1;
                             qtyInput.value = 1;
+                            addBasketBtn.dataset.boxitemscount = productData.per_box;
                             unitInfo.innerHTML =
-                                `Bir qutuda <strong>${productData.per_box}</strong> ədəd var`;
+                                `There are <strong>${productData.per_box}</strong> pieces in a box`;
                             break;
                     }
 
@@ -242,7 +243,7 @@
 
             modal.querySelector("#qtyPlus").onclick = () => {
                 if (!selectedUnit) {
-                    warning.textContent = "Önce seçim edin.";
+                    warning.textContent = "Choose first.";
                     return;
                 }
 
@@ -253,7 +254,7 @@
 
             modal.querySelector("#qtyMinus").onclick = () => {
                 if (!selectedUnit) {
-                    warning.textContent = "Önce seçim edin.";
+                    warning.textContent = "Choose first.";
                     return;
                 }
 
@@ -266,7 +267,7 @@
 
             qtyInput.oninput = () => {
                 if (!selectedUnit) {
-                    warning.textContent = "Önce seçim edin.";
+                    warning.textContent = "Choose first.";
                     qtyInput.value = qtyInput.min;
                     return;
                 }

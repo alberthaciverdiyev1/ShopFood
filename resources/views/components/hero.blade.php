@@ -6,11 +6,9 @@
                 class="banner-slide absolute inset-0 flex flex-col md:flex-row justify-start items-center transition-all duration-500"
                 style="transform: translateX({{ $index * 100 }}%)">
 
-                <!-- Arka plan görseli -->
                 <img class="absolute inset-0 w-full h-full object-cover z-0"
                      src="{{ asset('storage/'.$banner->image) }}" alt="Banner Image">
 
-                <!-- İçerik -->
                 <div class="w-full md:w-[43%] flex flex-col gap-5 items-start justify-center z-10 text-left px-8 sm:px-12 md:pl-28">
                     <h1 class="text-white text-4xl sm:text-5xl md:text-6xl font-light leading-tight">
                         {{ $banner->title }}
@@ -30,12 +28,11 @@
             </div>
         @empty
             <div class="banner-slide absolute inset-0 flex justify-center items-center">
-                <h1 class="text-white text-4xl">No banners found</h1>
+                <h1 class="text-white text-4xl">@lang("No banners found")</h1>
             </div>
         @endforelse
     </div>
 
-    <!-- Slider Noktaları -->
     <div class="dots absolute bottom-10 left-1/2 transform -translate-x-1/2 flex gap-2 z-20">
         @foreach($banners as $index => $banner)
             <div class="dot w-4 h-4 border rounded-full cursor-pointer" data-index="{{ $index }}"></div>

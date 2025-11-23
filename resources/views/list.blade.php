@@ -44,7 +44,7 @@
                         <div
                             class="absolute left-1/2 -translate-x-1/2 top-[110%] hidden group-hover:flex flex-col bg-white border border-gray-200 rounded-xl shadow-2xl w-56 p-3 z-50 animate-fade-in">
                             <h4 class="text-xs font-semibold text-gray-500 mb-2 border-b border-gray-100 pb-1 uppercase tracking-wide">
-                                Subcategories
+                                @lang("Subcategories")
                             </h4>
                             <div class="space-y-2">
                                 @foreach($category->children as $child)
@@ -63,7 +63,7 @@
                                             <p class="text-sm font-medium text-gray-800 truncate group-hover/item:text-indigo-600">
                                                 {{ $child->name }}
                                             </p>
-                                            <p class="text-xs text-gray-500 truncate">Key: {{ $child->key }}</p>
+                                            <p class="text-xs text-gray-500 truncate">@lang("Key"): {{ $child->key }}</p>
                                         </div>
                                     </a>
                                 @endforeach
@@ -73,7 +73,7 @@
                 </div>
             @empty
                 <div class="flex items-center justify-center w-full py-10">
-                    <p class="text-gray-500 text-lg font-medium">No categories found.</p>
+                    <p class="text-gray-500 text-lg font-medium">@lang("No categories found").</p>
                 </div>
             @endforelse
         </div>
@@ -142,8 +142,8 @@
                             {{ number_format($product['price_with_vat'], 2) }}
                         </p>
                         <div class="mt-2 text-sm text-gray-800">
-                            <p><strong>Выбрано:</strong> 5</p>
-                            <p><strong>Сумма:</strong> {{ number_format($product['price_with_vat'] * 5, 2) }}</p>
+                            <p><strong>@lang("Selected"):</strong> 5</p>
+                            <p><strong>@lang("Sum"):</strong> {{ number_format($product['price_with_vat'] * 5, 2) }}</p>
                         </div>
                     </div>
                 </div>
@@ -152,12 +152,11 @@
 
             @empty
                 <div class="flex items-center justify-center w-full py-16">
-                    <p class="text-gray-500 text-lg font-semibold">No products found.</p>
+                    <p class="text-gray-500 text-lg font-semibold">@lang("No products found").</p>
                 </div>
             @endforelse
         </div>
 
-        {{-- Pagination sadece ürün varsa göster --}}
         @if($products->count() > 0)
             <div class="pagination my-6">
                 @if($products->onFirstPage())

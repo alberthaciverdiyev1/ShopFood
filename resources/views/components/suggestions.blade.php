@@ -1,7 +1,7 @@
 <div class="mx-auto px-24 py-6">
     <a href="/list" class="flex justify-between items-center ">
-        <h3 class="mt-5 text-2xl font-bold">Предложения</h3>
-        <div class="text-md font-bold text-gray-400 hover:underline">See more</div>
+        <h3 class="mt-5 text-2xl font-bold">@lang("Suggestions")</h3>
+        <div class="text-md font-bold text-gray-400 hover:underline">@lang("See More")</div>
     </a>
 
     <div class="cards grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 mt-6">
@@ -9,7 +9,7 @@
             <div
                 class="card openModal relative bg-white rounded-3xl p-4 flex flex-col items-center text-center shadow-md hover:shadow-lg transition duration-300 hover:cursor-pointer hover:bg-orange-100 "
                 data-id="{{ $product['code'] }}"
-                data-title="{{ $product['name'] ?? $product['name_alt_a'] }}"
+                data-title="{{ app()->getLocale() === 'en' ? ($product['name_alt_a'] ?? $product['name']) : $product['name'] }}"
                 data-price="{{ $product['price_unit'] }}"
                 data-price-box="{{ $product['price_box'] }}"
 
@@ -46,9 +46,7 @@
                 </div>
                 <div class="absolute top-0 left-0 w-12 h-12 flex items-center justify-center">
                     <div class="relative w-full h-full">
-                        @php
-                            $matchedTag = collect($tags)->firstWhere('key', $product['sticker']);
-                        @endphp
+                        @php $matchedTag = collect($tags)->firstWhere('key', $product['sticker']); @endphp
                         @if( $matchedTag && !empty($matchedTag['image']))
 
                             <img src="{{ asset('storage/' . $matchedTag['image']) }}"
@@ -80,58 +78,3 @@
     <x-modal-product-details :product="$product"/>
 
 </div>
-{{--<script>--}}
-{{--    document.addEventListener('DOMContentLoaded', async function () {--}}
-{{--        const buttons = document.querySelectorAll('.favorite-btn');--}}
-{{--        const favCountEl = document.getElementById('favoriteCount');--}}
-
-{{--        try {--}}
-{{--            const favResponse = await fetch('/favorites/list/ajax', {headers: {'Accept': 'application/json'}});--}}
-{{--            const favData = await favResponse.json();--}}
-{{--            const favoriteIds = favData.map(item => item.product_id);--}}
-
-{{--            buttons.forEach(btn => {--}}
-{{--                const productId = parseInt(btn.dataset.productId);--}}
-{{--                if (favoriteIds.includes(productId)) {--}}
-{{--                    btn.textContent = '-';--}}
-{{--                }--}}
-{{--            });--}}
-
-{{--            favCountEl.textContent = favoriteIds.length;--}}
-{{--        } catch (err) {--}}
-{{--            console.error('Favorileri yüklerken hata:', err);--}}
-{{--        }--}}
-
-{{--        buttons.forEach(btn => {--}}
-{{--            btn.addEventListener('click', async function (e) {--}}
-{{--                e.stopPropagation();--}}
-{{--                const productId = this.dataset.productId;--}}
-{{--                const isAdding = this.textContent === '+';--}}
-{{--                let favCount = parseInt(favCountEl.textContent);--}}
-
-{{--                try {--}}
-{{--                    const response = await fetch(isAdding ? `/favorites/add/${productId}` : `/favorites/delete/${productId}`, {--}}
-{{--                        method: isAdding ? 'POST' : 'DELETE',--}}
-{{--                        headers: {--}}
-{{--                            'X-CSRF-TOKEN': '{{ csrf_token() }}',--}}
-{{--                            'Accept': 'application/json',--}}
-{{--                        }--}}
-{{--                    });--}}
-
-{{--                    const data = await response.json();--}}
-
-{{--                    if (response.ok) {--}}
-{{--                        this.textContent = isAdding ? '-' : '+';--}}
-{{--                        favCount = isAdding ? favCount + 1 : favCount - 1;--}}
-{{--                        favCountEl.textContent = favCount;--}}
-{{--                    } else {--}}
-{{--                        console.error(data.message || 'Error');--}}
-{{--                    }--}}
-{{--                } catch (error) {--}}
-{{--                    console.error('Request failed:', error);--}}
-{{--                }--}}
-{{--            });--}}
-{{--        });--}}
-{{--    });--}}
-
-{{--</script>--}}
