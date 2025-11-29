@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
@@ -131,6 +132,68 @@ class OrderController extends Controller
         return response()->json($ordersWithData);
     }
 
+//    public function add(Request $request): JsonResponse
+//    {
+//        $user = Auth::user();
+//
+//        if ($user->basket->isEmpty()) {
+//            return response()->json([
+//                'success' => 400,
+//                'message' => __('Your basket is empty.'),
+//            ], 400);
+//        }
+//
+//        $totalPrice = 0;
+//        $orderItems = [];
+//
+//        foreach ($user->basket as $basketItem) {
+//            $product = $basketItem->product;
+//
+//            if (!$product) {
+//                return response()->json([
+//                    'success' => 404,
+//                    'message' => "Product with code {$basketItem->product_id} not found",
+//                ], 404);
+//            }
+//
+//            $price = $product->price_with_vat ?? 0;
+//            $quantity = $basketItem->quantity ?? 1;
+//            $total = $price * $quantity;
+//
+//            $totalPrice += $total;
+//
+//            $orderItems[] = [
+//                'product_id' => $basketItem->product_id,
+//                'quantity'   => $quantity,
+//                'price'      => $price,
+//                'total'      => $total,
+//            ];
+//        }
+//
+//        $order = \App\Models\Order::create([
+//            'user_id'       => $user->id,
+//            'order_number'  => strtoupper(uniqid("ORD-", true)),
+//            'status'        => 'pending',
+//            'address'       => $request->input('address') ?? null,
+//            'self_delivery' => $request->boolean('selfDelivery') ?? false,
+//            'payment_method'=> $request->input('payment'),
+//            'note_to_admin' => $request->input('noteToAdmin'),
+//            'total_price'   => $totalPrice,
+//        ]);
+//
+//        foreach ($orderItems as $orderItem) {
+//            $order->items()->create($orderItem);
+//        }
+//
+//        $user->basket()->delete();
+//
+//        return response()->json([
+//            'success' => 200,
+//            'message' => __('Order created successfully.'),
+//            'order_id' => $order->id,
+//        ]);
+//    }
+
     public function add(Request $request): JsonResponse
     {
         $user = Auth::user();
@@ -169,6 +232,7 @@ class OrderController extends Controller
             ];
         }
 
+        // LOCAL ORDER CREATE
         $order = \App\Models\Order::create([
             'user_id'       => $user->id,
             'order_number'  => strtoupper(uniqid("ORD-", true)),
@@ -184,6 +248,60 @@ class OrderController extends Controller
             $order->items()->create($orderItem);
         }
 
+        // FLEXIBEE ORDER SYNC BAŞLAYIR
+        try {
+            $flexItems = [];
+
+            foreach ($orderItems as $item) {
+                $flexItems[] = [
+                    "kod"      => $item['product_id'],    // Flexibee product code
+                    "mnozMj"   => $item['quantity'],       // Quantity
+                    "cenaMj"   => $item['price'],          // Price
+                    "typPolozkyK" => "typ:polozka",        // Flexibee default
+                ];
+            }
+
+            $payload = [
+                "winstrom" => [
+                    "objednavka-prijata" => [
+                        [
+                            "kod"         => $order->order_number,
+                            "firma"       => $user->id,
+                            "sumCelkem"   => $totalPrice,
+                            "popis"       => $request->input('noteToAdmin'),
+                            "typDokl"     => "code:OBJEDNAVKA",
+                            "polozkyObchDokladu" => $flexItems
+                        ]
+                    ]
+                ]
+            ];
+
+            $flexUrl = "https://shop-food.flexibee.eu/c/shop_food_s_r_o_/objednavka-prijata.json";
+
+            $response = Http::withBasicAuth('shopify_integration2', 'Salam123!')
+                ->timeout(30)
+                ->withoutVerifying()
+                ->post($flexUrl, $payload);
+
+            if (!$response->successful()) {
+                Log::error("Flexibee Order Sync Failed", [
+                    'order_id' => $order->id,
+                    'response' => $response->body()
+                ]);
+            } else {
+                Log::info("Flexibee Order Synced Successfully", [
+                    'order_id' => $order->id,
+                    'flexibee' => $response->json()
+                ]);
+            }
+
+        } catch (\Exception $e) {
+            Log::error("Flexibee Sync Exception: " . $e->getMessage(), [
+                'order_id' => $order->id
+            ]);
+        }
+
+        // CLEAR BASKET
         $user->basket()->delete();
 
         return response()->json([

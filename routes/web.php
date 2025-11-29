@@ -26,16 +26,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
 // Locale + Home
 Route::middleware([LocaleMiddleware::class])->group(function () {
-    Route::get('/', [HomeController::class, 'index'])
-        ->name('home')
-        ->middleware('auth');
+    Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth');
 
     Route::get('/welcome', [HomeController::class, 'welcome'])->name('welcome');
     Route::post('change-locale', [\App\Http\Controllers\BaseController::class, 'changeLocale'])->name('change-locale');
 });
-Route::get('/list', [ListController::class, 'list'])->name('list')->middleware('auth');
-Route::get('/start-queue', [\App\Http\Controllers\BaseController::class, 'startQueue'])->name('start-queue');
-Route::get('/start-stock-queue', [\App\Http\Controllers\BaseController::class, 'startStockQueue'])->name('start-stock-queue');
+Route::get('/list', [ListController::class, 'list'])->name('list')->middleware('admin');
+Route::get('/start-queue', [\App\Http\Controllers\BaseController::class, 'startQueue'])->name('start-queue')->middleware('admin');
+Route::get('/start-stock-queue', [\App\Http\Controllers\BaseController::class, 'startStockQueue'])->name('start-stock-queue')->middleware('admin');
 // Authentication & Profile
 require 'authRoute.php';
 require 'basketRoute.php';
@@ -57,7 +55,7 @@ Route::post('users/{user}/apply-discount', [App\Http\Controllers\Admin\UserContr
 Route::get('/test', [\App\Http\Controllers\TestController::class, 'index'])->name('test.index');
 
 // Admin
-Route::prefix('admin')->group(function () {
+Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin');
 
     require 'userRoute.php';

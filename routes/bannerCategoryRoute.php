@@ -3,7 +3,7 @@
 use App\Http\Controllers\Admin\BannerCategoryController;
 
 Route::prefix('admin/banner-category')
-    // ->middleware('auth')
+    ->middleware('admin')
     ->name('bannerCategory.')
     ->group(function () {
         Route::get('/', [BannerCategoryController::class, 'getAll'])->name('list');

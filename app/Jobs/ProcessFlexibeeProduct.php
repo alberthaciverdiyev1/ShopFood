@@ -63,6 +63,22 @@ class ProcessFlexibeeProduct implements ShouldQueue
                 ->toArray();
 
             $code = str_replace('code:', '', $priceData['kod'] ?? '');
+            $specialCodes = [
+                'GSN15103',
+                'ETP54002',
+                'ITP52019',
+                'YRSF42039',
+                'YRSF42036',
+                'YKN32007',
+                'EOT33026',
+                'EOT33005_PP',
+            ];
+
+            if (in_array($code, $specialCodes, true)) {
+                Log::warning("⚠️ ÖZEL ETİKET KODU TESPİT EDİLDİ: {$code}", [
+                    'priceData' => $priceData,
+                ]);
+            }
 
 
             $category = null;
@@ -96,11 +112,11 @@ class ProcessFlexibeeProduct implements ShouldQueue
                 }
             }
 
-            Log::info([
-                'code' => $code ?? null,
-                'category' => $category,
-                'subcategory' => $subcategory,
-            ]);
+//            Log::info([
+//                'code' => $code ?? null,
+//                'category' => $category,
+//                'subcategory' => $subcategory,
+//            ]);
 
             if (!$category && !empty($priceData['skupZboz@showAs'])) {
                 $parts = explode(':', $priceData['skupZboz@showAs'], 2);
