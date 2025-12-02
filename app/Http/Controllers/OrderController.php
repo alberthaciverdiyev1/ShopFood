@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Order;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
@@ -232,10 +233,12 @@ class OrderController extends Controller
             ];
         }
 
-        // LOCAL ORDER CREATE
+        // FLEXIBEE LIMIT: max 20 chars
+        $safeOrderNumber = 'ORD-' . strtoupper(substr(bin2hex(random_bytes(6)), 0, 8));
+
         $order = \App\Models\Order::create([
             'user_id'       => $user->id,
-            'order_number'  => strtoupper(uniqid("ORD-", true)),
+            'order_number'  => $safeOrderNumber,
             'status'        => 'pending',
             'address'       => $request->input('address') ?? null,
             'self_delivery' => $request->boolean('selfDelivery') ?? false,
@@ -248,40 +251,40 @@ class OrderController extends Controller
             $order->items()->create($orderItem);
         }
 
-        // FLEXIBEE ORDER SYNC BAŞLAYIR
         try {
+            $flexCustomerCode = "APETIT MARKET PRAHA";
+
             $flexItems = [];
 
             foreach ($orderItems as $item) {
                 $flexItems[] = [
-                    "kod"      => $item['product_id'],    // Flexibee product code
-                    "mnozMj"   => $item['quantity'],       // Quantity
-                    "cenaMj"   => $item['price'],          // Price
-                    "typPolozkyK" => "typ:polozka",        // Flexibee default
+                    "kod"    => $item['product_id'],
+                    "mnozMj" => $item['quantity'],
+                    "cenaMj" => $item['price']
                 ];
             }
 
-            $payload = [
+            $orderPayload = [
                 "winstrom" => [
                     "objednavka-prijata" => [
                         [
-                            "kod"         => $order->order_number,
-                            "firma"       => $user->id,
-                            "sumCelkem"   => $totalPrice,
+                            "kod"         => $safeOrderNumber,
+                            "firma"       => "code:$flexCustomerCode",
                             "popis"       => $request->input('noteToAdmin'),
-                            "typDokl"     => "code:OBJEDNAVKA",
+                            "typDokl"     => "code:OBP",
                             "polozkyObchDokladu" => $flexItems
                         ]
                     ]
                 ]
             ];
 
-            $flexUrl = "https://shop-food.flexibee.eu/c/shop_food_s_r_o_/objednavka-prijata.json";
+            $flexOrderUrl = "https://shop-food.flexibee.eu/c/shop_food_s_r_o_/objednavka-prijata.json";
 
             $response = Http::withBasicAuth('shopify_integration2', 'Salam123!')
                 ->timeout(30)
                 ->withoutVerifying()
-                ->post($flexUrl, $payload);
+                ->withOptions(['allow_redirects' => false])
+                ->post($flexOrderUrl, $orderPayload);
 
             if (!$response->successful()) {
                 Log::error("Flexibee Order Sync Failed", [
@@ -301,7 +304,6 @@ class OrderController extends Controller
             ]);
         }
 
-        // CLEAR BASKET
         $user->basket()->delete();
 
         return response()->json([
@@ -310,7 +312,6 @@ class OrderController extends Controller
             'order_id' => $order->id,
         ]);
     }
-
 
     public function delete(int $orderId): JsonResponse
     {
