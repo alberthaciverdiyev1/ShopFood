@@ -15,8 +15,8 @@ class HomeController extends Controller
     {
 
 //        $products = products();
-//        $products = Product::all();
-        $products = Product::limit(200)->where('code','YRSF42036')->get();
+        $products = Product::all();
+       // $products = Product::limit(200)->where('code','YRSF42036')->get();
         $categories = BannerCategory::latest()->get();
         $tags = Tag::all();
         $locale = session('app-locale', 'en');

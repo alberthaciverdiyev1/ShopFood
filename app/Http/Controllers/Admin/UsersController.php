@@ -116,12 +116,15 @@ class UsersController extends Controller
     }
 
     // Delete user
-    public function delete(User $user)
+    public function delete(int $id)
     {
+        $user = User::findOrFail($id);
         $user->delete();
+
         return redirect()->route('admin.users.index')
             ->with('success', 'User deleted successfully!');
     }
+
 
     public function confirmUser(int $id)
     {
@@ -130,7 +133,7 @@ class UsersController extends Controller
         Mail::to($user->email)->send(new ResetPasswordMail($user, $token));
         $user->is_send_email = 1;
         $user->save();
-        return redirect()->route('admin.users');
+        return redirect()->route('admin.users.index');
     }
 
 }

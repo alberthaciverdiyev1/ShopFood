@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\UsersInfoController;
 use App\Http\Controllers\AuthController;
 
-Route::get('/users', [UsersController::class, 'index'])->name('admin.users');
+Route::get('/users', [UsersController::class, 'index'])->name('admin.users.index');
 Route::post('/users/delete/{id}', [UsersController::class, 'delete'])->name('users.delete');
 
 //Route::prefix('admin')->middleware(['auth', 'is_admin'])->group(function () {
@@ -18,8 +18,8 @@ Route::post('/users/toggle/{user}', [UsersController::class, 'toggle'])->name('a
 
 // Forgot password
 Route::post('/users/forgot-password/{id}', [UsersController::class, 'forgotPassword'])->name('admin.users.forgot-password');
-Route::get('/password-reset/{token}', [UsersController::class, 'showResetForm'])->name('password.reset');
-Route::post('/password-reset', [UsersController::class, 'resetPassword'])->name('password.update');
+Route::get('/password-reset/{token}', [UsersController::class, 'showResetForm'])->name('password.reset')->withoutMiddleware(['auth', 'admin']);
+Route::post('/password-reset', [UsersController::class, 'resetPassword'])->name('password.update')->withoutMiddleware(['auth', 'admin']);
 
 //});
 

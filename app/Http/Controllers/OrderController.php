@@ -86,12 +86,10 @@ class OrderController extends Controller
             ];
         });
 
-        // JSON için
         if (request()->wantsJson()) {
             return response()->json($ordersWithData);
         }
 
-        // View için
         return view('orders', [
             'orders' => $ordersWithData
         ]);
@@ -218,9 +216,10 @@ class OrderController extends Controller
                     'message' => "Product with code {$basketItem->product_id} not found",
                 ], 404);
             }
+            $price = ($basketItem['type'] === "piece")? $product->price_unit : $product->price_box;
 
-            $price = $product->price_with_vat ?? 0;
-            $quantity = $basketItem->quantity ?? 1;
+            $quantity = ($basketItem['type'] === "piece") ? $basketItem->quantity : $basketItem->box_items_count;
+
             $total = $price * $quantity;
 
             $totalPrice += $total;
@@ -233,7 +232,6 @@ class OrderController extends Controller
             ];
         }
 
-        // FLEXIBEE LIMIT: max 20 chars
         $safeOrderNumber = 'ORD-' . strtoupper(substr(bin2hex(random_bytes(6)), 0, 8));
 
         $order = \App\Models\Order::create([
@@ -252,10 +250,9 @@ class OrderController extends Controller
         }
 
         try {
-            $flexCustomerCode = "APETIT MARKET PRAHA";
+            $flexCustomerCode = "CUST-" . $user->email;
 
             $flexItems = [];
-
             foreach ($orderItems as $item) {
                 $flexItems[] = [
                     "kod"    => $item['product_id'],
