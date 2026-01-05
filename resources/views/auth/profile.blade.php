@@ -218,6 +218,7 @@
             })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                     const container = document.getElementById("ordersContainer");
                     container.innerHTML = "";
 

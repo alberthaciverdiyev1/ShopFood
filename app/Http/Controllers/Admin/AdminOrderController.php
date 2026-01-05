@@ -49,16 +49,13 @@ class AdminOrderController extends Controller
 
     public function adminList()
     {
-        // Orders ile items ve ilişkili productları eager load ediyoruz
         $orders = Order::with(['items.product'])
             ->orderBy('created_at', 'desc')
             ->paginate(10);
 
-        // Her order ve item için ürün bilgilerini hazırla
         $ordersWithData = $orders->map(function ($order) {
             $items = $order->items->map(function ($item) {
-                $product = $item->product; // ilişkili product model
-
+                $product = $item->product;
                 return [
                     'product_id' => $item->product_id,
                     'product' => $product ? [

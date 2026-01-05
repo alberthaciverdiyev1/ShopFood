@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Jobs\CompressImage;
 use App\Jobs\FetchFlexibeeData;
+use App\Jobs\FetchWarehouseJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -22,7 +23,7 @@ class BaseController extends Controller
 
     public function startQueue()
     {
-        FetchFlexibeeData::dispatch(1880, 20);
+        FetchFlexibeeData::dispatch(1800, 20);
 
         return response()->json([
             'success' => true,
@@ -32,7 +33,7 @@ class BaseController extends Controller
 
     public function startStockQueue()
     {
-        FetchFlexibeeData::dispatch(0, 20,true);
+        FetchWarehouseJob::dispatch(0, 20);
 
         return response()->json([
             'success' => true,

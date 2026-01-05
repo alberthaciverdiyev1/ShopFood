@@ -15,11 +15,10 @@ class TestController extends Controller
         try {
             $productsResponse = Http::withBasicAuth('shopify_integration2', 'Salam123!')
                 ->withoutVerifying()
-                ->timeout(300000)
                 ->get('https://shop-food.flexibee.eu/c/shop_food_s_r_o_/skladova-karta.json', ['limit' => 10]);
             $products = $productsResponse->json('winstrom.skladova-karta') ?? [];
 
-         //   return response()->json($products);
+               return response()->json($products);
 
             $pricesResponse = Http::withBasicAuth('shopify_integration2', 'Salam123!')
                 ->withoutVerifying()

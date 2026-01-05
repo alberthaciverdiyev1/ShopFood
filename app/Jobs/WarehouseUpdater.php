@@ -26,32 +26,81 @@ class WarehouseUpdater implements ShouldQueue
     public function handle(): void
     {
         try {
-            $priceData = $this->productData;
+            $data = $this->productData;
 
-\Log::info("Updating warehouses for product data ");
-            $warehouses = collect($priceData['odberatele'] ?? [])
-                ->map(fn($w) => [
-                    'id'       => $w['id'] ?? null,
-                    'name'     => $w['stredisko@showAs'] ?? null,
-                    'currency' => $w['mena@showAs'] ?? null,
-                    'price'    => $w['prodejCena'] ?? null,
-                ])->values()->toArray();
+            if (empty($data['cenik'])) {
+                return;
+            }
 
-            $code = str_replace('code:', '', $priceData['kod'] ?? '');
+            $code = str_replace('code:', '', $data['cenik']);
 
-            Product::updateOrCreate(
-                ['code' => $code],
-                [
-                    'warehouses'         => $warehouses,
-                    'stock_total'        => $priceData['sumStavMj'] ?? 0,
-                    'stock_reserved'     => $priceData['sumRezerMj'] ?? 0,
-                    'stock_available'    => $priceData['sumDostupMj'] ?? 0,
-                    'is_stocked'         => $priceData['skladove'] ?? true,
-                ]
-            );
+            $product = Product::where('code', $code)->first();
 
-        } catch (\Exception $e) {
-            Log::error("ProcessFlexibeeProduct failed: " . $e->getMessage());
+            if (!$product) {
+                return;
+            }
+
+            //   $warehouses = collect($product->warehouses ?? []);
+            $warehouses = collect();
+
+            $warehouseCode = str_replace('code:', '', $data['sklad'] ?? '');
+            $warehouseName = $data['sklad@showAs'] ?? null;
+            $stock = (float)($data['stavMjSPozadavky'] ?? 0);
+
+//            $index = $warehouses->search(
+//                fn ($w) => ($w['warehouse_code'] ?? null) === $warehouseCode
+//            );
+
+//            if ($index !== false) {
+            if (false) {
+                $warehouses[$index]['stock'] = $stock;
+            } else {
+//                $warehouses->push([
+//                    'warehouse_code' => $warehouseCode,
+//                    'warehouse_name' => $warehouseName,
+//                    'stock' => $stock,
+//                ]);
+
+                $warehouses = [
+                    [
+                        'warehouse_code' => $warehouseCode,
+                        'warehouse_name' => $warehouseName,
+                        'stock'          => $stock,
+                    ],
+                ];
+            }
+
+            $totalStock = 0;
+            $reserved = 0;
+
+            foreach ($warehouses as $w) {
+                $s = (float)($w['stock'] ?? 0);
+                $s < 0 ? $reserved += abs($s) : $totalStock += $s;
+            }
+
+
+//            $product->update([
+//                'warehouses' => $warehouses->values()->toArray(),
+//                'stock_total' => $totalStock,
+//                'stock_reserved' => $reserved,
+//                'stock_available' => max($totalStock - $reserved, 0),
+//                'is_stocked' => $totalStock > 0,
+//            ]);
+
+            $product->update([
+                'warehouses'      => $warehouses,
+                'stock_total'     => max($stock, 0),
+                'stock_reserved'  => $stock < 0 ? abs($stock) : 0,
+                'stock_available' => max($stock, 0),
+                'is_stocked'      => $stock > 0,
+            ]);
+
+        } catch (\Throwable $e) {
+            Log::error('Update product stock failed', [
+                'error' => $e->getMessage(),
+                'line' => $e->getLine(),
+            ]);
         }
     }
+
 }

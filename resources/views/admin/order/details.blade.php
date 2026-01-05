@@ -31,6 +31,12 @@
             @endif
         </div>
 
+        {{-- Warehousea --}}
+        <div class="bg-white shadow rounded-xl p-5">
+            <h3 class="font-semibold text-lg mb-3 border-b pb-2">Warehouse Code</h3>
+                <p class="text-gray-700">{{ $order->warehouse_code }}</p>
+        </div>
+
         {{-- Items --}}
         <div class="bg-white shadow rounded-xl p-5">
             <h3 class="font-semibold text-lg mb-3 border-b pb-2">Order Items</h3>
@@ -45,7 +51,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-md">{{ $product['name'] ?? $product['name_alt_a'] }}</p>
                                 <p class="text-gray-500 text-sm">Quantity: x{{ $item->quantity }}</p>
-                                <p class="text-gray-500 text-sm">Price: {{ $item->price_with_vat }}</p>
+                                <p class="text-gray-500 text-sm">Price: {{ $item->price }}</p>
                             </div>
                             <div class="text-right">
                                 <p class="font-bold">{{ $item['total'] ?? '-' }} $</p>

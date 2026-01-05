@@ -52,15 +52,17 @@ class ProcessFlexibeeProduct implements ShouldQueue
                 }
             }
 
-            $warehouses = collect($priceData['odberatele'] ?? [])
-                ->map(fn($w) => [
-                    'id'       => $w['id'] ?? null,
-                    'name'     => $w['stredisko@showAs'] ?? null,
-                    'currency' => $w['mena@showAs'] ?? null,
-                    'price'    => $w['prodejCena'] ?? null,
-                ])
-                ->values()
-                ->toArray();
+//            $warehouses = collect($priceData['odberatele'] ?? [])
+//                ->map(fn($w) => [
+//                    'id'       => $w['id'] ?? null,
+//                    'name'     => $w['stredisko@showAs'] ?? null,
+//                    'currency' => $w['mena@showAs'] ?? null,
+//                    'price'    => $w['prodejCena'] ?? null,
+//                ])
+//                ->values()
+//                ->toArray();
+
+            $warehouses = [];
 
             $code = str_replace('code:', '', $priceData['kod'] ?? '');
             $specialCodes = [
@@ -75,7 +77,7 @@ class ProcessFlexibeeProduct implements ShouldQueue
             ];
 
             if (in_array($code, $specialCodes, true)) {
-                Log::warning("⚠️ ÖZEL ETİKET KODU TESPİT EDİLDİ: {$code}", [
+                Log::warning("⚠️ SPECIAL PRODUCT CODE DETECTED : {$code}", [
                     'priceData' => $priceData,
                 ]);
             }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -188,10 +189,42 @@ class AuthController extends Controller
             ->withoutVerifying()
             ->get('https://shop-food.flexibee.eu/c/shop_food_s_r_o_/adresar.json', [
                 'detail' => 'full',
-                'limit'    => 0
+                'limit'  => 0,
             ]);
 
-        return $response->json();
+        $data = $response->json();
+
+        $items = data_get($data, 'winstrom.adresar', []);
+
+        foreach ($items as $item) {
+
+            $email = data_get($item, 'email');
+            if (empty($email)) {
+                $email = 'external_'.$item['id'].'@shopfood.cz';
+            }
+
+            User::updateOrCreate(
+                ['email' => $email],
+                [
+                    'password' => bcrypt(Str::random(12)),
+
+                    'code'         => data_get($item, 'kod'),
+                    'name'         => data_get($item, 'nazev'),
+                    'contact_name' => data_get($item, 'nazev'),
+
+                    'reg_number' => data_get($item, 'ic'),
+                    'tax_number' => data_get($item, 'dic'),
+
+                    'phone'         => data_get($item, 'tel'),
+                    'contact_phone'=> data_get($item, 'mobil'),
+
+                    'street'  => data_get($item, 'ulice'),
+                    'city'    => data_get($item, 'mesto'),
+                    'zip'     => data_get($item, 'psc'),
+                    'country' => data_get($item, 'stat@showAs'),
+                ]
+            );
+        }
 
 //        $response = Http::withBasicAuth('shopify_integration2','Salam123!')
 //            ->withoutVerifying()
