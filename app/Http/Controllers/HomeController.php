@@ -14,11 +14,11 @@ class HomeController extends Controller
     public function index()
     {
 
-//        $products = Product::take(100)->get()->filter(function($product) {
-//            return collect($product->warehouses)
-//                ->contains(fn($w) => ($w['warehouse_code'] ?? '') === 'NOVY_SKLAD');
-//        });
-        $products = Product::take(100)->get();
+        $products = Product::take(100)->get()->filter(function($product) {
+            return collect($product->warehouses)
+                ->contains(fn($w) => ($w['warehouse_code'] ?? '') === 'NOVY_SKLAD');
+        });
+//        $products = Product::take(100)->get();
        // $products = Product::limit(200)->where('code','KZZ13019')->get();
         $categories = BannerCategory::latest()->get();
         $tags = Tag::all();
