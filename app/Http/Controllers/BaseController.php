@@ -23,7 +23,7 @@ class BaseController extends Controller
 
     public function startQueue()
     {
-        FetchFlexibeeData::dispatch(1800, 20);
+        FetchFlexibeeData::dispatch(0, 20);
 
         return response()->json([
             'success' => true,
