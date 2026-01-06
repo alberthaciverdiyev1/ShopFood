@@ -105,11 +105,11 @@ class ProcessFlexibeeProduct implements ShouldQueue
                 $category = trim($parts[1] ?? $parts[0]);
             }
 
-            Log::info("🧭 Kategori tespiti:", [
-                'code' => $priceData['kod'] ?? null,
-                'category' => $category,
-                'subcategory' => $subcategory,
-            ]);
+//            Log::info("🧭 Kategori tespiti:", [
+//                'code' => $priceData['kod'] ?? null,
+//                'category' => $category,
+//                'subcategory' => $subcategory,
+//            ]);
 
             Product::updateOrCreate(
                 ['code' => $code],

@@ -30,7 +30,6 @@ class CompressImage implements ShouldQueue
 
         $files = File::files($this->directory);
 
-        // 2.7 sürümüne uygun array config ile GD driver
         $imageManager = new ImageManager(['driver' => 'gd']);
         $compressionPercent = 80;
 
@@ -38,26 +37,41 @@ class CompressImage implements ShouldQueue
             $filePath = $file->getRealPath();
             $ext = strtolower($file->getExtension());
 
-            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'tiff', 'webp'])) {
+            if (!in_array($ext, ['jpg', 'jpeg', 'png', 'bmp', 'gif', 'webp'])) {
+                continue;
+            }
+
+            $mime = mime_content_type($filePath);
+
+            if (!in_array($mime, [
+                'image/jpeg',
+                'image/png',
+                'image/webp',
+                'image/gif',
+                'image/bmp',
+            ])) {
+                \Log::error("Skipping invalid image: {$filePath} ({$mime})");
                 continue;
             }
 
             $flagPath = $filePath . '.compressed';
             if (File::exists($flagPath)) {
-                continue; // Daha önce sıkıştırılmış
+                continue;
             }
 
             try {
-                $imageManager->make($filePath)
+                $imageManager
+                    ->make($filePath)
                     ->orientate()
                     ->save($filePath, $compressionPercent);
 
                 File::put($flagPath, '1');
 
-            } catch (\Exception $e) {
-                \Log::error("Image compression failed for {$filePath}: " . $e->getMessage());
+            } catch (\Throwable $e) {
+                \Log::error("Image compression failed for {$filePath}: {$e->getMessage()}");
             }
         }
+
     }
 
 }
