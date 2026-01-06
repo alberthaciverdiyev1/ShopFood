@@ -50,12 +50,9 @@ class AuthController extends Controller
                 'password' => 'required|string',
             ]);
             $user = User::where('email', $credentials['email'])->where('is_active', '=', true)->first();
-            dd(Auth::attempt([
-                'email' => $credentials['email'],
-                'password' => $credentials['password'],
-                'is_active' => true,
-            ]));
-
+            dd(
+                Hash::check('salam123', $user->password)
+            );
             if ($user && Auth::attempt($credentials)) {
                 $request->session()->regenerate();
 
