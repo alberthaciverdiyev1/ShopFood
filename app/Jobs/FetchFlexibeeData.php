@@ -29,7 +29,6 @@ class FetchFlexibeeData implements ShouldQueue
 
     public function handle(): void
     {
-        Log::info("test ".$this->only_warehouse);
         ini_set('memory_limit', '1024M');
 
         try {

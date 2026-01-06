@@ -65,22 +65,6 @@ class ProcessFlexibeeProduct implements ShouldQueue
             $warehouses = [];
 
             $code = str_replace('code:', '', $priceData['kod'] ?? '');
-            $specialCodes = [
-                'GSN15103',
-                'ETP54002',
-                'ITP52019',
-                'YRSF42039',
-                'YRSF42036',
-                'YKN32007',
-                'EOT33026',
-                'EOT33005_PP',
-            ];
-
-            if (in_array($code, $specialCodes, true)) {
-                Log::warning("⚠️ SPECIAL PRODUCT CODE DETECTED : {$code}", [
-                    'priceData' => $priceData,
-                ]);
-            }
 
 
             $category = null;
