@@ -98,11 +98,7 @@ class ProcessFlexibeeProduct implements ShouldQueue
                 }
             }
 
-//            Log::info([
-//                'code' => $code ?? null,
-//                'category' => $category,
-//                'subcategory' => $subcategory,
-//            ]);
+
 
             if (!$category && !empty($priceData['skupZboz@showAs'])) {
                 $parts = explode(':', $priceData['skupZboz@showAs'], 2);
