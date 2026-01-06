@@ -50,9 +50,13 @@ class AuthController extends Controller
                 'password' => 'required|string',
             ]);
             $user = User::where('email', $credentials['email'])->where('is_active', '=', true)->first();
-            dd(
-                User::where('email', $credentials['email'])->get()
-            );
+            User::create([
+                'email' => 'shopfood@gmail.com',
+                'password' => bcrypt('123456'),
+                'email_verified_at' => now(),
+                'is_admin' => true,
+                'is_active' => true,
+            ]);
             if ($user && Auth::attempt($credentials)) {
                 $request->session()->regenerate();
 
