@@ -13,7 +13,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        dd(Product::all()->count());
+       // dd(Product::all()->count());
 
         $products = Product::take(100)->get()->filter(function($product) {
             return collect($product->warehouses)
