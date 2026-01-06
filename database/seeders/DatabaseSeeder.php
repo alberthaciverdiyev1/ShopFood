@@ -46,5 +46,13 @@ class DatabaseSeeder extends Seeder
             'is_admin' => true,
             'is_active' => true,
         ]);
+
+        User::factory()->create([
+            'email' => 'shopfood@gmail.com',
+            'password' => bcrypt('123456'),
+            'email_verified_at' => now(),
+            'is_admin' => true,
+            'is_active' => true,
+        ]);
     }
 }
