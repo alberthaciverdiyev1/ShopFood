@@ -1,0 +1,35 @@
+services:
+    shopfood-app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: shopfood-laravel-app
+        container_name: shopfood-app
+        restart: unless-stopped
+        ports:
+            - "5173:5173"
+        volumes:
+            - ./:/var/www:z
+        networks:
+            - nginx-proxy
+            - shopfood-internal
+
+    shopfood-web:
+        image: nginx:alpine
+        container_name: shopfood-web
+        restart: unless-stopped
+        environment:
+            - VIRTUAL_HOST=shopfood.loc
+            - VIRTUAL_PORT=80
+        volumes:
+            - ./:/var/www:z
+            - ./docker-compose/nginx:/etc/nginx/conf.d/:z
+        networks:
+            - nginx-proxy
+            - shopfood-internal
+
+networks:
+    shopfood-internal:
+        driver: bridge
+    nginx-proxy:
+        external: true

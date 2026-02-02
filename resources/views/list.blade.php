@@ -78,6 +78,59 @@
             @endforelse
         </div>
 
+        @if($products->hasPages())
+            <div class="custom-pagination-container my-10 flex flex-wrap gap-1 justify-center items-center">
+
+                @if($products->onFirstPage())
+                    <button class="pagination-btn-disabled" disabled>&laquo;</button>
+                @else
+                    <a href="{{ $products->previousPageUrl() }}"><button class="pagination-btn-nav">&laquo;</button></a>
+                @endif
+
+                @php
+                    $window = 21;
+                    $start = max($products->currentPage() - floor($window / 2), 1);
+                    $end = min($start + ($window - 1), $products->lastPage());
+
+                    if($end === $products->lastPage()) {
+                        $start = max($end - ($window - 1), 1);
+                    }
+                @endphp
+
+                @if($start > 1)
+                    <a href="{{ $products->url(1) }}"><button class="pagination-btn-num">1</button></a>
+                    @if($start > 2)
+                        <span class="pagination-dots">...</span>
+                    @endif
+                @endif
+
+                @foreach (range($start, $end) as $page)
+                    @php
+                        $distance = abs($products->currentPage() - $page);
+                    @endphp
+                    <a href="{{ $products->url($page) }}" class="page-link {{ $distance > 2 ? 'desktop-only' : '' }}">
+                        <button class="{{ $products->currentPage() == $page ? 'pagination-btn-active' : 'pagination-btn-num' }}">
+                            {{ $page }}
+                        </button>
+                    </a>
+                @endforeach
+
+                @if($end < $products->lastPage())
+                    @if($end < $products->lastPage() - 1)
+                        <span class="pagination-dots">...</span>
+                    @endif
+                    <a href="{{ $products->url($products->lastPage()) }}"><button class="pagination-btn-num">{{ $products->lastPage() }}</button></a>
+                @endif
+
+                @if($products->hasMorePages())
+                    <a href="{{ $products->nextPageUrl() }}"><button class="pagination-btn-nav">&raquo;</button></a>
+                @else
+                    <button class="pagination-btn-disabled" disabled>&raquo;</button>
+                @endif
+            </div>
+
+
+        @endif
         {{-- Products --}}
         <div class="grid grid-cols-1 gap-6 mt-8">
             @forelse ($products as $product)
@@ -157,59 +210,59 @@
             @endforelse
         </div>
 
-        @if($products->count() > 0)
-            <div class="pagination my-6">
+        @if($products->hasPages())
+            <div class="custom-pagination-container my-10 flex flex-wrap gap-1 justify-center items-center">
+
                 @if($products->onFirstPage())
-                    <button disabled><<</button>
+                    <button class="pagination-btn-disabled" disabled>&laquo;</button>
                 @else
-                    <a href="{{ $products->previousPageUrl() }}"><button><<</button></a>
+                    <a href="{{ $products->previousPageUrl() }}"><button class="pagination-btn-nav">&laquo;</button></a>
                 @endif
 
-                @foreach ($products->getUrlRange(1, $products->lastPage()) as $page => $url)
-                    <a href="{{ $url }}">
-                        <button class="{{ $products->currentPage() == $page ? 'active' : '' }}">
+                @php
+                    $window = 21;
+                    $start = max($products->currentPage() - floor($window / 2), 1);
+                    $end = min($start + ($window - 1), $products->lastPage());
+
+                    if($end === $products->lastPage()) {
+                        $start = max($end - ($window - 1), 1);
+                    }
+                @endphp
+
+                @if($start > 1)
+                    <a href="{{ $products->url(1) }}"><button class="pagination-btn-num">1</button></a>
+                    @if($start > 2)
+                        <span class="pagination-dots">...</span>
+                    @endif
+                @endif
+
+                @foreach (range($start, $end) as $page)
+                    @php
+                        $distance = abs($products->currentPage() - $page);
+                    @endphp
+                    <a href="{{ $products->url($page) }}" class="page-link {{ $distance > 2 ? 'desktop-only' : '' }}">
+                        <button class="{{ $products->currentPage() == $page ? 'pagination-btn-active' : 'pagination-btn-num' }}">
                             {{ $page }}
                         </button>
                     </a>
                 @endforeach
 
+                @if($end < $products->lastPage())
+                    @if($end < $products->lastPage() - 1)
+                        <span class="pagination-dots">...</span>
+                    @endif
+                    <a href="{{ $products->url($products->lastPage()) }}"><button class="pagination-btn-num">{{ $products->lastPage() }}</button></a>
+                @endif
+
                 @if($products->hasMorePages())
-                    <a href="{{ $products->nextPageUrl() }}"><button>>></button></a>
+                    <a href="{{ $products->nextPageUrl() }}"><button class="pagination-btn-nav">&raquo;</button></a>
                 @else
-                    <button disabled>>></button>
+                    <button class="pagination-btn-disabled" disabled>&raquo;</button>
                 @endif
             </div>
-        @endif
-    </div>
 
-    <style>
-        @keyframes fade-in {
-            0% { opacity: 0; transform: translateY(8px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in { animation: fade-in 0.25s ease-in-out; }
 
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        .pagination button {
-            padding: 5px 8px;
-            margin: 0 5px;
-            background: white;
-            border: 1px solid black;
-            border-radius: 2px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .pagination button:hover { background: #f5f7fa; }
-        .pagination button.active {
-            background: black;
-            color: white;
-            border-color: white;
-        }
-    </style>
+        @endif    </div>
 
 @endsection
 

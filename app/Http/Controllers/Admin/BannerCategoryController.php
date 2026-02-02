@@ -14,7 +14,8 @@ class BannerCategoryController extends Controller
     {
         try {
             $request->validate([
-                'name' => 'nullable|string|max:255',
+                'name_en' => 'required|string|max:255',
+                'name_cz' => 'required|string|max:255',
                 'key' => 'required|string|max:255',
                 'image' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048',
             ]);
@@ -22,7 +23,8 @@ class BannerCategoryController extends Controller
             $path = $request->file('image')->store('categories', 'public');
 
             $tag = BannerCategory::create([
-                'name' => $request->name,
+                'name_cz' => $request->name_cz,
+                'name_en' => $request->name_en,
                 'key' => $request->key,
                 'image' => $path,
             ]);
@@ -46,25 +48,23 @@ class BannerCategoryController extends Controller
     public function update(Request $request, BannerCategory $category)
     {
         try {
-            $request->validate([
-                'name' => 'nullable|string|max:255',
-                'key' => 'nullable|string|max:255',
-                'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            $validated = $request->validate([
+                'name_cz' => 'nullable|string|max:255',
+                'name_en' => 'nullable|string|max:255',
+                'key'     => 'nullable|string|max:255',
+                'image'   => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
             ]);
+
             $data = [];
-            if ($request->name !== null) {
-                $data = ['name' => $request->name];
-            }
-            if ($request->key !== null) {
-                $data = ['key' => $request->key];
-            }
+            if ($request->filled('name_en')) $data['name_en'] = $request->name_en;
+            if ($request->filled('name_cz')) $data['name_cz'] = $request->name_cz;
+            if ($request->filled('key'))     $data['key'] = $request->key;
 
             if ($request->hasFile('image')) {
-                $path = $request->file('image')->store('tags', 'public');
-                $data['image'] = $path;
+                $data['image'] = $request->file('image')->store('tags', 'public');
             }
-            if (($request->key !== null || $request->name !== null || $request->hasFile('image') === true) && !empty($data)) {
 
+            if (!empty($data)) {
                 $category->update($data);
             }
 
@@ -73,11 +73,10 @@ class BannerCategoryController extends Controller
                 ->with('success', 'Banner Category updated successfully!');
 
         } catch (\Exception $e) {
-            Log::error('Banner Category update error: ' . $e->getMessage());
-            return back()->withErrors(['error' => $e->getMessage()])->withInput();
+            \Log::error('Banner Category update error: ' . $e->getMessage());
+            return back()->withErrors(['error' => 'Update failed: ' . $e->getMessage()])->withInput();
         }
     }
-
     public function destroy(BannerCategory $category)
     {
         try {

@@ -36,7 +36,8 @@
                     <thead class="bg-gray-50">
                     <tr>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Image</th>
-                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Name</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Name CZ</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Name EN</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-600">Key</th>
                         <th class="px-6 py-3 text-center text-sm font-semibold text-gray-600">Actions</th>
                     </tr>
@@ -48,11 +49,12 @@
                                 <img src="{{ asset('storage/'.$category->image) }}" alt="tag image"
                                      class="h-12 w-12 rounded-lg object-cover shadow">
                             </td>
-                            <td class="px-6 py-3 text-gray-800 font-medium">{{ $category->name }}</td>
+                            <td class="px-6 py-3 text-gray-800 font-medium">{{ $category->name_cz }}</td>
+                            <td class="px-6 py-3 text-gray-800 font-medium">{{ $category->name_en }}</td>
                             <td class="px-6 py-3 text-gray-800 font-medium">{{ $category->key }}</td>
                             <td class="px-6 py-3 text-center space-x-2">
                                 <button
-                                    onclick="openModal('updateCategoryModal', {{ $category->id }}, '{{ $category->name }}', '{{ $category->key }}')"
+                                    onclick="openModal('updateCategoryModal', {{ $category->id }}, '{{ $category->name_en }}','{{ $category->name_cz }}', '{{ $category->key }}')"
                                     class="px-4 py-1.5 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition"
                                 >
                                     Update
@@ -87,8 +89,12 @@
                     <input type="text" name="key" class="w-full border rounded px-3 py-2 focus:ring focus:ring-indigo-200">
                 </div>
                 <div class="mb-4">
-                    <label class="block text-sm mb-2">Name</label>
-                    <input type="text" name="name" class="w-full border rounded px-3 py-2 focus:ring focus:ring-indigo-200">
+                    <label class="block text-sm mb-2">Name EN</label>
+                    <input type="text" name="name_en" class="w-full border rounded px-3 py-2 focus:ring focus:ring-indigo-200">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm mb-2">Name CZ</label>
+                    <input type="text" name="name_cz" class="w-full border rounded px-3 py-2 focus:ring focus:ring-indigo-200">
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm mb-2">Image</label>
@@ -110,8 +116,12 @@
                 @csrf
                 @method('PUT')
                 <div class="mb-4">
-                    <label class="block text-sm mb-2">Name</label>
-                    <input type="text" id="updateCategoryName" name="name" class="w-full border rounded px-3 py-2 focus:ring focus:ring-yellow-200">
+                    <label class="block text-sm mb-2">Name EN</label>
+                    <input type="text" id="updateCategoryNameEn" name="name_en" class="w-full border rounded px-3 py-2 focus:ring focus:ring-yellow-200">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm mb-2">Name CZ</label>
+                    <input type="text" id="updateCategoryNameCz" name="name_cz" class="w-full border rounded px-3 py-2 focus:ring focus:ring-yellow-200">
                 </div>
                 <div class="mb-4">
                     <label class="block text-sm mb-2">Key</label>
@@ -147,12 +157,13 @@
 
     {{-- Script --}}
     <script>
-        function openModal(id, tagId = null, name = '', key = '') {
+        function openModal(id, tagId = null, name_en = '', name_cz = '', key = '') {
             const modal = document.getElementById(id);
             modal.classList.remove('hidden');
 
             if (id === 'updateCategoryModal') {
-                document.getElementById('updateCategoryName').value = name;
+                document.getElementById('updateCategoryNameCz').value = name_cz;
+                document.getElementById('updateCategoryNameEn').value = name_en;
                 document.getElementById('updateCategoryKey').value = key;
                 document.getElementById('updateCategoryForm').action = "{{ url('admin/banner-category') }}/" + tagId;
             }
